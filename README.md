@@ -6,6 +6,9 @@ This is the Code Institute student template for deploying your third portfolio p
 
 ## Reminders
 
+
+* Terminal of 80 characters wide and 24 rows high
+
 * Your code must be placed in the `run.py` file
 * Your dependencies must be placed in the `requirements.txt` file
 * Do not edit any of the other files or your code may not deploy properly
