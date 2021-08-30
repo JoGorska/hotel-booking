@@ -19,3 +19,13 @@ clients = SHEET.worksheet('clients')
 
 data = rooms.get_all_values()
 
+def get_email_from_user():
+    """
+    Get email from the user
+    """
+    print("Please enter your email address")
+    print("Example: email@domain.uk\n")
+    customer_email = input("Enter your email here: ")
+    print(f"Email that you have provided is {customer_email}")
+
+get_email_from_user()
