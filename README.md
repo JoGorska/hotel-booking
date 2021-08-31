@@ -1,3 +1,51 @@
+# Keto Diet
+## Screenshot ???
+
+link to live page [here]()
+
+
+
+## Aim of the website
+
+## Structure of the website
+
+
+## Features
+
+
+
+## Styling
+
+
+## Bugs
+
+  
+## Validation
+
+
+
+## Previous project (to be deleted)
+
+
+
+## Further developement the website
+
+
+## User stories
+
+
+
+## Technologies used
+
+
+## Thanks to
+
+
+## Joanna - remember to find all ??? signs in all files (readme as well)
+
+
+
+
 ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
 Welcome Joanna Gorska,

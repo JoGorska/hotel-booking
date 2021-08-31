@@ -32,6 +32,9 @@ def get_email_from_user():
     print(f"Email that you have provided is {customer_email}\n")
     return customer_email
 
+# validate email code and regex:
+# https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/
+
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 def validate_email(email):
@@ -39,6 +42,7 @@ def validate_email(email):
     Validates email input from the user
     
     """
+
     if(re.fullmatch(regex, email)):
         print("Valid Email")
  
@@ -46,7 +50,6 @@ def validate_email(email):
         print("Please enter valid email address")
         print("Example: email@domain.uk\n")
 
-# validate email code:
-# https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/
+
 get_email_from_user()
 validate_email(customer_email)
