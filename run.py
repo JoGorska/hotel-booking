@@ -13,7 +13,8 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('hotel-booking')
 
-rooms = SHEET.worksheet('rooms')
+clients_worksheet = SHEET.worksheet('clients')
+rooms_worksheet = SHEET.worksheet('rooms')
 
 
 def get_email_from_user():
@@ -63,9 +64,9 @@ def update_one_cell(worksheet, row, column, value):
     updates given worksheet with the given value in the exact one cell pointed by row and column
     row and column count starts from 1
     """
-    print(f"Updating {worksheet}...\n")
+    print(f"Updating worksheet...\n")
     worksheet.update_cell(row, column, value)
-    print("Worksheet updated.")
+    print("Worksheet updated successfuly.\n")
 
 def add_new_client(email):
     """
@@ -86,5 +87,26 @@ def add_new_client(email):
     # uses coordinates calculated above to find the right cell to update
     update_one_cell(clients_worksheet, 1, new_column_numer, email)
 
+def check_if_returning_client(email):
+    """
+    checks the clients worksheet if the email is already listed, 
+    prints welcome messag for returning client or adds new client
+    """
+    # list of emails already added is in first row of clients worksheet
+    clients_list = clients_worksheet.row_values(1)
+
+
+    if email in clients_list:
+        
+        print("Welcome back to Cath's Cats' Castle!\n")
+        print("Please choose option to add a new booking (add), check your booking (print), change your booking (change), cancel your booking (cancel)\n")
+
+        customer_options = input("Write 'add', 'print', 'change' or 'cancel' here: ")
+    else:
+        add_new_client(email)
+
+    
+
+
 customer_email = get_email_from_user()
-add_new_client(customer_email)
+check_if_returning_client(customer_email)
