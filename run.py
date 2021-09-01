@@ -92,6 +92,67 @@ def add_new_client(email):
     update_one_cell(clients_worksheet, 1, new_column_numer, email)
 
 
+def choose_room():
+    """
+    gives options to choose which room to book
+    """
+    while True:
+        print("Please choose one of our luxury rooms:")
+        print("1. Kew Gardens Suite")
+        print("2. Oxford Suite")
+        print("3. London Suite")
+        print("4. Verulamium Suite")
+        print("5. Cambridge Botanic Gardens")
+        print("6. Stonehenge Suite")
+        print("7. Lucretia's Suite")
+        print("8. Glasgow Suite")
+        print("9. Ware Suite\n")
+
+        room_number = input("Write a number 1 - 9: ")
+
+        if validate_room(room_number):
+            if room_number == 1:
+                room = "Kew Gardens Suite"
+            elif room_number == 2:
+                room = "Oxford Suite"
+            elif room_number == 3:
+                room = "London Suite"
+            elif room_number == 4:
+                room = "Verulamium Suite"
+            elif room_number == 5:
+                room = "Cambridge Botanic Gardens"
+            elif room_number == 6:
+                room = "Stonehenge Suite"
+            elif room_number == 7:
+                room = "Lucretia's Suite"
+            elif room_number == 8:
+                room = "Glasgow Suite"
+            elif room_number == 9:
+                room = "Ware Suite"
+
+            print("Your room is valid\n")
+            break
+    return room
+
+
+def validate_room(room_number):
+    """
+    changes user input to integer and validates user input for choosing a room
+    """
+
+    try:
+        room_number = int(room_number)
+        if room_number not in range(9):
+            raise ValueError(f"The room '{room_number}' does not seem to be "
+                             "in the correct format")
+
+    except ValueError as e:
+        print(f"Invalid room number: {e}, please try again.\n")
+        return False
+
+    return True
+
+
 def start_date_input():
     """
     Prompts client to input start date for the booking
@@ -100,7 +161,6 @@ def start_date_input():
         print("Please use format dd/mm/yyyy for dates\n")
         start_date = input("Write start date here: ")
 
-        print(f"You entered {start_date}\n")
         if validate_date(start_date):
             print("Your date is valid\n")
             break
@@ -111,8 +171,14 @@ def end_date_input():
     """
     Prompts client to input end date for the booking
     """
-    end_date = input("Write end date here: ")
-    validate_date(end_date)
+    while True:
+        print("Please use format dd/mm/yyyy for dates\n")
+        end_date = input("Write end date here: ")
+
+        if validate_date(end_date):
+            print("Your date is valid\n")
+            break
+    return end_date
 
 
 def validate_date(date):
@@ -127,13 +193,13 @@ def validate_date(date):
     regex_date = r'^(?:(?:31(\/)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|Dec)))\1|(?:(?:29|30)(\/)(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\2))(?:(?:1[6-9]|[2-9]\d)\d{2})$|^(?:29(\/)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]|[2-9]\d)(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/)(?:(?:0?[1-9]|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]\d)\d{2})$'
     try:
         if(not re.fullmatch(regex_date, date)):
-            raise ValueError(f"The date '{date}' does not seem to be"
-                             " in the correct format")
+            raise ValueError(f"The date '{date}' does not seem to be "
+                             "in the correct format")
 
     except ValueError as e:
         print(f"Invalid date: {e}, please try again.\n")
         return False
-    print("valid date")
+
     return True
 
 
@@ -142,9 +208,14 @@ def new_booking():
     initializes two functions one after enother, that are asking
     for start date and end date
     """
-    print("To add new booking we will need start and end date")
-    start_date_input()
-    end_date_input()
+
+    print("To add new booking we will need the "
+          "name of the room aas well as start and end date\n")
+    booked_room = choose_room()
+    start_date = start_date_input()
+    end_date = end_date_input()
+    print(f"You entered booking for {booked_room} room from "
+          f"{start_date} to {end_date}\n")
 
 
 def returning_client_options():
