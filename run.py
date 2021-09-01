@@ -29,7 +29,7 @@ def get_email_from_user():
         customer_email_input = input("Enter your email here: ")
 
         print(f"You entered {customer_email_input}\n")
-        
+
         if validate_email(customer_email_input):
             print("Your email is valid\n")
             break
@@ -38,7 +38,6 @@ def get_email_from_user():
 # validate email code and regex:
 # https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/
 
-regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 def validate_email(email):
     """
@@ -46,6 +45,7 @@ def validate_email(email):
     prints information for the user about the error
     if no error - returns True
     """
+    regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     try:
         if(not re.fullmatch(regex_email, email)):
             raise ValueError(f"The address '{email}' does not seem to be correct")
@@ -84,13 +84,21 @@ def add_new_client(email):
     # uses coordinates calculated above to find the right cell to update
     update_one_cell(clients_worksheet, 1, new_column_numer, email)
 
+
 def start_date_input():
     """
     Prompts client to input start date for the booking
     """
-    print("For dates please use format dd/mm/yyyy\n")
-    start_date = input("Write start date here: ")
-    validate_date(start_date)
+    while True:
+        print("Please use format dd/mm/yyyy for dates\n")
+        start_date = input("Write start date here: ")
+
+        print(f"You entered {start_date}\n")
+        if validate_date(start_date):
+            print("Your date is valid\n")
+            break
+    return start_date
+
 
 def end_date_input():
     """
@@ -98,6 +106,7 @@ def end_date_input():
     """
     end_date = input("Write end date here: ")
     validate_date(end_date)
+
 
 def validate_date(date):
     """
@@ -107,11 +116,11 @@ def validate_date(date):
     """
     # regex for date with leap year support 
     # https://stackoverflow.com/questions/15491894/regex-to-validate-date-format-dd-mm-yyyy-with-leap-year-support
-    # remove - andd . after it is tested
-    regex_date = r'^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|Dec)))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9]|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$'
+    
+    regex_date = r'^(?:(?:31(\/)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|Dec)))\1|(?:(?:29|30)(\/)(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\2))(?:(?:1[6-9]|[2-9]\d)\d{2})$|^(?:29(\/)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]|[2-9]\d)(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/)(?:(?:0?[1-9]|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]\d)\d{2})$'
     try:
         if(not re.fullmatch(regex_date, date)):
-            raise ValueError(f"The date '{date}' does not seem to be correct")
+            raise ValueError(f"The date '{date}' does not seem to be in the correct format")
 
     except ValueError as e:
         print(f"Invalid date: {e}, please try again.\n")
