@@ -15,7 +15,6 @@ SHEET = GSPREAD_CLIENT.open('hotel-booking')
 
 rooms = SHEET.worksheet('rooms')
 
-clients = SHEET.worksheet('clients')
 
 def get_email_from_user():
     """
@@ -31,7 +30,7 @@ def get_email_from_user():
         print(f"You entered {customer_email_input}\n")
         
         if validate_email(customer_email_input):
-            print("Your email is valid")
+            print("Your email is valid\n")
             break
     return customer_email_input
 
@@ -56,4 +55,27 @@ def validate_email(email):
 
     return True
 
+
+def add_new_client(email):
+    """
+    Update clients worksheet, add email as a header of a next empty column and add new empty column
+    """
+    print("Adding your email to worksheet...\n")
+    
+    clients_worksheet = SHEET.worksheet('clients')
+    # ads new column so excel doesn't run out of cells (oryginaly document contained a-z columns only)
+
+    clients_worksheet.add_cols(1)
+    # Coordinates to add email to customers worksheets:
+    # row = 1 (first row in the worksheet)
+    # column = need to check how many columns there is currently and add email at the end
+
+    new_column_numer = len(clients_worksheet.row_values(1)) + 1
+    # uses coordinates 
+    clients_worksheet.update_cell(1, new_column_numer, email)
+
+
+
+
 customer_email = get_email_from_user()
+add_new_client(customer_email)
