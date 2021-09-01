@@ -20,17 +20,17 @@ clients = SHEET.worksheet('clients')
 
 data = rooms.get_all_values()
 
-customer_email = ""
+
 def get_email_from_user():
     """
     Get email from the user
     """
-    global customer_email
+
     print("Please enter your email address")
     print("Example: email@domain.uk\n")
-    customer_email = input("Enter your email here: ")
-    print(f"Email that you have provided is {customer_email}\n")
-    return customer_email
+    customer_email_input = input("Enter your email here: ")
+    print(f"Email that you have provided is {customer_email_input}\n")
+    return customer_email_input
 
 # validate email code and regex:
 # https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/
@@ -42,14 +42,16 @@ def validate_email(email):
     Validates email input from the user
     
     """
+    try:
+        if(not re.fullmatch(regex, email)):
+            raise ValueError(f"The address '{email}' does not seem to be correct")
 
-    if(re.fullmatch(regex, email)):
-        print("Valid Email")
- 
-    else:
-        print("Please enter valid email address")
-        print("Example: email@domain.uk\n")
+    except ValueError as e:
+        print(f"Invalid email: {e}, please try again.\n")
 
 
-get_email_from_user()
+
+
+
+customer_email = get_email_from_user()
 validate_email(customer_email)
