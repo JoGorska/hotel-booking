@@ -38,7 +38,7 @@ def get_email_from_user():
 # validate email code and regex:
 # https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/
 
-regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 def validate_email(email):
     """
@@ -47,7 +47,7 @@ def validate_email(email):
     if no error - returns True
     """
     try:
-        if(not re.fullmatch(regex, email)):
+        if(not re.fullmatch(regex_email, email)):
             raise ValueError(f"The address '{email}' does not seem to be correct")
 
     except ValueError as e:
@@ -55,9 +55,6 @@ def validate_email(email):
         return False
 
     return True
-
-
-
 
 def update_one_cell(worksheet, row, column, value):
     """
@@ -91,17 +88,43 @@ def start_date_input():
     """
     Prompts client to input start date for the booking
     """
-    print("To add new booking we will need start and end date")
     print("For dates please use format dd/mm/yyyy\n")
     start_date = input("Write start date here: ")
+    validate_date(start_date)
 
 def end_date_input():
     """
     Prompts client to input end date for the booking
     """
     end_date = input("Write end date here: ")
+    validate_date(end_date)
+
+def validate_date(date):
+    """
+    Inside try raises ValueError if the date fails validation and returns False
+    prints information for the user about the error
+    if no error - returns True
+    """
+    # regex for date with leap year support 
+    # https://stackoverflow.com/questions/15491894/regex-to-validate-date-format-dd-mm-yyyy-with-leap-year-support
+    # remove - andd . after it is tested
+    regex_date = r'^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|Dec)))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9]|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$'
+    try:
+        if(not re.fullmatch(regex_date, date)):
+            raise ValueError(f"The date '{date}' does not seem to be correct")
+
+    except ValueError as e:
+        print(f"Invalid date: {e}, please try again.\n")
+        return False
+    print("valid date")
+    return True
+
 
 def new_booking():
+    """
+    initializes two functions one after enother, that are asking for start date and end date
+    """
+    print("To add new booking we will need start and end date")
     start_date_input()
     end_date_input()
 
@@ -113,6 +136,7 @@ def returning_client_options():
     print("Please choose option to add a new booking (add), check your booking (print), change your booking (change), cancel your booking (cancel)\n")
     client_options = input("Write 'add', 'print', 'change' or 'cancel' here: ")
     validate_client_options()
+    new_booking()
 
 def validate_client_options():
     print("I am checking if input for client options is valid")
