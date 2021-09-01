@@ -19,7 +19,7 @@ rooms_worksheet = SHEET.worksheet('rooms')
 
 def get_email_from_user():
     """
-    Get email from the user, validate user email input 
+    Get email from the user, validate user email input
     and return customer email input
     """
     while True:
@@ -41,14 +41,15 @@ def get_email_from_user():
 
 def validate_email(email):
     """
-    Inside try raises ValueError if the email fails validation and returns False
-    prints information for the user about the error
+    Inside try raises ValueError if the email fails validation
+    and returns False, prints information for the user about the error
     if no error - returns True
     """
     regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     try:
         if(not re.fullmatch(regex_email, email)):
-            raise ValueError(f"The address '{email}' does not seem to be correct")
+            raise ValueError(f"The address '{email}' does not seem to be "
+                             "correct")
 
     except ValueError as e:
         print(f"Invalid email: {e}, please try again.\n")
@@ -56,29 +57,35 @@ def validate_email(email):
 
     return True
 
+
 def update_one_cell(worksheet, row, column, value):
     """
-    updates given worksheet with the given value in the exact one cell pointed by row and column
+    updates given worksheet with the given value in the exact
+    one cell pointed by row and column
     row and column count starts from 1
     """
-    print(f"Updating worksheet...\n")
+    print("Updating worksheet...\n")
     worksheet.update_cell(row, column, value)
     print("Worksheet updated successfuly.\n")
 
+
 def add_new_client(email):
     """
-    Update clients worksheet, add email as a header of a next empty column and add new empty column
+    Update clients worksheet, add email as a header
+    of a next empty column and add new empty column
     ??? uncomment new column when spreasheet full
     """
     print("Adding your email to worksheet...\n")
-    
+
     clients_worksheet = SHEET.worksheet('clients')
-    # ads new column so excel doesn't run out of cells (oryginaly document contained a-z columns only)
+    # ads new column so excel doesn't run out of cells
+    # (oryginaly document contained a-z columns only)
 
     # clients_worksheet.add_cols(1)
     # Coordinates to add email to customers worksheets:
     # row = 1 (first row in the worksheet)
-    # column = need to check how many columns there is currently and add email at the end
+    # column = need to check how many columns there is currently
+    # and add email at the end
 
     new_column_numer = len(clients_worksheet.row_values(1)) + 1
     # uses coordinates calculated above to find the right cell to update
@@ -114,13 +121,14 @@ def validate_date(date):
     prints information for the user about the error
     if no error - returns True
     """
-    # regex for date with leap year support 
+    # regex for date with leap year support
     # https://stackoverflow.com/questions/15491894/regex-to-validate-date-format-dd-mm-yyyy-with-leap-year-support
-    
+
     regex_date = r'^(?:(?:31(\/)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|Dec)))\1|(?:(?:29|30)(\/)(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\2))(?:(?:1[6-9]|[2-9]\d)\d{2})$|^(?:29(\/)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]|[2-9]\d)(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/)(?:(?:0?[1-9]|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]\d)\d{2})$'
     try:
         if(not re.fullmatch(regex_date, date)):
-            raise ValueError(f"The date '{date}' does not seem to be in the correct format")
+            raise ValueError(f"The date '{date}' does not seem to be"
+                             " in the correct format")
 
     except ValueError as e:
         print(f"Invalid date: {e}, please try again.\n")
@@ -131,28 +139,38 @@ def validate_date(date):
 
 def new_booking():
     """
-    initializes two functions one after enother, that are asking for start date and end date
+    initializes two functions one after enother, that are asking
+    for start date and end date
     """
     print("To add new booking we will need start and end date")
     start_date_input()
     end_date_input()
+
 
 def returning_client_options():
     """
     gives returning client various options to choose from
     runs appropriate function after the option is choosen
     """
-    print("Please choose option to add a new booking (add), check your booking (print), change your booking (change), cancel your booking (cancel)\n")
+    print("Please choose option to add a new booking (add)")
+    print("check your booking (print),")
+    print("change your booking (change),")
+    print("cancel your booking (cancel)\n")
     client_options = input("Write 'add', 'print', 'change' or 'cancel' here: ")
-    validate_client_options()
+    validate_client_options(client_options)
     new_booking()
 
-def validate_client_options():
+
+def validate_client_options(client_options):
+    """
+    function to handle returning client options
+    """
     print("I am checking if input for client options is valid")
+
 
 def check_if_returning_client(email):
     """
-    checks the clients worksheet if the email is already listed, 
+    checks the clients worksheet if the email is already listed,
     prints welcome messag for returning client or adds new client
     """
     # list of emails already added is in first row of clients worksheet
@@ -163,7 +181,7 @@ def check_if_returning_client(email):
         print("Welcome back to Cath's Cats' Castle!\n")
 
         returning_client_options()
-        
+
     else:
         # adds new customers to spreadsheet
         add_new_client(email)
