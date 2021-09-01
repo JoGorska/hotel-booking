@@ -18,19 +18,25 @@ rooms = SHEET.worksheet('rooms')
 
 clients = SHEET.worksheet('clients')
 
-data = rooms.get_all_values()
+
 
 
 def get_email_from_user():
     """
     Get email from the user
     """
+    while True:
+        print("Please enter your email address")
+        print("Example: email@domain.uk\n")
 
-    print("Please enter your email address")
-    print("Example: email@domain.uk\n")
-    customer_email_input = input("Enter your email here: ")
-    print(f"Email that you have provided is {customer_email_input}\n")
-    return customer_email_input
+        customer_email_input = input("Enter your email here: ")
+
+        print(f"You entered {customer_email_input}\n")
+        
+        if validate_email(customer_email_input):
+            print("Your email is valid")
+            break
+
 
 # validate email code and regex:
 # https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/
@@ -48,10 +54,10 @@ def validate_email(email):
 
     except ValueError as e:
         print(f"Invalid email: {e}, please try again.\n")
+        return False
 
-
+    return True
 
 
 
 customer_email = get_email_from_user()
-validate_email(customer_email)
