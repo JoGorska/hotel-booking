@@ -81,7 +81,7 @@ def add_new_client(email):
     # ads new column so excel doesn't run out of cells
     # (oryginaly document contained a-z columns only)
 
-    # clients_worksheet.add_cols(1)
+    clients_worksheet.add_cols(1)
     # Coordinates to add email to customers worksheets:
     # row = 1 (first row in the worksheet)
     # column = need to check how many columns there is currently
@@ -92,10 +92,14 @@ def add_new_client(email):
     update_one_cell(clients_worksheet, 1, new_column_numer, email)
 
 
+room_number = 1
+
+
 def choose_room():
     """
     gives options to choose which room to book
     """
+    
     while True:
         print("Please choose one of our luxury rooms:")
         print("1. Kew Gardens Suite")
@@ -107,32 +111,14 @@ def choose_room():
         print("7. Lucretia's Suite")
         print("8. Glasgow Suite")
         print("9. Ware Suite\n")
-
+        global room_number
         room_number = input("Write a number 1 - 9: ")
 
         if validate_room(room_number):
-            if room_number == 1:
-                room = "Kew Gardens Suite"
-            elif room_number == 2:
-                room = "Oxford Suite"
-            elif room_number == 3:
-                room = "London Suite"
-            elif room_number == 4:
-                room = "Verulamium Suite"
-            elif room_number == 5:
-                room = "Cambridge Botanic Gardens"
-            elif room_number == 6:
-                room = "Stonehenge Suite"
-            elif room_number == 7:
-                room = "Lucretia's Suite"
-            elif room_number == 8:
-                room = "Glasgow Suite"
-            elif room_number == 9:
-                room = "Ware Suite"
 
             print("Your room is valid\n")
             break
-    return room
+    return int(room_number)
 
 
 def validate_room(room_number):
@@ -142,7 +128,7 @@ def validate_room(room_number):
 
     try:
         room_number = int(room_number)
-        if room_number not in range(9):
+        if room_number not in range(1, 10):
             raise ValueError(f"The room '{room_number}' does not seem to be "
                              "in the correct format")
 
@@ -151,6 +137,30 @@ def validate_room(room_number):
         return False
 
     return True
+
+
+def room_name(room_number):
+    """
+    takes customer's choise of a room number and returns room name
+    """
+    if room_number == 1:
+        return "Kew Gardens Suite"
+    elif room_number == 2:
+        return "Oxford Suite"
+    elif room_number == 3:
+        return "London Suite"
+    elif room_number == 4:
+        return "Verulamium Suite"
+    elif room_number == 5:
+        return "Cambridge Botanic Gardens"
+    elif room_number == 6:
+        return "Stonehenge Suite"
+    elif room_number == 7:
+        return "Lucretia's Suite"
+    elif room_number == 8:
+        return "Glasgow Suite"
+    elif room_number == 9:
+        return "Ware Suite"
 
 
 def start_date_input():
@@ -210,11 +220,12 @@ def new_booking():
     """
 
     print("To add new booking we will need the "
-          "name of the room aas well as start and end date\n")
-    booked_room = choose_room()
+          "name of the room as well as start and end date\n")
+    room_number = choose_room()
+    booked_room = room_name(room_number)
     start_date = start_date_input()
     end_date = end_date_input()
-    print(f"You entered booking for {booked_room} room from "
+    print(f"You entered booking for {booked_room} from "
           f"{start_date} to {end_date}\n")
 
 
