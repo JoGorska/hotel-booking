@@ -2,7 +2,6 @@ import gspread
 import re
 from google.oauth2.service_account import Credentials
 
-
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
@@ -18,12 +17,10 @@ rooms = SHEET.worksheet('rooms')
 
 clients = SHEET.worksheet('clients')
 
-
-
-
 def get_email_from_user():
     """
-    Get email from the user
+    Get email from the user, validate user email input 
+    and return customer email input
     """
     while True:
         print("Please enter your email address")
@@ -36,7 +33,7 @@ def get_email_from_user():
         if validate_email(customer_email_input):
             print("Your email is valid")
             break
-
+    return customer_email_input
 
 # validate email code and regex:
 # https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/
@@ -45,8 +42,9 @@ regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 def validate_email(email):
     """
-    Validates email input from the user
-    
+    Inside try raises ValueError if the email fails validation and returns False
+    prints information for the user about the error
+    if no error - returns True
     """
     try:
         if(not re.fullmatch(regex, email)):
@@ -57,7 +55,5 @@ def validate_email(email):
         return False
 
     return True
-
-
 
 customer_email = get_email_from_user()
