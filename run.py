@@ -87,6 +87,36 @@ def add_new_client(email):
     # uses coordinates calculated above to find the right cell to update
     update_one_cell(clients_worksheet, 1, new_column_numer, email)
 
+def start_date_input():
+    """
+    Prompts client to input start date for the booking
+    """
+    print("To add new booking we will need start and end date")
+    print("For dates please use format dd/mm/yyyy\n")
+    start_date = input("Write start date here: ")
+
+def end_date_input():
+    """
+    Prompts client to input end date for the booking
+    """
+    end_date = input("Write end date here: ")
+
+def new_booking():
+    start_date_input()
+    end_date_input()
+
+def returning_client_options():
+    """
+    gives returning client various options to choose from
+    runs appropriate function after the option is choosen
+    """
+    print("Please choose option to add a new booking (add), check your booking (print), change your booking (change), cancel your booking (cancel)\n")
+    client_options = input("Write 'add', 'print', 'change' or 'cancel' here: ")
+    validate_client_options()
+
+def validate_client_options():
+    print("I am checking if input for client options is valid")
+
 def check_if_returning_client(email):
     """
     checks the clients worksheet if the email is already listed, 
@@ -95,17 +125,16 @@ def check_if_returning_client(email):
     # list of emails already added is in first row of clients worksheet
     clients_list = clients_worksheet.row_values(1)
 
-
     if email in clients_list:
-        
+        # welcomes returning customers
         print("Welcome back to Cath's Cats' Castle!\n")
-        print("Please choose option to add a new booking (add), check your booking (print), change your booking (change), cancel your booking (cancel)\n")
 
-        customer_options = input("Write 'add', 'print', 'change' or 'cancel' here: ")
+        returning_client_options()
+        
     else:
+        # adds new customers to spreadsheet
         add_new_client(email)
-
-    
+        new_booking()
 
 
 customer_email = get_email_from_user()
