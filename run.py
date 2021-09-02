@@ -257,6 +257,7 @@ def add_booking_to_spreadsheet():
     """
 
     """
+    # initializes functions to obtain room number from the user and read it's name
     room_number = choose_room()
     booked_room = room_name(room_number)
 
@@ -275,7 +276,7 @@ def returning_client_options():
     print("cancel your booking (cancel)\n")
     client_options = input("Write 'add', 'print', 'change' or 'cancel' here: ")
     validate_client_options(client_options)
-    new_booking()
+    
 
 
 def validate_client_options(client_options):
@@ -296,15 +297,24 @@ def check_if_returning_client(email):
     if email in clients_list:
         # welcomes returning customers
         print("Welcome back to Cath's Cats' Castle!\n")
-
-        returning_client_options()
+        return True
 
     else:
         # adds new customers to spreadsheet
         add_new_client(email)
+        return False
+
+
+def main():
+    """
+    Run all program functions
+    """
+    customer_email = get_email_from_user()
+    
+    if check_if_returning_client(customer_email):
+        returning_client_options()
+    else:
         new_booking()
 
 
-customer_email = get_email_from_user()
-check_if_returning_client(customer_email)
-
+main()
