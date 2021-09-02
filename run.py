@@ -99,7 +99,7 @@ def choose_room():
     """
     gives options to choose which room to book
     """
-    
+
     while True:
         print("Please choose one of our luxury rooms:")
         print("1. Kew Gardens Suite")
@@ -191,6 +191,14 @@ def end_date_input():
     return end_date
 
 
+def convert_input_to_date(input_date):
+    """
+    takes date input by the user in the format dd/mm/yyyy and converts
+    to a python date time object
+    """
+    print("input_date")
+
+
 def validate_date(date):
     """
     Inside try raises ValueError if the date fails validation and returns False
@@ -213,6 +221,15 @@ def validate_date(date):
     return True
 
 
+def find_a_row(value):
+    """
+    finds a cell that contains the given value and returns it's row number
+    """
+    target_cell = clients_worksheet.find(value)
+
+    return(target_cell.row)
+
+
 def new_booking():
     """
     initializes two functions one after enother, that are asking
@@ -221,13 +238,31 @@ def new_booking():
 
     print("To add new booking we will need the "
           "name of the room as well as start and end date\n")
+    # initializes functions to obtain room number from the user and read it's name
     room_number = choose_room()
     booked_room = room_name(room_number)
-    start_date = start_date_input()
-    end_date = end_date_input()
-    print(f"You entered booking for {booked_room} from "
-          f"{start_date} to {end_date}\n")
 
+    # initializes functions to get user input for start and end date
+    start_date_str = start_date_input()
+    end_date_str = end_date_input()
+    
+    # uses strings to locate the cell and gets the row numbers for start and end date
+    find_a_row(start_date_str)
+    find_a_row(end_date_str)
+    print(f"You entered booking for {booked_room} from "
+          f"{start_date_str} to {end_date_str}\n")
+
+
+def add_booking_to_spreadsheet():
+    """
+
+    """
+    room_number = choose_room()
+    booked_room = room_name(room_number)
+
+    # reads user input for start and end date
+    start_date_str = start_date_input()
+    end_date_str = end_date_input()
 
 def returning_client_options():
     """
@@ -272,3 +307,4 @@ def check_if_returning_client(email):
 
 customer_email = get_email_from_user()
 check_if_returning_client(customer_email)
+
