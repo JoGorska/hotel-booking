@@ -1,4 +1,4 @@
-# Keto Diet
+# Cath's Cats' Castle - booking
 ## Screenshot ???
 
 link to live page [here]()
@@ -18,6 +18,10 @@ link to live page [here]()
 
 
 ## Bugs
+1. Issue with accessing data needed to update both worksheets. Each set of data: dates, email, room number were local variables in the new booking function. Managed to pass various variables to the functions so each value is read correctly.
+
+2. Issue with Rooms Worksheet - recording new booking - new booking was not apearing in the apropriate column for the room. Found that data is saved under identical column number as it is saved in clients worksheet. Found function that was refering to clients worksheet and replaced it with variable worksheet. Worksheet wariable had the appropriate worksheet passed to it when the function was called and the correct column in the rooms worksheet was updated.
+
 
   
 ## Validation
