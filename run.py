@@ -261,7 +261,7 @@ def find_a_column(value):
     return(target_cell.col)
 
 
-def add_booking_to_spreadsheet(start, end, email, room):
+def add_booking_to_spreadsheet(worksheet, start, end, column_value, cell_value):
     """
     Adds name of the booked room to the appropriate cell
     in the client's spreadsheet
@@ -272,20 +272,15 @@ def add_booking_to_spreadsheet(start, end, email, room):
     # for start and end date
     print("Recording your booking in the worksheet...")
     row_start = find_a_row(start)
-    row_end = find_a_row(end)
-    column = find_a_column(email)
-    
+    row_end = find_a_row(end) + 1
+    column = find_a_column(column_value)
+
     print(type(row_start))
     print(row_end)
     for row in range(row_start, row_end):
-        update_one_cell(clients_worksheet, row, column, room)
+        update_one_cell(worksheet, row, column, cell_value)
         print(f"one cell updated{start}")
-    print("clients worksheet updated.")
-
-
-room_number = 0
-start_date_str = ""
-end_date_str = ""
+    print("worksheet updated.")
 
 
 def new_booking(email):
@@ -293,12 +288,9 @@ def new_booking(email):
     initializes two functions one after enother, that are asking
     for start date and end date
     """
-    global room_number
-    global start_date_str
-    global end_date_str
     print("To add new booking we will need the "
           "name of the room as well as start and end date\n")
-    # initializes functions to obtain room number from the user 
+    # initializes functions to obtain room number from the user
     # and read it's name
     room_number = choose_room()
     booked_room_full_name = room_full_name(room_number)
@@ -307,13 +299,12 @@ def new_booking(email):
     # initializes functions to get user input for start and end date
     start_date_str = start_date_input()
     end_date_str = end_date_input()
-    
+
     print(f"You entered booking for {booked_room_full_name} from "
           f"{start_date_str} to {end_date_str}\n")
     # ads the above data to spreadsheet
-    add_booking_to_spreadsheet(start_date_str, end_date_str, email, room_short)
-
-
+    add_booking_to_spreadsheet(clients_worksheet, start_date_str, end_date_str, email, room_short)
+    add_booking_to_spreadsheet(rooms_worksheet, start_date_str, end_date_str, room_short, email)
 
 
 def returning_client_options():
@@ -360,7 +351,7 @@ def main():
     Run all program functions
     """
     customer_email = get_email_from_user()
-    
+
     if check_if_returning_client(customer_email):
         returning_client_options()
     else:
