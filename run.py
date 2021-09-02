@@ -1,6 +1,7 @@
 import gspread
 import re
 from google.oauth2.service_account import Credentials
+from datetime import datetime
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -197,7 +198,10 @@ def start_date_input():
 
         if validate_date(start_date):
             print("Your date is valid\n")
+            
             break
+    start_date_object = convert_input_to_date(start_date)
+    print(start_date_object)
     return start_date
 
 
@@ -210,7 +214,7 @@ def end_date_input():
         end_date = input("Write end date here: ")
 
         if validate_date(end_date):
-            print("Your date is valid\n")
+            print("Your date is in valid format\n")
             break
     return end_date
 
@@ -220,8 +224,22 @@ def convert_input_to_date(input_date):
     takes date input by the user in the format dd/mm/yyyy and converts
     to a python date time object
     """
-    print("input_date")
+    date_object = datetime.strptime(input_date, "%d/%m/%Y")
+    return date_object
 
+
+def date_in_the_past(input_date):
+    """
+    tests if given date is in the past
+    """
+    today = datetime.today()
+    date_object = convert_input_to_date(input_date)
+
+    if date_object < today:
+        return True
+    else:
+        return False
+    
 
 def validate_date(date):
     """
@@ -237,6 +255,8 @@ def validate_date(date):
         if(not re.fullmatch(regex_date, date)):
             raise ValueError(f"The date '{date}' does not seem to be "
                              "in the correct format")
+        elif (date_in_the_past(date)):
+            raise ValueError(f"The date '{date}' is in the past")
 
     except ValueError as e:
         print(f"Invalid date: {e}, please try again.\n")
