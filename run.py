@@ -2,6 +2,9 @@ import gspread
 import re
 from google.oauth2.service_account import Credentials
 from datetime import datetime
+# import datetime as dt
+# from datetime import datetime
+
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -239,7 +242,32 @@ def date_in_the_past(input_date):
         return True
     else:
         return False
+
+
+def incorrect_lenght_of_stay(period_start, period_end):
+    """
+    converts given strings to datetime objects
+    tests if the lenght of stay is minimum 7 days and maximum 30 days
+    """
+    start = convert_input_to_date(period_start)
+    end = convert_input_to_date(period_end)
+    lenght = end - start
+    print(lenght)
+    min = start + datetime.timedelta(days=7)
+    max = start + datetime.timedelta(days=37)
     
+    if end < min:
+        # if end date is smaller than min, the period is too short
+        print("if end date is smaller than min, the period is too short")
+        return False
+    elif end > max:
+        # if end date is bigger than max, the period is too long
+        print("if end date is bigger than max, the period is too long")
+        return False
+    else:
+        print("period is between 7 - 37 days")
+        return True
+
 
 def validate_date(date):
     """
@@ -319,6 +347,7 @@ def new_booking(email):
     # initializes functions to get user input for start and end date
     start_date_str = start_date_input()
     end_date_str = end_date_input()
+    incorrect_lenght_of_stay(start_date_str, end_date_str)
 
     print(f"You entered booking for {booked_room_full_name} from "
           f"{start_date_str} to {end_date_str}\n")
