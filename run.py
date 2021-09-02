@@ -64,9 +64,7 @@ def update_one_cell(worksheet, row, column, value):
     one cell pointed by row and column
     row and column count starts from 1
     """
-    print("Updating worksheet...\n")
     worksheet.update_cell(row, column, value)
-    print("Worksheet updated successfuly.\n")
 
 
 def add_new_client(email):
@@ -89,7 +87,9 @@ def add_new_client(email):
 
     new_column_numer = len(clients_worksheet.row_values(1)) + 1
     # uses coordinates calculated above to find the right cell to update
+    print("Updating worksheet...\n")
     update_one_cell(clients_worksheet, 1, new_column_numer, email)
+    print("Worksheet updated successfuly.\n")
 
 
 room_number = 1
@@ -162,6 +162,7 @@ def room_full_name(room_number):
     elif room_number == 9:
         return "Ware Suite"
 
+
 def room_short_name(room_number):
     """
     takes customer's choise of a room number and returns room name
@@ -184,6 +185,7 @@ def room_short_name(room_number):
         return "Glasgow"
     elif room_number == 9:
         return "Ware"
+
 
 def start_date_input():
     """
@@ -261,7 +263,7 @@ def find_a_column(value):
     return(target_cell.col)
 
 
-def add_booking_to_spreadsheet(worksheet, start, end, column_value, cell_value):
+def add_booking_to_spreadsheet(worksheet, start, end, column_val, cell_value):
     """
     Adds name of the booked room to the appropriate cell
     in the client's spreadsheet
@@ -270,17 +272,16 @@ def add_booking_to_spreadsheet(worksheet, start, end, column_value, cell_value):
 
     # uses strings to locate the cell and gets the row numbers
     # for start and end date
-    print("Recording your booking in the worksheet...")
+    
     row_start = find_a_row(start)
     row_end = find_a_row(end) + 1
-    column = find_a_column(column_value)
+    column = find_a_column(column_val)
 
-    print(type(row_start))
-    print(row_end)
     for row in range(row_start, row_end):
         update_one_cell(worksheet, row, column, cell_value)
-        print(f"one cell updated{start}")
-    print("worksheet updated.")
+        print(f"updated {worksheet} cell {row} out of {row_end}")
+
+
 
 
 def new_booking(email):
@@ -303,9 +304,12 @@ def new_booking(email):
     print(f"You entered booking for {booked_room_full_name} from "
           f"{start_date_str} to {end_date_str}\n")
     # ads the above data to spreadsheet
-    add_booking_to_spreadsheet(clients_worksheet, start_date_str, end_date_str, email, room_short)
-    add_booking_to_spreadsheet(rooms_worksheet, start_date_str, end_date_str, room_short, email)
-
+    print("Recording your booking in the worksheet...")
+    add_booking_to_spreadsheet(clients_worksheet, start_date_str,
+                               end_date_str, email, room_short)
+    add_booking_to_spreadsheet(rooms_worksheet, start_date_str,
+                               end_date_str, room_short, email)
+    print("worksheet updated.")
 
 def returning_client_options():
     """
