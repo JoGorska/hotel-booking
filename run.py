@@ -254,11 +254,11 @@ def find_a_row(value):
     return(target_cell.row)
 
 
-def find_a_column(value):
+def find_a_column(worksheet, value):
     """
     finds a cell that contains the given value and return it's column number
     """
-    target_cell = clients_worksheet.find(value)
+    target_cell = worksheet.find(value)
 
     return(target_cell.col)
 
@@ -269,25 +269,24 @@ def add_booking_to_spreadsheet(worksheet, start, end, column_val, cell_value):
     in the client's spreadsheet
     Adds client's email to appropriate cell in rooms spreaedsheet
     """
-
     # uses strings to locate the cell and gets the row numbers
     # for start and end date
-    
-    row_start = find_a_row(start)
-    row_end = find_a_row(end) + 1
-    column = find_a_column(column_val)
+    row_start = find_a_row(start) - 1
+    row_end = find_a_row(end)
 
     for row in range(row_start, row_end):
-        update_one_cell(worksheet, row, column, cell_value)
-        print(f"updated {worksheet} cell {row} out of {row_end}")
 
-
+        column_number = find_a_column(worksheet, column_val)
+        update_one_cell(worksheet, row, column_number, cell_value)
+        print(f"updated {worksheet} cell {row} out of {row_end}"
+              f"in the column {column_val} number {column_number}")
 
 
 def new_booking(email):
     """
     initializes two functions one after enother, that are asking
-    for start date and end date
+    for room, start date and end date,
+    than initializes adding the booked dates into the spreadsheets
     """
     print("To add new booking we will need the "
           "name of the room as well as start and end date\n")
@@ -310,6 +309,7 @@ def new_booking(email):
     add_booking_to_spreadsheet(rooms_worksheet, start_date_str,
                                end_date_str, room_short, email)
     print("worksheet updated.")
+
 
 def returning_client_options():
     """
