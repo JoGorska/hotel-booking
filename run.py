@@ -2,8 +2,6 @@ import gspread
 import re
 from google.oauth2.service_account import Credentials
 from datetime import datetime
-# import datetime as dt
-# from datetime import datetime
 
 
 SCOPE = [
@@ -201,7 +199,7 @@ def start_date_input():
 
         if validate_date(start_date):
             print("Your date is valid\n")
-            
+
             break
     start_date_object = convert_input_to_date(start_date)
     print(start_date_object)
@@ -244,28 +242,35 @@ def date_in_the_past(input_date):
         return False
 
 
-def incorrect_lenght_of_stay(period_start, period_end):
+def incorrect_lenght_of_stay(start, end):
     """
-    converts given strings to datetime objects
-    tests if the lenght of stay is minimum 7 days and maximum 30 days
+    takes the number of row for start of the booking and end of the booking
+    the lenght of stay is calculated by subtracting row_end from row_start
+    the test checks if the lenght is longer than 7 and shorter than 30
     """
-    start = convert_input_to_date(period_start)
-    end = convert_input_to_date(period_end)
-    lenght = end - start
+    row_start = find_a_row(start)
+    row_end = find_a_row(end)
+    lenght = row_end - row_start
+    print(start)
+    print(end)
+    print(row_start)
+    print(row_end)
     print(lenght)
-    min = start + datetime.timedelta(days=7)
-    max = start + datetime.timedelta(days=37)
-    
-    if end < min:
-        # if end date is smaller than min, the period is too short
-        print("if end date is smaller than min, the period is too short")
+    min = 7
+    max = 30
+
+    if lenght < min:
+
+        print("you have chosen to short stay, we can only accpet booking "
+              "for a minimum of a week")
         return False
-    elif end > max:
-        # if end date is bigger than max, the period is too long
-        print("if end date is bigger than max, the period is too long")
+    elif lenght > max:
+
+        print("you have chosen too long stay, we can only accept booking "
+              "for a maximum of 30 days")
         return False
     else:
-        print("period is between 7 - 37 days")
+        print("Valid lenght of stay.")
         return True
 
 
