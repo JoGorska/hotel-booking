@@ -201,8 +201,7 @@ def start_date_input():
             print("Your date is valid\n")
 
             break
-    start_date_object = convert_input_to_date(start_date)
-    print(start_date_object)
+
     return start_date
 
 
@@ -218,6 +217,21 @@ def end_date_input():
             print("Your date is in valid format\n")
             break
     return end_date
+
+
+def get_both_dates_list():
+    """
+    function to obtain both dates start and end date from the user
+    returns a list containing two elements, start and end dates
+    in a form of string - date as in excel
+    """
+    list_start_and_end = []
+    start = start_date_input()
+    list_start_and_end.append(start)
+    end = end_date_input()
+    list_start_and_end.append(end)
+    print(list_start_and_end)
+    return(list_start_and_end)
 
 
 def convert_input_to_date(input_date):
@@ -351,6 +365,7 @@ def validate_lenght_of_stay(start, end):
     return True
 
 
+
 def new_booking(email):
     """
     initializes two functions one after enother, that are asking
@@ -366,8 +381,9 @@ def new_booking(email):
     room_short = room_short_name(room_number)
 
     # initializes functions to get user input for start and end date
-    start_date_str = start_date_input()
-    end_date_str = end_date_input()
+    list_of_dates = get_both_dates_list()
+    start_date_str = list_of_dates[0]
+    end_date_str = list_of_dates[1]
     
     # tests if lenght of stay is within 7 - 30 days
 
