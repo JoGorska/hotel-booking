@@ -80,7 +80,7 @@ def add_new_client(email):
     clients_worksheet = SHEET.worksheet('clients')
     # ads new column so excel doesn't run out of cells
     # (oryginaly document contained a-z columns only)
-
+    # ??? unmute when spreadsheet full
     # clients_worksheet.add_cols(1)
     # Coordinates to add email to customers worksheets:
     # row = 1 (first row in the worksheet)
@@ -242,38 +242,6 @@ def date_in_the_past(input_date):
         return False
 
 
-def incorrect_lenght_of_stay(start, end):
-    """
-    takes the number of row for start of the booking and end of the booking
-    the lenght of stay is calculated by subtracting row_end from row_start
-    the test checks if the lenght is longer than 7 and shorter than 30
-    """
-    row_start = find_a_row(start)
-    row_end = find_a_row(end)
-    lenght = row_end - row_start
-    print(start)
-    print(end)
-    print(row_start)
-    print(row_end)
-    print(lenght)
-    min = 7
-    max = 30
-
-    if lenght < min:
-
-        print("you have chosen to short stay, we can only accpet booking "
-              "for a minimum of a week")
-        return False
-    elif lenght > max:
-
-        print("you have chosen too long stay, we can only accept booking "
-              "for a maximum of 30 days")
-        return False
-    else:
-        print("Valid lenght of stay.")
-        return True
-
-
 def validate_date(date):
     """
     Inside try raises ValueError if the date fails validation and returns False
@@ -335,6 +303,54 @@ def add_booking_to_spreadsheet(worksheet, start, end, column_val, cell_value):
               f"in the column {column_val} number {column_number}")
 
 
+def is_too_short(start, end):
+    """
+    checks if the booked stay is too short
+    """
+    row_start = find_a_row(start)
+    row_end = find_a_row(end)
+    lenght = row_end - row_start
+    if lenght < 7:
+        return True
+    else:
+        return False
+
+
+def is_too_long(start, end,):
+    """
+    check if the booked stay is too long
+    """
+    row_start = find_a_row(start)
+    row_end = find_a_row(end)
+    lenght = row_end - row_start
+    if lenght > 30:
+        return True
+    else:
+        return False
+
+
+def validate_lenght_of_stay(start, end):
+    """
+    Inside try raises ValueError if the lenght of stay fails validation and
+    returns False prints information for the user about the error
+    if no error - returns True
+    """
+    try:
+        if is_too_short(start, end):
+            raise ValueError("We can only accpet booking for "
+                             "the minimum of 7 days")
+        elif (is_too_long(start, end)):
+            raise ValueError("We can only accept booking for "
+                              "maximum of 30 days, please contact"
+                              "the hotel if you require longer stay")
+
+    except ValueError as e:
+        print(f"Invalid booking: {e}, please try again.\n")
+        return False
+
+    return True
+
+
 def new_booking(email):
     """
     initializes two functions one after enother, that are asking
@@ -352,7 +368,12 @@ def new_booking(email):
     # initializes functions to get user input for start and end date
     start_date_str = start_date_input()
     end_date_str = end_date_input()
-    incorrect_lenght_of_stay(start_date_str, end_date_str)
+    
+    # tests if lenght of stay is within 7 - 30 days
+
+    validate_lenght_of_stay(start_date_str, end_date_str)
+
+    # ??? need to test whenter the dates are available!!!
 
     print(f"You entered booking for {booked_room_full_name} from "
           f"{start_date_str} to {end_date_str}\n")
@@ -385,7 +406,7 @@ def validate_client_options(client_options):
     print("I am checking if input for client options is valid")
 
 
-def check_if_returning_client(email):
+def is_returning_client(email):
     """
     checks the clients worksheet if the email is already listed,
     prints welcome messag for returning client or adds new client
@@ -410,7 +431,7 @@ def main():
     """
     customer_email = get_email_from_user()
 
-    if check_if_returning_client(customer_email):
+    if is_returning_client(customer_email):
         returning_client_options()
     else:
         new_booking(customer_email)
