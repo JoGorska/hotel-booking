@@ -350,7 +350,39 @@ def validate_lenght_of_stay(start, end):
     return True
 
 
-def get_both_dates_list():
+def is_avialable(start, end, room_int):
+    """
+    checks the rooms worksheet to see if the room is
+    available in the dates given by the customer
+    """
+    row_start = find_a_row(start)
+    row_end = find_a_row(end)
+    column_room = room_int + 1
+
+    val = rooms_worksheet.cell(4, 2).value
+    print(val)
+    print(f"test start date row {row_start}, end date row: {row_end} room column {column_room}")
+    return True
+
+
+def validate_room_availibility(start, end, room_int):
+    """
+    uses a function to validate the rooms' availiblity
+    and returns error if the room has already been booked in those dates
+    """
+    try:
+        if (not is_avialable(start, end, room_int)):
+            raise ValueError("Unfortunately this room is booked "
+                             "in these dates")
+
+    except ValueError as e:
+        print(f"Invalid booking: {e}, please try again.\n")
+        return False
+
+    return True
+
+
+def get_all_booking_info():
     """
     function to obtain both dates start and end date from the user
     returns a list containing two elements, start and end dates
@@ -359,17 +391,24 @@ def get_both_dates_list():
     while True:
         print("We will now ask you to input your booking start date "
               "and end date, please follow the given date format\n")
-        list_start_and_end = []
+        list_start_end_room = []
+        # initializes functions to get user input for start and end date
         start = start_date_input()
-        list_start_and_end.append(start)
+        list_start_end_room.append(start)
         end = end_date_input()
-        list_start_and_end.append(end)
-        print(list_start_and_end)
+        list_start_end_room.append(end)
 
-        if validate_lenght_of_stay(list_start_and_end[0], list_start_and_end[1]):
+        # initializes function to get user input for room number
+        room = choose_room()
+        list_start_end_room.append(room)
+
+        if validate_lenght_of_stay(start, end):
             print("Valid lenght of stay\n")
             break
-    return list_start_and_end
+        if validate_room_availibility(start, end, room):
+            print("Room available\n")
+            break
+    return list_start_end_room
 
 
 def new_booking(email):
@@ -380,20 +419,16 @@ def new_booking(email):
     """
     print("To add new booking we will need the "
           "name of the room as well as start and end date\n")
-    # initializes functions to obtain room number from the user
-    # and read it's name
-    room_number = choose_room()
+
+    # initializes function to get all booking informations: start and end dates and room number
+    list_dates_room = get_all_booking_info()
+    start_date_str = list_dates_room[0]
+    end_date_str = list_dates_room[1]
+
+    room_number = list_dates_room[2]
+    # displays room name in two different formats
     booked_room_full_name = room_full_name(room_number)
     room_short = room_short_name(room_number)
-
-    # initializes functions to get user input for start and end date
-    list_of_dates = get_both_dates_list()
-    start_date_str = list_of_dates[0]
-    end_date_str = list_of_dates[1]
-    
-    # tests if lenght of stay is within 7 - 30 days
-
-    validate_lenght_of_stay(start_date_str, end_date_str)
 
     # ??? need to test whenter the dates are available!!!
 
