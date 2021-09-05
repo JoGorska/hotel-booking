@@ -421,7 +421,8 @@ def get_all_booking_info():
         room = choose_room()
         list_start_end_room.append(room)
 
-        if validate_lenght_of_stay(start, end) and validate_room_availibility(start, end, room):
+        if (validate_lenght_of_stay(start, end)
+                and validate_room_availibility(start, end, room)):
             print("Booking validated. Saving in the spreadsheet...\n")
             break
 
@@ -458,7 +459,7 @@ def register_new_booking(email):
     add_booking_to_spreadsheet(rooms_worksheet, start_date_str,
                                end_date_str, room_short, email)
     print("Worksheet updated.")
-   
+
 
 def get_returning_client_option():
     """
@@ -489,13 +490,13 @@ def validate_client_option(option):
     """
 
     try:
-        
-        if (option != "add" and option != "print" and option != "change" and option != "cancel"):
+
+        if (option != "add" and option != "print"
+                and option != "change" and option != "cancel"):
+            # returns error if the given word does not match
+            # any of the given options
             raise ValueError(f"The the word '{option}' does not seem to be "
                              "matching any of the given options")
-        elif option.isdigit():
-            raise ValueError(f"You have entered '{option}' that is a number, "
-                             f"we need a word from the list of options")
 
     except ValueError as e:
         print(f"Invalid option: {e}, please try again.\n")

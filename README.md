@@ -22,7 +22,9 @@ link to live page [here]()
 
 2. Issue with Rooms Worksheet - recording new booking - new booking was not apearing in the apropriate column for the room. Found that data is saved under identical column number as it is saved in clients worksheet. Found function that was refering to clients worksheet and replaced it with variable worksheet. Worksheet wariable had the appropriate worksheet passed to it when the function was called and the correct column in the rooms worksheet was updated.
 
-
+3. Issue with lenght of the line:
+- the errors were raised in the lines where the if statement was very long. followed advice from [stack overflow](https://stackoverflow.com/questions/5253348/very-long-if-statement-in-python)
+- the error with very long regex - I left it untouched as I am concerned that it would stop working
   
 ## Validation
 
