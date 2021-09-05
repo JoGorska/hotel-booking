@@ -330,8 +330,8 @@ def is_too_long(start, end,):
 
 def validate_lenght_of_stay(start, end):
     """
-    Inside try raises ValueError if the lenght of stay fails validation and
-    returns False prints information for the user about the error
+    Inside try raises ValueError if the lenght of stay fails validation
+    and returns False prints information for the user about the error
     if no error - returns True
     """
     try:
@@ -340,8 +340,8 @@ def validate_lenght_of_stay(start, end):
                              "the minimum of 7 days")
         elif (is_too_long(start, end)):
             raise ValueError("We can only accept booking for "
-                              "maximum of 30 days, please contact"
-                              "the hotel if you require longer stay")
+                             "maximum of 30 days, please contact"
+                             "the hotel if you require longer stay")
 
     except ValueError as e:
         print(f"Invalid booking: {e}, please try again.\n")
@@ -350,19 +350,38 @@ def validate_lenght_of_stay(start, end):
     return True
 
 
+def read_cell_value(worksheet, row_no, col_no):
+    """
+    reads the value of the cell in the given worksheet,
+    row and column coordinates
+    """
+    value = worksheet.cell(row_no, col_no).value
+    return value
+
+
 def is_avialable(start, end, room_int):
     """
     checks the rooms worksheet to see if the room is
     available in the dates given by the customer
     """
+    # gets integer - exact row number for the date
+    # that customer has provided
     row_start = find_a_row(start)
     row_end = find_a_row(end)
     column_room = room_int + 1
 
-    val = rooms_worksheet.cell(4, 2).value
-    print(val)
-    print(f"test start date row {row_start}, end date row: {row_end} room column {column_room}")
-    return False
+    for row in range(row_start, row_end):
+        # gets the value of the cell in the column for the choosen room
+        # and each row in within the booked period of time
+        val = read_cell_value(rooms_worksheet, row, column_room)
+
+        # if cell is empty - returns true, as room is available to book
+        if val == "":
+
+            return True
+        else:
+
+            return False
 
 
 def validate_room_availibility(start, end, room_int):
@@ -403,7 +422,7 @@ def get_all_booking_info():
         list_start_end_room.append(room)
 
         if validate_lenght_of_stay(start, end) and validate_room_availibility(start, end, room):
-            print("Valid lenght of stay\n")
+            print("Booking validated. Saving in the spreadsheet...\n")
             break
 
     return list_start_end_room
