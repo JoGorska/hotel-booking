@@ -362,7 +362,7 @@ def is_avialable(start, end, room_int):
     val = rooms_worksheet.cell(4, 2).value
     print(val)
     print(f"test start date row {row_start}, end date row: {row_end} room column {column_room}")
-    return True
+    return False
 
 
 def validate_room_availibility(start, end, room_int):
@@ -402,12 +402,10 @@ def get_all_booking_info():
         room = choose_room()
         list_start_end_room.append(room)
 
-        if validate_lenght_of_stay(start, end):
+        if validate_lenght_of_stay(start, end) and validate_room_availibility(start, end, room):
             print("Valid lenght of stay\n")
             break
-        if validate_room_availibility(start, end, room):
-            print("Room available\n")
-            break
+
     return list_start_end_room
 
 
