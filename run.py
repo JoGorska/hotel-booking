@@ -428,7 +428,7 @@ def get_all_booking_info():
     return list_start_end_room
 
 
-def new_booking(email):
+def register_new_booking(email):
     """
     initializes two functions one after enother, that are asking
     for room, start date and end date,
@@ -437,7 +437,9 @@ def new_booking(email):
     print("To add new booking we will need the "
           "name of the room as well as start and end date\n")
 
-    # initializes function to get all booking informations: start and end dates and room number
+    # initializes function to get all booking informations:
+    # start and end dates and room number
+
     list_dates_room = get_all_booking_info()
     start_date_str = list_dates_room[0]
     end_date_str = list_dates_room[1]
@@ -447,8 +449,6 @@ def new_booking(email):
     booked_room_full_name = room_full_name(room_number)
     room_short = room_short_name(room_number)
 
-    # ??? need to test whenter the dates are available!!!
-
     print(f"You entered booking for {booked_room_full_name} from "
           f"{start_date_str} to {end_date_str}\n")
     # ads the above data to spreadsheet
@@ -457,27 +457,51 @@ def new_booking(email):
                                end_date_str, email, room_short)
     add_booking_to_spreadsheet(rooms_worksheet, start_date_str,
                                end_date_str, room_short, email)
-    print("worksheet updated.")
+    print("Worksheet updated.")
+   
 
-
-def returning_client_options():
+def get_returning_client_option():
     """
     gives returning client various options to choose from
-    runs appropriate function after the option is choosen
+    returns the option
     """
-    print("Please choose option to add a new booking (add)")
-    print("check your booking (print),")
-    print("change your booking (change),")
-    print("cancel your booking (cancel)\n")
-    client_options = input("Write 'add', 'print', 'change' or 'cancel' here: ")
-    validate_client_options(client_options)
+
+    while True:
+        print("Please choose one of the following options:")
+        print("to add a new booking (add)")
+        print("check your booking (print),")
+        print("change your booking (change),")
+        print("cancel your booking (cancel)\n")
+        chosen_option = input("Write 'add', 'print', "
+                              "'change' or 'cancel' here: ")
+
+        if validate_client_option(chosen_option):
+
+            print("Your option is valid\n")
+            break
+    return chosen_option
 
 
-def validate_client_options(client_options):
+def validate_client_option(option):
     """
-    function to handle returning client options
+    function to validate the option that returning customer
+    has chosen
     """
-    print("I am checking if input for client options is valid")
+
+    try:
+        
+        if (option != "add" and option != "print" and option != "change" and option != "cancel"):
+            raise ValueError(f"The the word '{option}' does not seem to be "
+                             "matching any of the given options")
+        elif option.isdigit():
+            raise ValueError(f"You have entered '{option}' that is a number, "
+                             f"we need a word from the list of options")
+
+    except ValueError as e:
+        print(f"Invalid option: {e}, please try again.\n")
+        return False
+
+    return True
 
 
 def is_returning_client(email):
@@ -506,9 +530,10 @@ def main():
     customer_email = get_email_from_user()
 
     if is_returning_client(customer_email):
-        returning_client_options()
+        option = get_returning_client_option()
+        print(f"I am returning custoemr and I chose {option}")
     else:
-        new_booking(customer_email)
+        register_new_booking(customer_email)
 
 
 main()
