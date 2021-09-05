@@ -505,6 +505,20 @@ def validate_client_option(option):
     return True
 
 
+def activate_chosen_option(option, email):
+    """
+    initializes the function depending on the function that client has chosen
+    """
+    if option == "add":
+        # uses provided email to register new booking, initializes function to register
+        register_new_booking(email)
+    elif option == "print":
+        print(f"The option '{option}'' is currently not working. We are working on it.")
+    elif option == "change":
+        print(f"The option '{option}'' is currently not working. We are working on it.")
+    elif option == "cancel":
+        print(f"The option '{option}'' is currently not working. We are working on it.")
+
 def is_returning_client(email):
     """
     checks the clients worksheet if the email is already listed,
@@ -531,8 +545,8 @@ def main():
     customer_email = get_email_from_user()
 
     if is_returning_client(customer_email):
-        option = get_returning_client_option()
-        print(f"I am returning custoemr and I chose {option}")
+        chosen_option = get_returning_client_option()
+        activate_chosen_option(chosen_option, customer_email)
     else:
         register_new_booking(customer_email)
 
