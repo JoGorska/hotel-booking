@@ -374,9 +374,11 @@ def is_avialable(start, end, room_int):
         # gets the value of the cell in the column for the choosen room
         # and each row in within the booked period of time
         val = read_cell_value(rooms_worksheet, row, column_room)
+        print(f"value of the tested cell {val}")
+        print(f"row {row} and coloumn {column_room}")
 
         # if cell is empty - returns true, as room is available to book
-        if val == "":
+        if val is None:
 
             return True
         else:
@@ -458,7 +460,7 @@ def register_new_booking(email):
                                end_date_str, email, room_short)
     add_booking_to_spreadsheet(rooms_worksheet, start_date_str,
                                end_date_str, room_short, email)
-    print("Worksheet updated.")
+    print("Worksheet updated.\n\n")
 
 
 def get_returning_client_option():
@@ -510,14 +512,19 @@ def activate_chosen_option(option, email):
     initializes the function depending on the function that client has chosen
     """
     if option == "add":
-        # uses provided email to register new booking, initializes function to register
+        # uses provided email to register new booking,
+        # initializes function to register new booking
         register_new_booking(email)
     elif option == "print":
-        print(f"The option '{option}'' is currently not working. We are working on it.")
+        print(f"The option '{option}'' is currently not available."
+              f" We are working on it.")
     elif option == "change":
-        print(f"The option '{option}'' is currently not working. We are working on it.")
+        print(f"The option '{option}'' is currently not available. "
+              f" We are working on it.")
     elif option == "cancel":
-        print(f"The option '{option}'' is currently not working. We are working on it.")
+        print(f"The option '{option}'' is currently not available. "
+              f" We are working on it.")
+
 
 def is_returning_client(email):
     """
@@ -549,6 +556,7 @@ def main():
         activate_chosen_option(chosen_option, customer_email)
     else:
         register_new_booking(customer_email)
-
+        chosen_option = get_returning_client_option()
+        activate_chosen_option(chosen_option, customer_email)
 
 main()
