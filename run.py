@@ -514,14 +514,14 @@ def get_cancelation_dates(email):
         cancelation_dates_list = []
         # gets the strings containing start and end dates
         # from the user
-        start = start_date_input()
-        end = end_date_input()
+        start_str = start_date_input()
+        end_str = end_date_input()
         # appends the strings to make the list with data
         # needed for deleting entries from spreadsheet
-        cancelation_dates_list.append(start)
-        cancelation_dates_list.append(end)
+        cancelation_dates_list.append(start_str)
+        cancelation_dates_list.append(end_str)
 
-        if validate_cancelation_dates(start, end, email):
+        if validate_cancelation_dates(start_str, end_str, email):
             print("Valid cancellation dates")
             break
 
@@ -541,6 +541,7 @@ def validate_cancelation_dates(start_str, end_str, email):
     try:
 
         column_email = find_a_column(clients_worksheet, email)
+        print(f"------------------>I am inside validate cancelation dates {start_str}, end {end_str}, email {email}")
         if is_empty_cell(clients_worksheet, start_str, end_str, column_email):
             raise ValueError("There is no booking matching your criteria")
 
@@ -559,6 +560,7 @@ def delete_booking_from_spreadsheet(email):
           " start and end date of the booking you want to cancel")
     # start date and end date strings come from
     # function get_cancelation_dates
+    print(f"can I see email in delete booking spreadsheet {email} ???")
     cancelation_dates_list = get_cancelation_dates(email)
     start_date_str = cancelation_dates_list[0]
     end_date_str = cancelation_dates_list[1]
@@ -583,10 +585,13 @@ def delete_booking_from_spreadsheet(email):
                             end_date_str, email, cell_value)
     # loops through values of each cell to get the name
     # of the room
-
+    print(f"----------------> inside delete booking - row start for deleting: {row_start}, row end {row_end}")
+ 
     for row in range(row_start, row_end):
         room_short = read_cell_value(clients_worksheet,
                                      row, column_email)
+
+        print(f" ------> I am inside loop inside delete booking room: {room_short} row start {row_start} row end {row_end")
 
         add_data_to_spreadsheet(rooms_worksheet, start_date_str,
                                 end_date_str, room_short, cell_value)
