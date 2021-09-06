@@ -189,6 +189,30 @@ def room_short_name(room_number):
         return "Ware"
 
 
+def change_room_name_to_number(room_short):
+    """
+    takes the room short name and changes it into the number of the room
+"""
+    if room_short == "Kew":
+        return 1
+    elif room_short == "Oxford":
+        return 2
+    elif room_short == "London":
+        return 3
+    elif room_short == "Verulamium":
+        return 4
+    elif room_short == "Cambridge":
+        return 5
+    elif room_short == "Stonehenge":
+        return 6
+    elif room_short == "Lucretia":
+        return 7
+    elif room_short == "Glasgow":
+        return 8
+    elif room_short == "Ware":
+        return 9
+
+
 def start_date_input():
     """
     Prompts client to input start date for the booking
@@ -359,7 +383,7 @@ def read_cell_value(worksheet, row_no, col_no):
     return value
 
 
-def is_avialable(start, end, room_int):
+def is_avialable_for_booking(start, end, room_int):
     """
     checks the rooms worksheet to see if the room is
     available in the dates given by the customer
@@ -392,7 +416,7 @@ def validate_room_availibility(start, end, room_int):
     and returns error if the room has already been booked in those dates
     """
     try:
-        if (not is_avialable(start, end, room_int)):
+        if (not is_avialable_for_booking(start, end, room_int)):
             raise ValueError("Unfortunately this room is booked "
                              "in these dates")
 
@@ -463,22 +487,43 @@ def register_new_booking(email):
     print("Worksheet updated.\n\n")
 
 
-def delete_the_booking(email):
+def get_cancelation_dates_and_room(email):
     """
     deletes the booking
     """
-    print("Please enter the start date and end date"
-          "for the booking that you need to cancel")
+    while True:
+        print("Please enter the start date and end date"
+              " for the booking that you need to cancel")
+        cancelation_data_list = []
+        start = start_date_input()
+        row_start = find_a_row(start)
+        end = end_date_input()
+        row_end = find_a_row(end)
+        column_email = find_a_column(clients_worksheet, email)
+        if validate_cancelation_dates(row_start, row_end, column_email):
+            print("Valid cancellation dates")
+            break
+        return cancelation_data_list
+
+
     
-    start = start_date_input()
-    row_start = find_a_row(start)
-    end = end_date_input()
-    row_end = find_a_row(end)
-    column_email = find_a_column(clients_worksheet, email)
-    for row in range(row_start, row_end):
-        room_name = read_cell_value(clients_worksheet, row, column_email)
-        print(room_name)
-    
+def validate_cancelation_dates(row_start, row_end, column_email):
+    """
+    checks if the period that client has put to be cancelled,
+    is a valid booking. Checks value of each cell withing the
+    date range in the column under email the client has given
+    """
+    try:
+        if is_avialable_for_booking(start, end, room_int):
+        for row in range(row_start, row_end):
+            room_name = read_cell_value(clients_worksheet, row, column_email)
+            print(room_name)
+
+
+def delete_booking_from_spreadsheet():
+    """
+    deletes booking from spreadsheet
+    """
 
 def get_returning_client_option():
     """
