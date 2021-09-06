@@ -385,28 +385,41 @@ def read_cell_value(worksheet, row_no, col_no):
 
 def is_empty_cell(worksheet, start_str, end_str, column):
     """
-    checks the rooms worksheet to see if the room is
-    available in the dates given by the customer
+    checks if the cell is empty,
+    cell coordinates calculated from
+    start and end date strings
     """
     # gets integer - exact row number for the date
     # that customer has provided
     row_start = find_a_row(start_str)
     row_end = find_a_row(end_str)
-
+    print(f"row end value {row_end}")
+    print(f"row start value{row_start}")
+    print(type(row_start))
+    print(type(row_end))
+    result = []
     for row in range((row_start - 1), row_end):
         # gets the value of the cell in the column for the choosen room
         # and each row in within the booked period of time
         val = read_cell_value(worksheet, row, column)
         print(f"value of the tested cell {val}")
         print(f"row {row} and coloumn {column}")
-        
+
         # if cell is empty - returns true, as room is available to book
         if val is None:
+            result.append("1")
 
-            return False
         else:
 
-            return True
+            result.append("0")
+    print(result)
+
+    if "0" in result:
+        print("there was zero in results")
+        return False
+    else:
+        print("no zero in results")
+        return True
 
 
 def validate_room_availibility(start, end, room_int):
