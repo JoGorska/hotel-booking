@@ -307,7 +307,7 @@ def find_a_column(worksheet, value):
     return(target_cell.col)
 
 
-def add_booking_to_spreadsheet(worksheet, start, end, column_val, cell_value):
+def add_data_to_spreadsheet(worksheet, start, end, column_val, cell_value):
     """
     Adds name of the booked room to the appropriate cell
     in the client's spreadsheet
@@ -480,10 +480,10 @@ def register_new_booking(email):
           f"{start_date_str} to {end_date_str}\n")
     # ads the above data to spreadsheet
     print("Recording your booking in the worksheet...")
-    add_booking_to_spreadsheet(clients_worksheet, start_date_str,
-                               end_date_str, email, room_short)
-    add_booking_to_spreadsheet(rooms_worksheet, start_date_str,
-                               end_date_str, room_short, email)
+    add_data_to_spreadsheet(clients_worksheet, start_date_str,
+                            end_date_str, email, room_short)
+    add_data_to_spreadsheet(rooms_worksheet, start_date_str,
+                            end_date_str, room_short, email)
     print("Worksheet updated.\n\n")
 
 
@@ -556,8 +556,23 @@ def delete_booking_from_spreadsheet(email):
     """
     # data needed to delete cell values from the worksheet
     # are inside the cancelation data list
+    print("To cancel your booking please provide us with"
+          "start and end date of the booking you want to cancel")
     cancelation_data_list = get_cancelation_dates_and_room(email)
-    print(f"printing cancelation data list: {cancelation_data_list}")
+    start_date_str = cancelation_data_list[0]
+    end_date_str = cancelation_data_list[1]
+    room_number = cancelation_data_list[2]
+    room_column_value = room_short_name(room_number)
+    cell_value = ""
+    # ??? what if there are different rooms within cancelation period?!!!
+    print(f"You are about to cancel booking for the period"
+          f" between {start_date_str} and {end_date_str}")
+    print("Deleting your booking from the spreadsheet...")
+
+    add_data_to_spreadsheet(clients_worksheet, start_date_str,
+                            end_date_str, email, cell_value)
+    add_data_to_spreadsheet(rooms_worksheet, start_date_str,
+                            end_date_str, room_column_value, cell_value)
 
 
 def get_returning_client_option():
