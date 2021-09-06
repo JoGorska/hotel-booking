@@ -463,6 +463,23 @@ def register_new_booking(email):
     print("Worksheet updated.\n\n")
 
 
+def delete_the_booking(email):
+    """
+    deletes the booking
+    """
+    print("Please enter the start date and end date"
+          "for the booking that you need to cancel")
+    
+    start = start_date_input()
+    row_start = find_a_row(start)
+    end = end_date_input()
+    row_end = find_a_row(end)
+    column_email = find_a_column(clients_worksheet, email)
+    for row in range(row_start, row_end):
+        room_name = read_cell_value(clients_worksheet, row, column_email)
+        print(room_name)
+    
+
 def get_returning_client_option():
     """
     gives returning client various options to choose from
@@ -522,8 +539,7 @@ def activate_chosen_option(option, email):
         print(f"The option '{option}'' is currently not available. "
               f" We are working on it.")
     elif option == "cancel":
-        print(f"The option '{option}'' is currently not available. "
-              f" We are working on it.")
+        delete_the_booking(email)
 
 
 def is_returning_client(email):
@@ -556,7 +572,10 @@ def main():
         activate_chosen_option(chosen_option, customer_email)
     else:
         register_new_booking(customer_email)
+        # once registration is complete -
+        # client can choose from the given options what to do next
         chosen_option = get_returning_client_option()
         activate_chosen_option(chosen_option, customer_email)
+
 
 main()
