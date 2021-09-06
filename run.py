@@ -315,8 +315,8 @@ def add_data_to_spreadsheet(worksheet, start, end, column_val, cell_value):
     """
     # uses strings to locate the cell and gets the row numbers
     # for start and end date
-    row_start = find_a_row(start) - 1
-    row_end = find_a_row(end)
+    row_start = find_a_row(start)
+    row_end = find_a_row(end) + 1
 
     for row in range(row_start, row_end):
 
@@ -389,23 +389,17 @@ def is_empty_cell(worksheet, start_str, end_str, column):
     cell coordinates calculated from
     start and end date strings
     """
-    print(f"------------> I am inside is empty cell {start_str}, end {end_str}")
+
     # gets integer - exact row number for the date
     # that customer has provided
     row_start = find_a_row(start_str)
     row_end = find_a_row(end_str)
-    print(f"row end value {row_end}")
-    print(f"row start value{row_start}")
-    print(type(row_start))
-    print(type(row_end))
+
     result = []
     for row in range(row_start, (row_end + 1)):
         # gets the value of the cell in the column for the choosen room
         # and each row in within the booked period of time
         val = read_cell_value(worksheet, row, column)
-        print(f"value of the tested cell {val}")
-        print(f"worksheet{worksheet}")
-        print(f"---->is empty --->I am testing row {row} and coloumn {column}")
 
         # if cell is empty - returns true, as room is available to book
         if val is None:
@@ -414,13 +408,12 @@ def is_empty_cell(worksheet, start_str, end_str, column):
         else:
 
             result.append("false")
-    print(result)
 
     if "false" in result:
-        print("one of the cells was full")
+        print("One of the cells was full.")
         return False
     else:
-        print("none of the cells was full")
+        print("None of the cells was full.")
         return True
 
 
@@ -435,31 +428,23 @@ def is_full_cell(worksheet, start_str, end_str, column):
     row_start = find_a_row(start_str)
     row_end = find_a_row(end_str)
 
-    print(type(row_start))
-    print(type(row_end))
     result = []
     for row in range(row_start, (row_end + 1)):
         # gets the value of the cell in the column for the choosen room
         # and each row in within the booked period of time
         val = read_cell_value(worksheet, row, column)
-        print(f"value of the tested cell {val}")
-        print(f"worksheet{worksheet}")
-        print(f"---->is full --->I am testing row {row} and column {column}")
 
         # if cell is empty - returns true, as room is available to book
         if val is None:
             result.append("false")
-
         else:
-
             result.append("true")
-    print(result)
 
     if "false" in result:
-        print("one of the cells was empty")
+        print("One of the cells was empty.")
         return False
     else:
-        print("none of the cells were empty")
+        print("None of the cells were empty")
         return True
 
 
@@ -582,8 +567,9 @@ def validate_cancelation_dates(start_str, end_str, email):
     try:
 
         column_email = find_a_column(clients_worksheet, email)
-        print(f"------------------>I am inside validate cancelation dates {start_str}, end {end_str}, email {email}")
-        if not is_full_cell(clients_worksheet, start_str, end_str, column_email):
+
+        if not is_full_cell(clients_worksheet, start_str,
+                            end_str, column_email):
             raise ValueError("There is no booking matching your criteria")
 
     except ValueError as e:
@@ -601,21 +587,21 @@ def delete_booking_from_spreadsheet(email):
           " start and end date of the booking you want to cancel")
     # start date and end date strings come from
     # function get_cancelation_dates
-    print(f"can I see email in delete booking spreadsheet {email} ???")
+
     cancelation_dates_list = get_cancelation_dates(email)
     start_date_str = cancelation_dates_list[0]
     end_date_str = cancelation_dates_list[1]
 
     # finds exact rows for start and end dates
     row_start = find_a_row(start_date_str)
-    row_end = find_a_row(end_date_str)
 
     # the cell value will be replaced with empty string
     cell_value = ""
 
     # finds the column number for the client's email
     column_email = find_a_column(clients_worksheet, email)
-    room_short_name = read_cell_value(clients_worksheet, row_start, column_email)
+    room_short_name = read_cell_value(clients_worksheet,
+                                      row_start, column_email)
 
     # informs the client what is about to happen
     print(f"You are about to cancel booking for the period"
