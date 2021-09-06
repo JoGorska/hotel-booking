@@ -499,21 +499,32 @@ def get_cancelation_dates_and_room(email):
         print("Please enter the start date and end date"
               " for the booking that you need to cancel")
         cancelation_data_list = []
+        # gets the strings containing start and end dates
+        # from the user
         start = start_date_input()
-        cancelation_data_list.append(start)
-        row_start = find_a_row(start)
         end = end_date_input()
+        # appends the strings to make the list with data
+        # needed for deleting entries from spreadsheet
+        cancelation_data_list.append(start)
+        cancelation_data_list.append(end)
+        # finds exact row and column to find out which
+        # room will be cancelled, assuming that whole
+        # cancelation period is in the same room
+        row_start = find_a_row(start)
         column_email = find_a_column(clients_worksheet, email)
+        # reads the value of the cell - first day of
+        # cancelation
         room_short = read_cell_value(clients_worksheet,
                                      row_start, column_email)
         room_int = change_room_name_to_number(room_short)
+        # ads room number to the cancelation data list
         cancelation_data_list.append(room_int)
 
         if validate_cancelation_dates(start, end, email):
             print("Valid cancellation dates")
             break
 
-        return cancelation_data_list
+    return cancelation_data_list
 
 
 def validate_cancelation_dates(start_str, end_str, email):
@@ -543,9 +554,10 @@ def delete_booking_from_spreadsheet(email):
     """
     deletes booking from spreadsheet
     """
-    print("I will now find the cell that needs to be deleted!!!")
+    # data needed to delete cell values from the worksheet
+    # are inside the cancelation data list
     cancelation_data_list = get_cancelation_dates_and_room(email)
-    print(cancelation_data_list)
+    print(f"printing cancelation data list: {cancelation_data_list}")
 
 
 def get_returning_client_option():
@@ -600,9 +612,12 @@ def activate_chosen_option(option, email):
         # uses provided email to register new booking,
         # initializes function to register new booking
         register_new_booking(email)
+
         # once new booking is completed the client
         # gets the returning customer options
-        get_returning_client_option()
+
+        chosen_option = get_returning_client_option()
+        activate_chosen_option(chosen_option, email)
     elif option == "print":
         print(f"The option '{option}'' is currently not available."
               f" We are working on it.")
@@ -612,9 +627,12 @@ def activate_chosen_option(option, email):
     elif option == "cancel":
         # initializes function to cancel booking
         delete_booking_from_spreadsheet(email)
+
         # once booking is cancelled the client
         # gets the returning customer options
-        get_returning_client_option()
+
+        chosen_option = get_returning_client_option()
+        activate_chosen_option(chosen_option, email)
 
 
 def is_returning_client(email):
