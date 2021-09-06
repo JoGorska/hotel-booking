@@ -389,6 +389,7 @@ def is_empty_cell(worksheet, start_str, end_str, column):
     cell coordinates calculated from
     start and end date strings
     """
+    print(f"------------> I am inside is empty cell {start_str}, end {end_str}")
     # gets integer - exact row number for the date
     # that customer has provided
     row_start = find_a_row(start_str)
@@ -398,27 +399,67 @@ def is_empty_cell(worksheet, start_str, end_str, column):
     print(type(row_start))
     print(type(row_end))
     result = []
-    for row in range((row_start - 1), row_end):
+    for row in range(row_start, (row_end + 1)):
         # gets the value of the cell in the column for the choosen room
         # and each row in within the booked period of time
         val = read_cell_value(worksheet, row, column)
         print(f"value of the tested cell {val}")
-        print(f"row {row} and coloumn {column}")
+        print(f"worksheet{worksheet}")
+        print(f"---->is empty --->I am testing row {row} and coloumn {column}")
 
         # if cell is empty - returns true, as room is available to book
         if val is None:
-            result.append("1")
+            result.append("true")
 
         else:
 
-            result.append("0")
+            result.append("false")
     print(result)
 
-    if "0" in result:
-        print("there was zero in results")
+    if "false" in result:
+        print("one of the cells was full")
         return False
     else:
-        print("no zero in results")
+        print("none of the cells was full")
+        return True
+
+
+def is_full_cell(worksheet, start_str, end_str, column):
+
+    """
+    checks if all cells are full within the given range
+    """
+
+    # gets integer - exact row number for the date
+    # that customer has provided
+    row_start = find_a_row(start_str)
+    row_end = find_a_row(end_str)
+
+    print(type(row_start))
+    print(type(row_end))
+    result = []
+    for row in range(row_start, (row_end + 1)):
+        # gets the value of the cell in the column for the choosen room
+        # and each row in within the booked period of time
+        val = read_cell_value(worksheet, row, column)
+        print(f"value of the tested cell {val}")
+        print(f"worksheet{worksheet}")
+        print(f"---->is full --->I am testing row {row} and column {column}")
+
+        # if cell is empty - returns true, as room is available to book
+        if val is None:
+            result.append("false")
+
+        else:
+
+            result.append("true")
+    print(result)
+
+    if "false" in result:
+        print("one of the cells was empty")
+        return False
+    else:
+        print("none of the cells were empty")
         return True
 
 
@@ -429,7 +470,7 @@ def validate_room_availibility(start, end, room_int):
     """
     try:
         column_room = room_int + 1
-        if (not is_empty_cell(rooms_worksheet, start, end, column_room)):
+        if not is_empty_cell(rooms_worksheet, start, end, column_room):
             raise ValueError("Unfortunately this room is booked "
                              "in these dates")
 
@@ -542,7 +583,7 @@ def validate_cancelation_dates(start_str, end_str, email):
 
         column_email = find_a_column(clients_worksheet, email)
         print(f"------------------>I am inside validate cancelation dates {start_str}, end {end_str}, email {email}")
-        if is_empty_cell(clients_worksheet, start_str, end_str, column_email):
+        if not is_full_cell(clients_worksheet, start_str, end_str, column_email):
             raise ValueError("There is no booking matching your criteria")
 
     except ValueError as e:
@@ -574,6 +615,7 @@ def delete_booking_from_spreadsheet(email):
 
     # finds the column number for the client's email
     column_email = find_a_column(clients_worksheet, email)
+    room_short_name = read_cell_value(clients_worksheet, row_start, column_email)
 
     # informs the client what is about to happen
     print(f"You are about to cancel booking for the period"
@@ -583,18 +625,11 @@ def delete_booking_from_spreadsheet(email):
     # updates clients worksheet
     add_data_to_spreadsheet(clients_worksheet, start_date_str,
                             end_date_str, email, cell_value)
-    # loops through values of each cell to get the name
-    # of the room
-    print(f"----------------> inside delete booking - row start for deleting: {row_start}, row end {row_end}")
- 
-    for row in range(row_start, row_end):
-        room_short = read_cell_value(clients_worksheet,
-                                     row, column_email)
+    # updates rooms worksheet
+    # ??? what if there are different rooms within cancelation period?!!!
 
-        print(f" ------> I am inside loop inside delete booking room: {room_short} row start {row_start} row end {row_end")
-
-        add_data_to_spreadsheet(rooms_worksheet, start_date_str,
-                                end_date_str, room_short, cell_value)
+    add_data_to_spreadsheet(rooms_worksheet, start_date_str,
+                            end_date_str, room_short_name, cell_value)
 
 
 def get_returning_client_option():
