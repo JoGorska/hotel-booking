@@ -383,23 +383,22 @@ def read_cell_value(worksheet, row_no, col_no):
     return value
 
 
-def is_avialable_for_booking(start, end, room_int):
+def is_empty_cell(worksheet, start_str, end_str, column):
     """
     checks the rooms worksheet to see if the room is
     available in the dates given by the customer
     """
     # gets integer - exact row number for the date
     # that customer has provided
-    row_start = find_a_row(start)
-    row_end = find_a_row(end)
-    column_room = room_int + 1
+    row_start = find_a_row(start_str)
+    row_end = find_a_row(end_str)
 
     for row in range(row_start, row_end):
         # gets the value of the cell in the column for the choosen room
         # and each row in within the booked period of time
-        val = read_cell_value(rooms_worksheet, row, column_room)
+        val = read_cell_value(worksheet, row, column)
         print(f"value of the tested cell {val}")
-        print(f"row {row} and coloumn {column_room}")
+        print(f"row {row} and coloumn {column}")
 
         # if cell is empty - returns true, as room is available to book
         if val is None:
@@ -416,7 +415,8 @@ def validate_room_availibility(start, end, room_int):
     and returns error if the room has already been booked in those dates
     """
     try:
-        if (not is_avialable_for_booking(start, end, room_int)):
+        column_room = room_int + 1
+        if (not is_empty_cell(rooms_worksheet, start, end, column_room)):
             raise ValueError("Unfortunately this room is booked "
                              "in these dates")
 
@@ -499,24 +499,35 @@ def get_cancelation_dates_and_room(email):
         row_start = find_a_row(start)
         end = end_date_input()
         row_end = find_a_row(end)
-        column_email = find_a_column(clients_worksheet, email)
-        if validate_cancelation_dates(row_start, row_end, column_email):
+        room_short = read_cell_value(clients_worksheet, row, column_email)
+        room_int = change_room_name_to_number(room_short)
+        # ??? check what date format do I need - date sting or row number?
+        # ??? check what format of room I need - Integer or string?
+        if validate_cancelation_dates(row_start, row_end, email, room_int):
             print("Valid cancellation dates")
             break
         return cancelation_data_list
 
 
-    
-def validate_cancelation_dates(row_start, row_end, column_email):
+def validate_cancelation_dates(row_start, row_end, email, room_int):
     """
     checks if the period that client has put to be cancelled,
     is a valid booking. Checks value of each cell withing the
     date range in the column under email the client has given
     """
+
     try:
-        if is_avialable_for_booking(start, end, room_int):
+        # uses the function to check if
+        # there is a booking saved in the spreadsheet under his email in those dates
+        # if the room is available for booking, the client can't cancel
+        # the booking on this particular date in this particular room,
+        # there is nothing to cancel and the function will return error
+        column_email = find_a_column(clients_worksheet, email)
+        if is_empty_cell(clients_worksheet, start_str, end_str, column_email):
+
+
         for row in range(row_start, row_end):
-            room_name = read_cell_value(clients_worksheet, row, column_email)
+
             print(room_name)
 
 
@@ -524,6 +535,8 @@ def delete_booking_from_spreadsheet():
     """
     deletes booking from spreadsheet
     """
+    print("I will now find the cell that needs to be deleted!!!")
+
 
 def get_returning_client_option():
     """
