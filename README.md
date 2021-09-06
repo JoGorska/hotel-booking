@@ -25,6 +25,16 @@ link to live page [here]()
 3. Issue with lenght of the line:
 - the errors were raised in the lines where the if statement was very long. followed advice from [stack overflow](https://stackoverflow.com/questions/5253348/very-long-if-statement-in-python)
 - the error with very long regex - I left it untouched as I am concerned that it would stop working
+
+4. Bug caused by is_empty_cell function. The function was supposed to test if the cell is empty, I tried to use it both for validation of new booking as well as cancellation of the existing booking. There logic was incorrect and I created the seperate function to is_full_cell - to test if all cells are full. 
+
+5. Bug in deleting the booking from the spreadsheet. 
+    - the user inputs the dates for cancelation. The dates are validated
+    - the program checks what was the room name on the first date within cancelation period in the clients spreadsheet
+    - the program deletes the booking from the rooms spreadsheet on the basis of what room was within the first day of booking
+    - the assumption is that the client will book a longer period of time in the same room, he will not change rooms
+    - I tried to capture the room name from the clients spreadsheet, which introduced a new bug, which I have not been managed to fix,
+    - I reversed to the version of the function that assumes that the room that is being cancelled is the same for the whole cancelation period
   
 ## Validation
 
