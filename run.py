@@ -510,15 +510,9 @@ def get_cancelation_dates_and_room(email):
         # finds exact row and column to find out which
         # room will be cancelled, assuming that whole
         # cancelation period is in the same room
-        row_start = find_a_row(start)
-        column_email = find_a_column(clients_worksheet, email)
-        # reads the value of the cell - first day of
-        # cancelation
-        room_short = read_cell_value(clients_worksheet,
-                                     row_start, column_email)
-        room_int = change_room_name_to_number(room_short)
-        # ads room number to the cancelation data list
-        cancelation_data_list.append(room_int)
+
+
+
 
         if validate_cancelation_dates(start, end, email):
             print("Valid cancellation dates")
@@ -561,18 +555,28 @@ def delete_booking_from_spreadsheet(email):
     cancelation_data_list = get_cancelation_dates_and_room(email)
     start_date_str = cancelation_data_list[0]
     end_date_str = cancelation_data_list[1]
-    room_number = cancelation_data_list[2]
-    room_column_value = room_short_name(room_number)
+    # finds exact rows for start and end dates
+    row_start = find_a_row(start_date_str)
+    row_end = find_a_row(end_date_str)
+    # the cell value will be replaced with empty string
     cell_value = ""
-    # ??? what if there are different rooms within cancelation period?!!!
-    print(f"You are about to cancel booking for the period"
-          f" between {start_date_str} and {end_date_str}")
-    print("Deleting your booking from the spreadsheet...")
 
-    add_data_to_spreadsheet(clients_worksheet, start_date_str,
-                            end_date_str, email, cell_value)
-    add_data_to_spreadsheet(rooms_worksheet, start_date_str,
-                            end_date_str, room_column_value, cell_value)
+    column_email = find_a_column(clients_worksheet, email)
+    # loops through values of each cell to get the name
+    # of the room
+
+    for row in range(row_start, row_end):
+        room_short = read_cell_value(clients_worksheet,
+                                     row, column_email)
+
+        print(f"You are about to cancel booking for the period"
+              f" between {start_date_str} and {end_date_str}")
+        print("Deleting your booking from the spreadsheet...")
+
+        add_data_to_spreadsheet(clients_worksheet, start_date_str,
+                                end_date_str, email, cell_value)
+        add_data_to_spreadsheet(rooms_worksheet, start_date_str,
+                                end_date_str, room_short, cell_value)
 
 
 def get_returning_client_option():
