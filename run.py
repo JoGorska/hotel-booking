@@ -489,53 +489,63 @@ def register_new_booking(email):
 
 def get_cancelation_dates_and_room(email):
     """
-    deletes the booking
+    gets a list containing cancelation data:
+    start and end as strings and room as integer
+    calls function to validate cancelation dates
+    loops request for cancelation dates
+    if validation of cancelation dates returned an error
     """
     while True:
         print("Please enter the start date and end date"
               " for the booking that you need to cancel")
         cancelation_data_list = []
         start = start_date_input()
+        cancelation_data_list.append(start)
         row_start = find_a_row(start)
         end = end_date_input()
-        row_end = find_a_row(end)
-        room_short = read_cell_value(clients_worksheet, row, column_email)
+        column_email = find_a_column(clients_worksheet, email)
+        room_short = read_cell_value(clients_worksheet,
+                                     row_start, column_email)
         room_int = change_room_name_to_number(room_short)
-        # ??? check what date format do I need - date sting or row number?
-        # ??? check what format of room I need - Integer or string?
-        if validate_cancelation_dates(row_start, row_end, email, room_int):
+        cancelation_data_list.append(room_int)
+
+        if validate_cancelation_dates(start, end, email):
             print("Valid cancellation dates")
             break
+
         return cancelation_data_list
 
 
-def validate_cancelation_dates(row_start, row_end, email, room_int):
+def validate_cancelation_dates(start_str, end_str, email):
     """
+    in try checks if cell is empty - this way it
     checks if the period that client has put to be cancelled,
-    is a valid booking. Checks value of each cell withing the
+    is a valid booking. Checks value of each cell within the
     date range in the column under email the client has given
+    Raises ValueError if the cell was empty, there is nothing
+    to cancel
     """
 
     try:
-        # uses the function to check if
-        # there is a booking saved in the spreadsheet under his email in those dates
-        # if the room is available for booking, the client can't cancel
-        # the booking on this particular date in this particular room,
-        # there is nothing to cancel and the function will return error
+
         column_email = find_a_column(clients_worksheet, email)
         if is_empty_cell(clients_worksheet, start_str, end_str, column_email):
+            raise ValueError("There is no booking matching your criteria")
+
+    except ValueError as e:
+        print(f"Invalid cancelation dates: {e}, please try again.\n")
+        return False
+
+    return True
 
 
-        for row in range(row_start, row_end):
-
-            print(room_name)
-
-
-def delete_booking_from_spreadsheet():
+def delete_booking_from_spreadsheet(email):
     """
     deletes booking from spreadsheet
     """
     print("I will now find the cell that needs to be deleted!!!")
+    cancelation_data_list = get_cancelation_dates_and_room(email)
+    print(cancelation_data_list)
 
 
 def get_returning_client_option():
@@ -590,6 +600,9 @@ def activate_chosen_option(option, email):
         # uses provided email to register new booking,
         # initializes function to register new booking
         register_new_booking(email)
+        # once new booking is completed the client
+        # gets the returning customer options
+        get_returning_client_option()
     elif option == "print":
         print(f"The option '{option}'' is currently not available."
               f" We are working on it.")
@@ -597,7 +610,11 @@ def activate_chosen_option(option, email):
         print(f"The option '{option}'' is currently not available. "
               f" We are working on it.")
     elif option == "cancel":
-        delete_the_booking(email)
+        # initializes function to cancel booking
+        delete_booking_from_spreadsheet(email)
+        # once booking is cancelled the client
+        # gets the returning customer options
+        get_returning_client_option()
 
 
 def is_returning_client(email):
