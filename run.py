@@ -83,7 +83,7 @@ def add_new_client(email):
     # ads new column so excel doesn't run out of cells
     # (oryginaly document contained a-z columns only)
     # ??? unmute when spreadsheet full
-    # clients_worksheet.add_cols(1)
+    clients_worksheet.add_cols(1)
     # Coordinates to add email to customers worksheets:
     # row = 1 (first row in the worksheet)
     # column = need to check how many columns there is currently
