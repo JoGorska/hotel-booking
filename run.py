@@ -389,7 +389,7 @@ def is_any_empty_cell(worksheet, start_str, end_str, column):
     cell coordinates calculated from
     start and end date strings
     """
-
+    Print("Checking if any of the cells are empty...")
     # gets integer - exact row number for the date
     # that customer has provided
     row_start = find_a_row(start_str)
@@ -411,10 +411,10 @@ def is_any_empty_cell(worksheet, start_str, end_str, column):
     print(f"--------> tested if any empty cell in worksheet {worksheet}, row start {row_start} row end {row_end} result {result}")
     if "true" in result:
         print("One of the cells was empty.")
-        return False
+        return True
     else:
         print("None of the cells were empty.")
-        return True
+        return False
 
 
 def is_any_full_cell(worksheet, start_str, end_str, column):
@@ -422,7 +422,7 @@ def is_any_full_cell(worksheet, start_str, end_str, column):
     """
     checks if all cells are full within the given range
     """
-    print("Checking if any of the cells are empty...")
+    print("Checking if any of the cells are full...")
     # gets integer - exact row number for the date
     # that customer has provided
     row_start = find_a_row(start_str)
@@ -439,13 +439,13 @@ def is_any_full_cell(worksheet, start_str, end_str, column):
             result.append("false")
         else:
             result.append("true")
-
+        print(f"-----> tested {worksheet} row {row} column {column}")
     if "true" in result:
         print("One of the cells was full.")
-        return False
+        return True
     else:
         print("None of the cells were full")
-        return True
+        return False
 
 
 def validate_room_availibility(start, end, room_int, email):
@@ -456,7 +456,7 @@ def validate_room_availibility(start, end, room_int, email):
     try:
         column_room = room_int + 1
         column_email = find_a_column(clients_worksheet, email)
-        if (is_any_full_cell(rooms_worksheet, start, end, column_room) and
+        if (is_any_full_cell(rooms_worksheet, start, end, column_room) or
            is_any_full_cell(clients_worksheet, start, end, column_email)):
             raise ValueError("Unfortunately those dates are not available")
 
@@ -570,7 +570,7 @@ def validate_cancelation_dates(start_str, end_str, email):
         column_email = find_a_column(clients_worksheet, email)
 
         if is_any_empty_cell(clients_worksheet, start_str,
-                            end_str, column_email):
+                             end_str, column_email):
             raise ValueError("There is no booking matching your criteria")
 
     except ValueError as e:
