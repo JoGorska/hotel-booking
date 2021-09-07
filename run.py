@@ -97,13 +97,13 @@ def add_new_client(email):
 room_number = 1
 
 
-def choose_room():
+def get_room_int():
     """
     gives options to choose which room to book
     """
 
     while True:
-        print("Please choose one of our luxury rooms:")
+        print("Please choose one of rooms:")
         print("1. Kew Gardens Suite")
         print("2. Oxford Suite")
         print("3. London Suite")
@@ -484,7 +484,7 @@ def get_all_booking_info(email):
         list_start_end_room.append(end)
 
         # initializes function to get user input for room number
-        room = choose_room()
+        room = get_room_int()
         list_start_end_room.append(room)
 
         if (validate_lenght_of_stay(start, end)
@@ -544,19 +544,15 @@ def get_cancelation_data(email):
         start_str = start_date_input()
         end_str = end_date_input()
 
-        # finds the row for start date and end date
-        row_start = find_a_row(start_str)
-
-        # finds the column number for email
-        column_email = find_a_column(clients_worksheet, email)
         # gets the room name and room number
-        room_short_name = read_cell_value(clients_worksheet,
-                                          row_start, column_email)
-        room_int = change_room_name_to_number(room_short_name)
+        room_int = get_room_int()
+        room_short = room_short_name(room_int)
+
         # appends the strings to make the list with data
         # needed for deleting entries from spreadsheet
         cancelation_data_list.append(start_str)
         cancelation_data_list.append(end_str)
+        cancelation_data_list.append(room_short)
 
         if validate_cancelation_dates(start_str, end_str, room_int, email):
             print("Valid cancellation dates")
