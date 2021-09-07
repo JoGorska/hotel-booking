@@ -44,7 +44,9 @@ Program only checks if the room is available on those dates, it can over ride th
 
 
 
-## Previous project (to be deleted)
+## Deployment
+
+1. add list of requirements by writing in the terminal "pip3 freeze > requirements.txt"
 
 
 

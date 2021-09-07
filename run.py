@@ -1,8 +1,10 @@
 import gspread
 import re
+import colorama
 from google.oauth2.service_account import Credentials
 from datetime import datetime
-
+from colorama import Fore
+colorama.init(autoreset=True)
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -28,7 +30,7 @@ def get_email_from_user():
         print("Please enter your email address")
         print("Example: email@domain.uk\n")
 
-        customer_email_input = input("Enter your email here: ")
+        customer_email_input = input("Enter your email here: \n")
 
         print(f"You entered {customer_email_input}\n")
 
@@ -54,7 +56,7 @@ def validate_email(email):
                              "correct")
 
     except ValueError as e:
-        print(f"Invalid email: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid email: {e}, please try again.\n")
         return False
 
     return True
@@ -114,7 +116,7 @@ def get_room_int():
         print("8. Glasgow Suite")
         print("9. Ware Suite\n")
         global room_number
-        room_number = input("Write a number 1 - 9: ")
+        room_number = input("Write a number 1 - 9: \n")
 
         if validate_room(room_number):
 
@@ -135,7 +137,7 @@ def validate_room(room_number):
                              "in the correct format")
 
     except ValueError as e:
-        print(f"Invalid room number: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid room number: {e}, please try again.\n")
         return False
 
     return True
@@ -219,7 +221,7 @@ def start_date_input():
     """
     while True:
         print("Please use format dd/mm/yyyy for dates\n")
-        start_date = input("Write start date here: ")
+        start_date = input("Write start date here: \n")
 
         if validate_date(start_date):
             print("Your date is valid\n")
@@ -235,7 +237,7 @@ def end_date_input():
     """
     while True:
         print("Please use format dd/mm/yyyy for dates\n")
-        end_date = input("Write end date here: ")
+        end_date = input("Write end date here: \n")
 
         if validate_date(end_date):
             print("Your date is in valid format\n")
@@ -283,7 +285,7 @@ def validate_date(date):
             raise ValueError(f"The date '{date}' is in the past")
 
     except ValueError as e:
-        print(f"Invalid date: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid date: {e}, please try again.\n")
         return False
 
     return True
@@ -368,7 +370,7 @@ def validate_lenght_of_stay(start, end):
                              "the hotel if you require longer stay")
 
     except ValueError as e:
-        print(f"Invalid booking: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid booking: {e}, please try again.\n")
         return False
 
     return True
@@ -461,7 +463,7 @@ def validate_room_availibility(start, end, room_int, email):
             raise ValueError("Unfortunately those dates are not available")
 
     except ValueError as e:
-        print(f"Invalid booking: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid booking: {e}, please try again.\n")
         return False
 
     return True
@@ -584,7 +586,7 @@ def validate_cancelation_dates(start_str, end_str, room_int, email):
             raise ValueError("There is no booking matching your criteria")
 
     except ValueError as e:
-        print(f"Invalid cancelation dates: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid cancelation dates: {e}, please try again.\n")
         return False
 
     return True
@@ -636,7 +638,7 @@ def get_returning_client_option():
         print("change your booking (change),")
         print("cancel your booking (cancel)\n")
         chosen_option = input("Write 'add', 'print', "
-                              "'change' or 'cancel' here: ")
+                              "'change' or 'cancel' here: \n")
 
         if validate_client_option(chosen_option):
 
@@ -661,7 +663,7 @@ def validate_client_option(option):
                              "matching any of the given options")
 
     except ValueError as e:
-        print(f"Invalid option: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid option: {e}, please try again.\n")
         return False
 
     return True
