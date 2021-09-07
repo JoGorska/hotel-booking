@@ -29,12 +29,14 @@ link to live page [here]()
 4. Bug caused by is_empty_cell function. The function was supposed to test if the cell is empty, I tried to use it both for validation of new booking as well as cancellation of the existing booking. There logic was incorrect and I created the seperate function to is_full_cell - to test if all cells are full. 
 
 5. Bug in deleting the booking from the spreadsheet. 
-    - the user inputs the dates for cancelation. The dates are validated
-    - the program checks what was the room name on the first date within cancelation period in the clients spreadsheet
+    - the user inputs the dates for cancelation. The dates are validated for format
+    - next the program checks what was the room name on the first date within cancelation period in the clients spreadsheet
     - the program deletes the booking from the rooms spreadsheet on the basis of what room was within the first day of booking
     - the assumption is that the client will book a longer period of time in the same room, he will not change rooms
     - I tried to capture the room name from the clients spreadsheet, which introduced a new bug, which I have not been managed to fix,
     - I reversed to the version of the function that assumes that the room that is being cancelled is the same for the whole cancelation period
+    solution: ask the user to input the room which he wants to cancel. Validation needs to match dates and the room.
+    return an error if any of the cells are empty within given dates in column room or in column email
 6. Double booking
 Program only checks if the room is available on those dates, it can over ride the entries of old booking under the client's email and add an new booking in a different room. The client would end up having 2 rooms booked in the same time, but only the most recent room would display under his name.
   
