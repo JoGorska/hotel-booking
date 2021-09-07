@@ -47,6 +47,44 @@ Program only checks if the room is available on those dates, it can over ride th
 ## Deployment
 
 1. add list of requirements by writing in the terminal "pip3 freeze > requirements.txt"
+2. Add six and colorama==0.4.4 as they didn't seem to add automaticaly
+2. Git add and git commit the changes made
+3. Log into [Heroku](https://dashboard.heroku.com/apps) or create new account and log in
+
+4. top right hand corner click "New" and choose option Create new app, if you are new user, the "Create new app" button will apear in the middle of the screen
+5. Write app name - it has to be unique, it cannot be the same as this app
+6. Choose Region - I am in Europe
+7. Click "Create App"
+
+The page of your project opens.
+8. Choose "settings" from the menu on the top of the page
+9. Go to section "Config Vars" and click button "Reveal Config Vars"
+
+10. Go to git pod and copy the content of "creds.json" file
+11. In the field for "KEY" enter "CREDS" - all capital letters
+12. Paste content of "creds.json" and paste to field "VALUE" Click button "Add"
+13. Add another key "PORT" and value "8000"
+
+14. Go to section "Build packs" and click "Add build pack"
+    - in this new window - click Python and "Save changes"
+    - click "Add build pack" again
+    - in this new window - click Node.js and "Save changes"
+    - take care to have those apps in this order: Python first, Node.js second, drag and drop if needed
+
+15. Next go to "Deploy" in menu bar on the top 
+16. Go to section "deployment method", choose "github"
+17. New section will apear "Connect to github" - Search for repository to connect to
+18. type the name of your repository and click "search"
+19. once heroku finds your repository - click "connect"
+
+20. Scroll down to section "Automatic Deploys"
+21. click "Enable automatic deploys" or choose "Deploy branch" and manualy deploy
+22. Click "Deploy branch"
+
+Once the program runs:
+you should see the message "the app was sussesfuly deployed"
+23. Click button "View"
+
 
 
 
