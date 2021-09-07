@@ -35,6 +35,8 @@ link to live page [here]()
     - the assumption is that the client will book a longer period of time in the same room, he will not change rooms
     - I tried to capture the room name from the clients spreadsheet, which introduced a new bug, which I have not been managed to fix,
     - I reversed to the version of the function that assumes that the room that is being cancelled is the same for the whole cancelation period
+6. Double booking
+Program only checks if the room is available on those dates, it can over ride the entries of old booking under the client's email and add an new booking in a different room. The client would end up having 2 rooms booked in the same time, but only the most recent room would display under his name.
   
 ## Validation
 
