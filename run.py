@@ -679,9 +679,16 @@ def activate_chosen_option(option, email):
     elif option == "print":
         print(f"The option '{option}'' is currently not available."
               f" We are working on it.")
+
     elif option == "change":
-        print(f"The option '{option}'' is currently not available. "
-              f" We are working on it.")
+        print("To change your booking we will first ask you to delete "
+              "the booking on the dates that need to be canceled and than "
+              "to add the booking")
+        delete_booking_from_spreadsheet(email)
+        register_new_booking(email)
+        chosen_option = get_returning_client_option()
+        activate_chosen_option(chosen_option, email)
+
     elif option == "cancel":
         # initializes function to cancel booking
         delete_booking_from_spreadsheet(email)
