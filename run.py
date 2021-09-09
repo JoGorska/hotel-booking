@@ -83,7 +83,7 @@ def add_new_client(email):
     # ads new column so excel doesn't run out of cells
     # (oryginaly document contained a-z columns only)
     # ??? unmute when spreadsheet full
-    clients_worksheet.add_cols(1)
+    # clients_worksheet.add_cols(1)
     # Coordinates to add email to customers worksheets:
     # row = 1 (first row in the worksheet)
     # column = need to check how many columns there is currently
@@ -341,7 +341,7 @@ def is_too_short(start, end):
         return False
 
 
-def is_too_long(start, end,):
+def is_too_long(start, end):
     """
     check if the booked stay is too long
     """
@@ -352,6 +352,25 @@ def is_too_long(start, end,):
         return True
     else:
         return False
+
+
+def end_date_before_start(start, end):
+    """
+    check if end date was enetered before start date
+    """
+    row_start = find_a_row(start)
+    row_end = find_a_row(end)
+    lenght = row_end - row_start
+    if lenght < 0:
+        return True
+    else:
+        return False
+
+
+def date_not_in_worksheet(date_str):
+    """
+    check if date exists in the spreadsheet, currently period 01/09/2021 - 26/05/2024
+    """
 
 
 def validate_lenght_of_stay(start, end):
@@ -368,6 +387,8 @@ def validate_lenght_of_stay(start, end):
             raise ValueError("We can only accept booking for "
                              "maximum of 30 days, please contact"
                              "the hotel if you require longer stay")
+        elif (end_date_before_start(start, end)):
+            raise ValueError("You have entered end date before start date")
 
     except ValueError as e:
         print(f"{Fore.RED}Invalid booking: {e}, please try again.\n")
