@@ -21,6 +21,30 @@ clients_worksheet = SHEET.worksheet('clients')
 rooms_worksheet = SHEET.worksheet('rooms')
 
 
+def print_castle():
+    """
+    prints the image of the castle 
+    art from https://www.asciiart.eu/buildings-and-places/castles
+    """
+    print('''
+                         T~~
+                         |
+                         /"\\n
+                 T~~     |'| T~~
+             T~~ |    T~ WWWW|
+             |  /"\   |  |  |/\T~~
+             /"\ WWW  /"\ |' |WW|
+             WWWWW/\| /   \|'/\|/"\/n
+             |   /__\/]WWW[\/__\WWWW
+             |"  WWWW'|I_I|'WWWW'  |
+             |   |' |/  -  \|' |'  |
+             |'  |  |LI=H=LI|' |   |
+             |   |' | |[_]| |  |'  |
+             |   |  |_|###|_|  |   |
+             '---'--'-/___\-'--'---'       
+             \n
+             Welcome to Cath's Cats' Castle!\n''')
+
 def get_email_from_user():
     """
     Get email from the user, validate user email input
@@ -756,7 +780,7 @@ def is_returning_client(email):
 
     if email in clients_list:
         # welcomes returning customers
-        print("Welcome back to Cath's Cats' Castle!\n")
+        print("Welcome back")
         return True
 
     else:
@@ -769,6 +793,7 @@ def main():
     """
     Run all program functions
     """
+    print_castle()
     customer_email = get_email_from_user()
 
     if is_returning_client(customer_email):
