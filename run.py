@@ -91,7 +91,7 @@ def add_new_client(email):
 
     new_column_numer = len(clients_worksheet.row_values(1)) + 1
     # uses coordinates calculated above to find the right cell to update
-    print("Updating worksheet...\n")
+    print(f"{Fore.BLUE}Updating worksheet...\n")
     update_one_cell(clients_worksheet, 1, new_column_numer, email)
     print("Worksheet updated successfuly.\n")
 
@@ -224,7 +224,7 @@ def start_date_input():
         start_date = input("Write start date here: \n")
 
         if validate_date(start_date):
-            print(f"{Fore.GREEN}Your date is valid\n")
+            print(f"{Fore.GREEN}Your date is in valid format.\n")
 
             break
 
@@ -240,7 +240,7 @@ def end_date_input():
         end_date = input("Write end date here: \n")
 
         if validate_date(end_date):
-            print(f"{Fore.GREEN}Your date is in valid format\n")
+            print(f"{Fore.GREEN}Your date is in valid format.\n")
             break
     return end_date
 
@@ -339,7 +339,7 @@ def add_data_to_spreadsheet(worksheet, start, end, column_val, cell_value):
     """
     # uses strings to locate the cell and gets the row numbers
     # for start and end date
-    print(f"{Fore.BLUE}Updating spreadsheet...")
+    print(f"{Fore.BLUE}Updating worksheet {worksheet}...")
     row_start = find_a_row(start)
     row_end = find_a_row(end) + 1
 
@@ -448,7 +448,7 @@ def is_any_empty_cell(worksheet, start_str, end_str, column):
             result.append("false")
 
     if "true" in result:
-        print("One of the cells was empty.")
+        print("At least one of the cells was empty.")
         return True
     else:
         print("None of the cells were empty.")
@@ -458,9 +458,9 @@ def is_any_empty_cell(worksheet, start_str, end_str, column):
 def is_any_full_cell(worksheet, start_str, end_str, column):
 
     """
-    checks if all cells are full within the given range
+    checks if any of the cells are full
     """
-    print("Checking if any of the cells are full...")
+    print("Checking if any of the dates are taken...")
     # gets integer - exact row number for the date
     # that customer has provided
     row_start = find_a_row(start_str)
@@ -477,12 +477,12 @@ def is_any_full_cell(worksheet, start_str, end_str, column):
             result.append("false")
         else:
             result.append("true")
-        print(f"-----> tested {worksheet} row {row} column {column}")
+
     if "true" in result:
-        print("One of the cells was full.")
+        print("At least one of the dates is taken.")
         return True
     else:
-        print("None of the cells were full")
+        print("None of the dates are taken.")
         return False
 
 
@@ -527,8 +527,7 @@ def get_all_booking_info(email):
 
         if (validate_lenght_of_stay(start, end)
                 and validate_room_availibility(start, end, room, email)):
-            print(f"{Fore.GREEN}Booking validated. "
-                  f"Saving in the spreadsheet...\n")
+            print(f"{Fore.GREEN}Booking validated.\n")
             break
 
     return list_start_end_room
@@ -558,7 +557,7 @@ def register_new_booking(email):
     print(f"You entered booking for {booked_room_full_name} from "
           f"{start_date_str} to {end_date_str}\n")
     # ads the above data to spreadsheet
-    print(f"{Fore.BLUE}Recording your booking in the worksheet...")
+    print(f"{Fore.BLUE}Recording your booking in the spreadsheet...")
     add_data_to_spreadsheet(clients_worksheet, start_date_str,
                             end_date_str, email, room_short)
     add_data_to_spreadsheet(rooms_worksheet, start_date_str,
@@ -650,7 +649,7 @@ def delete_booking_from_spreadsheet(email):
     # informs the client what is about to happen
     print(f"You are about to cancel booking for the period"
           f" between {start_date_str} and {end_date_str}")
-    print("Deleting your booking from the spreadsheet...")
+    print(f"{Fore.BLUE} Deleting your booking from the spreadsheet...")
 
     # updates clients worksheet
     add_data_to_spreadsheet(clients_worksheet, start_date_str,
