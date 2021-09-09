@@ -339,6 +339,7 @@ def add_data_to_spreadsheet(worksheet, start, end, column_val, cell_value):
     """
     # uses strings to locate the cell and gets the row numbers
     # for start and end date
+    print(f"{Fore.BLUE}Updating spreadsheet...")
     row_start = find_a_row(start)
     row_end = find_a_row(end) + 1
 
@@ -346,8 +347,6 @@ def add_data_to_spreadsheet(worksheet, start, end, column_val, cell_value):
 
         column_number = find_a_column(worksheet, column_val)
         update_one_cell(worksheet, row, column_number, cell_value)
-        print(f"updated {worksheet} cell {row} out of {row_end}"
-              f"in the column {column_val} number {column_number}")
 
 
 def is_too_short(start, end):
@@ -528,7 +527,8 @@ def get_all_booking_info(email):
 
         if (validate_lenght_of_stay(start, end)
                 and validate_room_availibility(start, end, room, email)):
-            print(f"{Fore.GREEN}Booking validated. Saving in the spreadsheet...\n")
+            print(f"{Fore.GREEN}Booking validated. "
+                  f"Saving in the spreadsheet...\n")
             break
 
     return list_start_end_room
@@ -558,7 +558,7 @@ def register_new_booking(email):
     print(f"You entered booking for {booked_room_full_name} from "
           f"{start_date_str} to {end_date_str}\n")
     # ads the above data to spreadsheet
-    print("Recording your booking in the worksheet...")
+    print(f"{Fore.BLUE}Recording your booking in the worksheet...")
     add_data_to_spreadsheet(clients_worksheet, start_date_str,
                             end_date_str, email, room_short)
     add_data_to_spreadsheet(rooms_worksheet, start_date_str,
