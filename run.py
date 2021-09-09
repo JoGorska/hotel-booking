@@ -23,7 +23,7 @@ rooms_worksheet = SHEET.worksheet('rooms')
 
 def print_castle():
     """
-    prints the image of the castle 
+    prints the image of the castle
     art from https://www.asciiart.eu/buildings-and-places/castles
     """
     print('''
@@ -41,9 +41,10 @@ def print_castle():
              |'  |  |LI=H=LI|' |   |
              |   |' | |[_]| |  |'  |
              |   |  |_|###|_|  |   |
-             '---'--'-/___\-'--'---'       
+             '---'--'-/___\-'--'---'
              \n
              Welcome to Cath's Cats' Castle!\n''')
+
 
 def get_email_from_user():
     """

@@ -42,6 +42,15 @@ Program only checks if the room is available on those dates, it can over ride th
 
 7. Double emails
 Program was allowing to add a new email to spreadsheet if the user used lower case or upper case differently to previous entry. Fixed error by returning the email string as all lowercase.
+
+8. Errors inputed by adding the image of the castle
+the gitpod displays various errors, not accepting the characters that are used in the castle image. I need to leave those as they are as it would ruin the image if I delete or edit those characters
+
+
+## Remaining Bugs
+From the above mentioned list the bugs that were remaining
+3. issue with very long regex. I do not want to break this complex code. I left it untouched
+8. issue with errors raised by image of the castle - I left it untouched as editing it might destroy the image
   
 ## Validation
 
