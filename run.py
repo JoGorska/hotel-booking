@@ -267,6 +267,21 @@ def date_in_the_past(input_date):
         return False
 
 
+def date_not_in_worksheet(date_str):
+    """
+    check if date exists in the spreadsheet,
+    currently period 01/09/2021 - 26/05/2024
+    """
+    existing_dates_rooms = rooms_worksheet.col_values(1)
+    existing_dates_clients = clients_worksheet.col_values(1)
+    if ((date_str not in existing_dates_rooms)
+       or (date_str not in existing_dates_clients)):
+
+        return True
+    else:
+        return False
+
+
 def validate_date(date):
     """
     Inside try raises ValueError if the date fails validation and returns False
@@ -283,6 +298,13 @@ def validate_date(date):
                              "in the correct format")
         elif (date_in_the_past(date)):
             raise ValueError(f"The date '{date}' is in the past")
+        elif date_not_in_worksheet(date):
+            # assuming that administrator will extend both worksheets equaly.
+            existing_dates_rooms = rooms_worksheet.col_values(1)
+            last_row = len(existing_dates_rooms)
+            max_date = read_cell_value(clients_worksheet, last_row, 1)
+            raise ValueError(f"We can only accept booking between"
+                             f" today and {max_date}")
 
     except ValueError as e:
         print(f"{Fore.RED}Invalid date: {e}, please try again.\n")
@@ -365,12 +387,6 @@ def end_date_before_start(start, end):
         return True
     else:
         return False
-
-
-def date_not_in_worksheet(date_str):
-    """
-    check if date exists in the spreadsheet, currently period 01/09/2021 - 26/05/2024
-    """
 
 
 def validate_lenght_of_stay(start, end):
