@@ -35,7 +35,7 @@ def get_email_from_user():
         print(f"You entered {customer_email_input}\n")
 
         if validate_email(customer_email_input):
-            print("Your email is valid\n")
+            print(f"{Fore.GREEN}Your email is valid\n")
             break
     return customer_email_input
 
@@ -120,7 +120,7 @@ def get_room_int():
 
         if validate_room(room_number):
 
-            print("Your room is valid\n")
+            print(f"{Fore.GREEN}Your room is valid\n")
             break
     return int(room_number)
 
@@ -224,7 +224,7 @@ def start_date_input():
         start_date = input("Write start date here: \n")
 
         if validate_date(start_date):
-            print("Your date is valid\n")
+            print(f"{Fore.GREEN}Your date is valid\n")
 
             break
 
@@ -240,7 +240,7 @@ def end_date_input():
         end_date = input("Write end date here: \n")
 
         if validate_date(end_date):
-            print("Your date is in valid format\n")
+            print(f"{Fore.GREEN}Your date is in valid format\n")
             break
     return end_date
 
@@ -528,7 +528,7 @@ def get_all_booking_info(email):
 
         if (validate_lenght_of_stay(start, end)
                 and validate_room_availibility(start, end, room, email)):
-            print("Booking validated. Saving in the spreadsheet...\n")
+            print(f"{Fore.GREEN}Booking validated. Saving in the spreadsheet...\n")
             break
 
     return list_start_end_room
@@ -594,7 +594,7 @@ def get_cancelation_data(email):
         cancelation_data_list.append(room_short)
 
         if validate_cancelation_dates(start_str, end_str, room_int, email):
-            print("Valid cancellation dates")
+            print(f"{Fore.GREEN}Valid cancellation dates")
             break
 
     return cancelation_data_list
@@ -679,7 +679,7 @@ def get_returning_client_option():
 
         if validate_client_option(chosen_option):
 
-            print("Your option is valid\n")
+            print(f"{Fore.GREEN}Your option is valid\n")
             break
     return chosen_option
 
