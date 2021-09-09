@@ -39,6 +39,9 @@ link to live page [here]()
     return an error if any of the cells are empty within given dates in column room or in column email
 6. Double booking
 Program only checks if the room is available on those dates, it can over ride the entries of old booking under the client's email and add an new booking in a different room. The client would end up having 2 rooms booked in the same time, but only the most recent room would display under his name.
+
+7. Double emails
+Program was allowing to add a new email to spreadsheet if the user used lower case or upper case differently to previous entry. Fixed error by returning the email string as all lowercase.
   
 ## Validation
 

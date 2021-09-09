@@ -31,12 +31,13 @@ def get_email_from_user():
         print("Example: email@domain.uk\n")
 
         customer_email_input = input("Enter your email here: \n")
-
+        customer_email_input = customer_email_input.lower()
         print(f"You entered {customer_email_input}\n")
 
         if validate_email(customer_email_input):
             print(f"{Fore.GREEN}Your email is valid\n")
             break
+
     return customer_email_input
 
 # validate email code and regex:
