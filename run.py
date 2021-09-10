@@ -27,23 +27,23 @@ def print_castle():
     art from https://www.asciiart.eu/buildings-and-places/castles
     """
     print('''
-                         T~~
-                         |
-                         /"\\n
-                 T~~     |'| T~~
-             T~~ |    T~ WWWW|
-             |  /"\   |  |  |/\T~~
-             /"\ WWW  /"\ |' |WW|
-             WWWWW/\| /   \|'/\|/"\/n
-             |   /__\/]WWW[\/__\WWWW
-             |"  WWWW'|I_I|'WWWW'  |
-             |   |' |/  -  \|' |'  |
-             |'  |  |LI=H=LI|' |   |
-             |   |' | |[_]| |  |'  |
-             |   |  |_|###|_|  |   |
-             '---'--'-/___\-'--'---'
-             \n
-             Welcome to Cath's Cats' Castle!\n''')
+                                     T~~
+                                     |
+                                     /"\\n
+                             T~~     |'| T~~
+                         T~~ |    T~ WWWW|
+                         |  /"\   |  |  |/\T~~
+                         /"\ WWW  /"\ |' |WW|
+                         WWWWW/\| /   \|'/\|/"\/n
+                         |   /__\/]WWW[\/__\WWWW
+                         |"  WWWW'|I_I|'WWWW'  |
+                         |   |' |/  -  \|' |'  |
+                         |'  |  |LI=H=LI|' |   |
+                         |   |' | |[_]| |  |'  |
+                         |   |  |_|###|_|  |   |
+                         '---'--'-/___\-'--'---'
+                     \n
+                     Welcome to Cath's Cats' Castle!\n''')
 
 
 def get_email_from_user():
