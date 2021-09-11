@@ -25,7 +25,121 @@ class Room:
         self.room_int = room_int
         self.room_short = 
         self.room_long =
-    def get_room_intgi
+    
+    def get_room_int():
+    """
+    gives options to choose which room to book
+    """
+        while True:
+            print("Please choose one of rooms:")
+            print("1. Kew Gardens Suite")
+            print("2. Oxford Suite")
+            print("3. London Suite")
+            print("4. Verulamium Suite")
+            print("5. Cambridge Botanic Gardens")
+            print("6. Stonehenge Suite")
+            print("7. Lucretia's Suite")
+            print("8. Glasgow Suite")
+            print("9. Ware Suite\n")
+
+            room_number = input("Write a number 1 - 9: \n")
+
+            if validate_room(room_number):
+
+                print(f"{Fore.GREEN}Your room is valid\n")
+                break
+        return int(room_number)
+
+    def validate_room(room_number):
+        """
+        changes user input to integer and validates user input for choosing a room
+        """
+
+        try:
+            room_number = int(room_number)
+            if room_number not in range(1, 10):
+                raise ValueError(f"The room '{room_number}' does not seem to be "
+                                "in the correct format")
+
+        except ValueError as e:
+            print(f"{Fore.RED}Invalid room number: {e}, please try again.\n")
+            return False
+
+        return True
+
+
+    def room_full_name(room_number):
+        """
+        takes customer's choise of a room number and returns room name
+        """
+        if room_number == 1:
+            return "Kew Gardens Suite"
+        elif room_number == 2:
+            return "Oxford Suite"
+        elif room_number == 3:
+            return "London Suite"
+        elif room_number == 4:
+            return "Verulamium Suite"
+        elif room_number == 5:
+            return "Cambridge Botanic Gardens"
+        elif room_number == 6:
+            return "Stonehenge Suite"
+        elif room_number == 7:
+            return "Lucretia's Suite"
+        elif room_number == 8:
+            return "Glasgow Suite"
+        elif room_number == 9:
+            return "Ware Suite"
+
+
+    def room_short_name(room_number):
+        """
+        takes customer's choise of a room number and returns room name
+        """
+        if room_number == 1:
+            return "Kew"
+        elif room_number == 2:
+            return "Oxford"
+        elif room_number == 3:
+            return "London"
+        elif room_number == 4:
+            return "Verulamium"
+        elif room_number == 5:
+            return "Cambridge"
+        elif room_number == 6:
+            return "Stonehenge"
+        elif room_number == 7:
+            return "Lucretia"
+        elif room_number == 8:
+            return "Glasgow"
+        elif room_number == 9:
+            return "Ware"
+
+
+    def change_room_name_to_number(room_short):
+        """
+        takes the room short name and changes it into the number of the room
+    """
+        if room_short == "Kew":
+            return 1
+        elif room_short == "Oxford":
+            return 2
+        elif room_short == "London":
+            return 3
+        elif room_short == "Verulamium":
+            return 4
+        elif room_short == "Cambridge":
+            return 5
+        elif room_short == "Stonehenge":
+            return 6
+        elif room_short == "Lucretia":
+            return 7
+        elif room_short == "Glasgow":
+            return 8
+        elif room_short == "Ware":
+            return 9
+
+
 
 def print_castle():
     """
@@ -128,123 +242,9 @@ def add_new_client(email):
     print("Worksheet updated successfuly.\n")
 
 
-room_number = 1
 
 
-def get_room_int():
-    """
-    gives options to choose which room to book
-    """
 
-    while True:
-        print("Please choose one of rooms:")
-        print("1. Kew Gardens Suite")
-        print("2. Oxford Suite")
-        print("3. London Suite")
-        print("4. Verulamium Suite")
-        print("5. Cambridge Botanic Gardens")
-        print("6. Stonehenge Suite")
-        print("7. Lucretia's Suite")
-        print("8. Glasgow Suite")
-        print("9. Ware Suite\n")
-        global room_number
-        room_number = input("Write a number 1 - 9: \n")
-
-        if validate_room(room_number):
-
-            print(f"{Fore.GREEN}Your room is valid\n")
-            break
-    return int(room_number)
-
-
-def validate_room(room_number):
-    """
-    changes user input to integer and validates user input for choosing a room
-    """
-
-    try:
-        room_number = int(room_number)
-        if room_number not in range(1, 10):
-            raise ValueError(f"The room '{room_number}' does not seem to be "
-                             "in the correct format")
-
-    except ValueError as e:
-        print(f"{Fore.RED}Invalid room number: {e}, please try again.\n")
-        return False
-
-    return True
-
-
-def room_full_name(room_number):
-    """
-    takes customer's choise of a room number and returns room name
-    """
-    if room_number == 1:
-        return "Kew Gardens Suite"
-    elif room_number == 2:
-        return "Oxford Suite"
-    elif room_number == 3:
-        return "London Suite"
-    elif room_number == 4:
-        return "Verulamium Suite"
-    elif room_number == 5:
-        return "Cambridge Botanic Gardens"
-    elif room_number == 6:
-        return "Stonehenge Suite"
-    elif room_number == 7:
-        return "Lucretia's Suite"
-    elif room_number == 8:
-        return "Glasgow Suite"
-    elif room_number == 9:
-        return "Ware Suite"
-
-
-def room_short_name(room_number):
-    """
-    takes customer's choise of a room number and returns room name
-    """
-    if room_number == 1:
-        return "Kew"
-    elif room_number == 2:
-        return "Oxford"
-    elif room_number == 3:
-        return "London"
-    elif room_number == 4:
-        return "Verulamium"
-    elif room_number == 5:
-        return "Cambridge"
-    elif room_number == 6:
-        return "Stonehenge"
-    elif room_number == 7:
-        return "Lucretia"
-    elif room_number == 8:
-        return "Glasgow"
-    elif room_number == 9:
-        return "Ware"
-
-
-def change_room_name_to_number(room_short):
-    """
-    takes the room short name and changes it into the number of the room
-"""
-    if room_short == "Kew":
-        return 1
-    elif room_short == "Oxford":
-        return 2
-    elif room_short == "London":
-        return 3
-    elif room_short == "Verulamium":
-        return 4
-    elif room_short == "Cambridge":
-        return 5
-    elif room_short == "Stonehenge":
-        return 6
-    elif room_short == "Lucretia":
-        return 7
-    elif room_short == "Glasgow":
-        return 8
-    elif room_short == "Ware":
-        return 9
 
 
 def start_date_input():
