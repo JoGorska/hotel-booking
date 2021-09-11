@@ -20,6 +20,12 @@ SHEET = GSPREAD_CLIENT.open('hotel-booking')
 clients_worksheet = SHEET.worksheet('clients')
 rooms_worksheet = SHEET.worksheet('rooms')
 
+class Room:
+    def __init__(self, room_int, room_short, room_long):
+        self.room_int = room_int
+        self.room_short = 
+        self.room_long =
+    def get_room_intgi
 
 def print_castle():
     """
