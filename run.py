@@ -302,7 +302,6 @@ def date_not_in_worksheet(date_str):
     existing_dates_clients = clients_worksheet.col_values(1)
     if ((date_str not in existing_dates_rooms)
        or (date_str not in existing_dates_clients)):
-
         return True
     else:
         return False
@@ -550,7 +549,6 @@ def get_all_booking_info(email):
         # initializes function to get user input for room number
         room = get_room_int()
         list_start_end_room.append(room)
-
         if (validate_lenght_of_stay(start, end)
                 and validate_room_availibility(start, end, room, email)):
             print(f"{Fore.GREEN}Booking validated.\n")
@@ -714,9 +712,7 @@ def validate_client_option(option):
     function to validate the option that returning customer
     has chosen
     """
-
     try:
-
         if (option != "add" and option != "print"
                 and option != "change" and option != "cancel"):
             # returns error if the given word does not match

@@ -134,7 +134,6 @@ you should see the message "the app was sussesfuly deployed"
 
 
 
-
 ## Further developement the website
 
 Next important feature that needs to be developed is the "print" option
@@ -148,7 +147,28 @@ Next important feature that needs to be developed is the "print" option
 ## Technologies used
 python
 
+## Testing
+
+1. [Pep8online](http://pep8online.com/)
+![errors report](assets/images/pep8-errors.png)
+
+I have checked the errors displayed initialy by pep8online. I have tried to correct those errors.
+
+![second errors report](assets/images/pep8-final.png)
+
+- line 319 - error line too long is caused by Regex. I do not feel competent enough to split this regex into lines without damaging it's functionality
+- line 304, 553, 717 - if statement is very long in those lines and had to be split into two lines. Pip8 returns it as an errror, alternative would be to have whole if statement in one line - than pip8 would return error - line too long. 
+
+2. Windows computer:
+
+3. Linux computer:
+
+4. Samsung galaxy note 8
+
+5. samsung????
+user tries to click on letters on the phone's keyboard, but in the program it displays as varous random letters. 
+
 ## Thanks to
-https://www.asciiart.eu/buildings-and-places/castles
+- [Asciiart] (https://www.asciiart.eu/buildings-and-places/castles)
 
 
