@@ -1,18 +1,41 @@
 # Cath's Cats' Castle - booking
-## Screenshot ???
+## Screenshot 
+
+![showpiece start screen](assets/images/showpiece.png)
+
 
 link to live page [here](https://caths-cats-castle-booking.herokuapp.com/)
 
 
 
-## Aim of the website
+## Aim of the program
 
-## Structure of the website
+The aim of the website is to allow users to book their cats' stay in the hotel. 
 
+## Structure of the program
+
+The program is a comand line program that leads the user through series of questions. 
+1. Start
+The user is asked for the email
+2. The program checks if it is a returning customer
 
 ## Features
 
+1. Image - [ascii art](https://www.asciiart.eu/buildings-and-places/castles)
+the image of the castle is shown when the program starts. This gives a nice introduction to the product.
 
+2. [Colorama](https://pypi.org/project/colorama/)
+added feature to allow different colors of fonts to display in the terminal. The aim of this feature is to help the user understand what the program is doing or what is expected of the user. Since comand line interface is not user friendly, the user is not used to read various lines to understand that there was error returned. Once the error message is in red it stands out amongs other lines and allow user to action on it. 
+
+While the program is saving things in the spreadsheet it can take a while. The blue lines of code informing the user that the program is saving data help the user to understand that the program is still working, it hasn't broken, it is just taking the time to save data.
+- the ValidationErrors are displaid in red
+- the positive validation messages are displayed in green
+- the information about saving data in spreadsheet are displayed blue
+
+3. Validation
+Various validation on user input allows the user to run the program without errors. The aim of validation is to capture varius incorrect entries by the user and give feedback to the user. This way the user can give correct input and the program will give the user result. 
+
+4. Terminal of 80 characters wide and 24 rows high
 
 ## Styling
 
@@ -54,7 +77,19 @@ From the above mentioned list the bugs that were remaining
   
 ## Validation
 
+1. Email validation
+- used regex to validate if the user's input resambles a standard email
+- program converts the email to small leters and save it in this format in the spreadsheet to prevent double entries in different formats
 
+2. Date validation
+- used regex to validate the date format
+- checking if the input date is not in the past
+
+3. Period of booking validation
+program checks if the booking is not 
+- shorter than 7 days
+- longer than 30 days
+- end date was input before start date
 
 ## Deployment
 
@@ -102,53 +137,18 @@ you should see the message "the app was sussesfuly deployed"
 
 ## Further developement the website
 
+Next important feature that needs to be developed is the "print" option
+- to display user's booking
+- to display available dates in particular room
 
 ## User stories
 
 
 
 ## Technologies used
-
+python
 
 ## Thanks to
 https://www.asciiart.eu/buildings-and-places/castles
 
-## Joanna - remember to find all ??? signs in all files (readme as well)
 
-
-
-
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
-
-Welcome Joanna Gorska,
-
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
-
-## Reminders
-
-
-* Terminal of 80 characters wide and 24 rows high
-
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
-
-## Creating the Heroku app
-
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
-
-1. `heroku/python`
-2. `heroku/nodejs`
-
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
-
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
-
-Connect your GitHub repository and deploy as normal.
-
-## Constraints
-
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
-
------
-Happy coding!
