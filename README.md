@@ -163,14 +163,29 @@ I have checked the errors displayed initialy by pep8online. I have tried to corr
     * Windows computer: all working correctly
     * Linux computer: all working correctly
     * Samsung galaxy note 8: all working correctly
-    * Samsung galaxy A40: instead of the input that user is trying to type it inputs random letters or numbers. Schreenshot option is blocked on this phone (work phone) The photo of the screen can be seen here [samsung A40 input issue](assets/images/samsunga40.png). It seems like it is an issue of the phone, rather than an app. It might be something to do with autofill.
+    * Samsung galaxy A40: instead of the input that user is trying to type it inputs random letters or numbers. Schreenshot option is blocked on this phone (work phone) The photo of the screen can be seen [here](assets/images/samsunga40.png). It seems like it is an issue of the phone, rather than an app. It might be something to do with autofill.
 
 3. Testing validation
     * email
+        - submiting empty input returns error
         - missing "@" - returns error
         - fullstop "." in wrong place - returns error
         - putting letters only returns error
         - putting numbers only returns error
+
+    * dates
+        - submiting empty field returns error
+        - putting all numbers returns error
+        - putting all letters returns error
+        - putting date with "." instead of "/" returns error
+        - putting month one digit only returns error
+        - putting year as two digit only returns error
+        - putting date in the past returns error
+        - putting end date earlier than starts date returns error after the period of booking is validated
+    * room
+        - putting letters instead of number returns error invalid literal for int()
+        
+
 
 5. samsung????
 user tries to click on letters on the phone's keyboard, but in the program it displays as varous random letters. 
