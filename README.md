@@ -159,11 +159,18 @@ I have checked the errors displayed initialy by pep8online. I have tried to corr
 - line 319 - error line too long is caused by Regex. I do not feel competent enough to split this regex into lines without damaging it's functionality
 - line 304, 553, 717 - if statement is very long in those lines and had to be split into two lines. Pip8 returns it as an errror, alternative would be to have whole if statement in one line - than pip8 would return error - line too long. 
 
-2. Windows computer:
+2. Different operating system
+    * Windows computer: all working correctly
+    * Linux computer: all working correctly
+    * Samsung galaxy note 8: all working correctly
+    * Samsung galaxy A40: instead of the input that user is trying to type it inputs random letters or numbers. Schreenshot option is blocked on this phone (work phone) The photo of the screen can be seen here [samsung A40 input issue](assets/images/samsunga40.png). It seems like it is an issue of the phone, rather than an app. It might be something to do with autofill.
 
-3. Linux computer:
-
-4. Samsung galaxy note 8
+3. Testing validation
+    * email
+        - missing "@" - returns error
+        - fullstop "." in wrong place - returns error
+        - putting letters only returns error
+        - putting numbers only returns error
 
 5. samsung????
 user tries to click on letters on the phone's keyboard, but in the program it displays as varous random letters. 
