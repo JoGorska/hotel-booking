@@ -316,21 +316,19 @@ def validate_date(date):
     # regex for date with leap year support
     # https://stackoverflow.com/questions/15491894/regex-to-validate-date-format-dd-mm-yyyy-with-leap-year-support
 
-    regex_date = re.compile('^(?:(?:31(\/)(?:0?[13578]|1[02]|(?:'
-                            'Jan|Mar|May|Jul|Aug|Oct|Dec)))\1|(?:'
-                            '(?:29|30)(\/)(?:0?[1,3-9]|1[0-2]|(?:'
-                            'Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov'
-                            '|Dec))\2))(?:(?:1[6-9]|[2-9]\d)\d{2})$|^'
-                            '(?:29(\/)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]'
-                            '|[2-9]\d)(?:0[48]|[2468][048]|[13579][26])'
-                            '|(?:(?:16|[2468][048]|[3579][26])00))))$|^'
-                            '(?:0?[1-9]|1\d|2[0-8])(\/)(?:(?:0?[1-9]|(?'
-                            ':Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1'
-                            '[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]'
-                            '\d)\d{2})$', re.IGNORECASE)
-
-
-
+    regex_date = re.compile(
+                r'^(?:(?:31(\/)(?:0?[13578]|1[02]|(?:'
+                r'Jan|Mar|May|Jul|Aug|Oct|Dec)))\1|(?:'
+                r'(?:29|30)(\/)(?:0?[1,3-9]|1[0-2]|(?:'
+                r'Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov'
+                r'|Dec))\2))(?:(?:1[6-9]|[2-9]\d)\d{2})$|^'
+                r'(?:29(\/)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]'
+                r'|[2-9]\d)(?:0[48]|[2468][048]|[13579][26])'
+                r'|(?:(?:16|[2468][048]|[3579][26])00))))$|^'
+                r'(?:0?[1-9]|1\d|2[0-8])(\/)(?:(?:0?[1-9]|(?'
+                r':Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1'
+                r'[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]'
+                r'\d)\d{2})$', re.IGNORECASE)
 
     try:
         if(not re.fullmatch(regex_date, date)):
