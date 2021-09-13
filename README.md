@@ -21,8 +21,9 @@ The user is asked for the email
 
 ## Features
 
-1. Image - [ascii art](https://www.asciiart.eu/buildings-and-places/castles)
+1. Images - [ascii art](https://www.asciiart.eu/buildings-and-places/castles)
 the image of the castle is shown when the program starts. This gives a nice introduction to the product.
+the image of a cat climbing into a box is shown when the program ends. This gives a memorable goodbye to a user.
 
 2. [Colorama](https://pypi.org/project/colorama/)
 added feature to allow different colors of fonts to display in the terminal. The aim of this feature is to help the user understand what the program is doing or what is expected of the user. Since comand line interface is not user friendly, the user is not used to read various lines to understand that there was error returned. Once the error message is in red it stands out amongs other lines and allow user to action on it. 
