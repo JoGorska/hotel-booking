@@ -104,7 +104,7 @@ def validate_email(email):
                              "correct")
 
     except ValueError as e:
-        print(f"{Fore.RED}Invalid email: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid email: {e} please try again.\n")
         return False
 
     return True
@@ -180,20 +180,21 @@ def validate_room(room_number):
 
     try:
         # regex that accepts a number or a white space with number
-        # https://stackoverflow.com/questions/50177113/regex-for-only-numbers-in-string 
+        # https://stackoverflow.com/questions/50177113/regex-for-only-numbers-in-string
 
         regex_number = r'^([\s\d]+)$'
 
         if(not re.fullmatch(regex_number, room_number)):
-            raise ValueError("You have entered other characters than numbers")
+            raise ValueError("You have entered other"
+                             "characters than numbers\n")
 
         elif int(room_number) not in range(1, 10):
 
             raise ValueError(f"The room '{room_number}' does not seem to be "
-                             "in the correct range 1 - 9")
+                             "in the correct range 1 - 9\n")
 
     except ValueError as e:
-        print(f"{Fore.RED}Invalid room number: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid room number: {e} please try again.\n")
         return False
 
     return True
@@ -364,19 +365,19 @@ def validate_date(date):
     try:
         if(not re.fullmatch(regex_date, date)):
             raise ValueError(f"The date '{date}' does not seem to be "
-                             "in the correct format")
+                             "in the correct format\n")
         elif (date_in_the_past(date)):
-            raise ValueError(f"The date '{date}' is in the past")
+            raise ValueError(f"The date '{date}' is in the past\n")
         elif date_not_in_worksheet(date):
             # assuming that administrator will extend both worksheets equaly.
             existing_dates_rooms = rooms_worksheet.col_values(1)
             last_row = len(existing_dates_rooms)
             max_date = read_cell_value(clients_worksheet, last_row, 1)
             raise ValueError(f"We can only accept booking between"
-                             f" today and {max_date}")
+                             f" today and {max_date}\n")
 
     except ValueError as e:
-        print(f"{Fore.RED}Invalid date: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid date: {e} please try again.\n")
         return False
 
     return True
@@ -466,16 +467,16 @@ def validate_lenght_of_stay(start, end):
     try:
         if is_too_short(start, end):
             raise ValueError("We can only accpet booking for "
-                             "the minimum of 7 days")
+                             "the minimum of 7 days\n")
         elif (is_too_long(start, end)):
             raise ValueError("We can only accept booking for "
-                             "maximum of 30 days, please contact"
-                             "the hotel if you require longer stay")
+                             "maximum of 30 days,\n please contact"
+                             "the hotel if you require longer stay\n")
         elif (end_date_before_start(start, end)):
-            raise ValueError("You have entered end date before start date")
+            raise ValueError("You have entered end date before start date\n")
 
     except ValueError as e:
-        print(f"{Fore.RED}Invalid booking: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid booking: {e} please try again.\n")
         return False
 
     return True
@@ -565,10 +566,10 @@ def validate_room_availibility(start, end, room_int, email):
         column_email = find_a_column(clients_worksheet, email)
         if (is_any_full_cell(rooms_worksheet, start, end, column_room) or
            is_any_full_cell(clients_worksheet, start, end, column_email)):
-            raise ValueError("Unfortunately those dates are not available")
+            raise ValueError("Unfortunately those dates are not available\n")
 
     except ValueError as e:
-        print(f"{Fore.RED}Invalid booking: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid booking: {e} please try again.\n")
         return False
 
     return True
@@ -687,10 +688,10 @@ def validate_cancelation_dates(start_str, end_str, room_int, email):
                               column_email) or
             is_any_empty_cell(rooms_worksheet, start_str, end_str,
                               column_room)):
-            raise ValueError("There is no booking matching your criteria")
+            raise ValueError("There is no booking matching your criteria\n")
 
     except ValueError as e:
-        print(f"{Fore.RED}Invalid cancelation dates: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid cancelation dates: {e} please try again.\n")
         return False
 
     return True
@@ -763,10 +764,10 @@ def validate_client_option(option):
             # returns error if the given word does not match
             # any of the given options
             raise ValueError(f"The the word '{option}' does not seem to be "
-                             "matching any of the given options")
+                             "matching any of the given options\n")
 
     except ValueError as e:
-        print(f"{Fore.RED}Invalid option: {e}, please try again.\n")
+        print(f"{Fore.RED}Invalid option: {e} please try again.\n")
         return False
 
     return True

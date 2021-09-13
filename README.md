@@ -25,6 +25,12 @@ The user is asked for the email
 the image of the castle is shown when the program starts. This gives a nice introduction to the product.
 the image of a cat climbing into a box is shown when the program ends. This gives a memorable goodbye to a user.
 
+![castle](assets/images/img-castle.png)
+
+
+
+![cat climbing into a box](assets/images/img-cat.png)
+
 2. [Colorama](https://pypi.org/project/colorama/)
 added feature to allow different colors of fonts to display in the terminal. The aim of this feature is to help the user understand what the program is doing or what is expected of the user. Since comand line interface is not user friendly, the user is not used to read various lines to understand that there was error returned. Once the error message is in red it stands out amongs other lines and allow user to action on it. 
 
@@ -33,8 +39,19 @@ While the program is saving things in the spreadsheet it can take a while. The b
 - the positive validation messages are displayed in green
 - the information about saving data in spreadsheet are displayed blue
 
+
+![partial screenshoot showing green text in a terminal](assets/images/green.png)
+
+![partial screenshoot showing blue text in a terminal](assets/images/blue.png)
+
+![partial screenshoot showing red text in a terminal](assets/images/red.png)
+
 3. Validation
-Various validation on user input allows the user to run the program without errors. The aim of validation is to capture varius incorrect entries by the user and give feedback to the user. This way the user can give correct input and the program will give the user result. 
+Various validation on user input allows the user to run the program without errors. The aim of validation is to capture varius incorrect entries by the user and give feedback to the user. This way the user can give correct input and the program will give the user result. This also prevents program from crushing. Example of error validation message can be found below:
+
+![partial screenshot showing error message in a terminal](assets/images/error-message.png)
+
+
 
 4. Terminal of 80 characters wide and 24 rows high
 
@@ -219,6 +236,8 @@ Line 326, 589. 753, 754 - if statement is very long in those lines and had to be
         - putting other characters - not numbers returns the same validation error
         - program returns validation error when two digit number is entered instead of one digit
         - empty input gives error that you have entered other characters than a number.
+
+    * returning user options
 
 
 
