@@ -57,6 +57,8 @@ Various validation on user input allows the user to run the program without erro
 
 ## Styling
 
+Styling in the terminal is very limited. The interaction with the user is by Validation errors or messages informing that input has passed validation.
+To make the terminal messages more intuitive colorama colors were introduced. The error messages are in red and positive validation messages are in green. Also some images was added as welcome and goodbye screen.
 
 ## Bugs
 1. Issue with accessing data needed to update both worksheets.
@@ -176,17 +178,28 @@ you should see the message "the app was sussesfuly deployed"
 
 ## Further developement the website
 
+1. Change database
+    The system of saving data that I have introduced inputs new column each time a new user is registered. This makes the spreadsheet really big.
+    I have prepared the spreadsheet to accomodate booking untill 26/05/2024. Any further booking would requre manualy extending the spreadsheet to add more rows and more dates. 
+    Each booking should be registered as a new row with email, date, room as the columns and have unique refference number. This way user could easily reffer to this particular booking, cancel it or change it.
+
+??? check if implemented
 Next important feature that needs to be developed is the "print" option
 - to display user's booking
 - to display available dates in particular room
+- change database - 
 
 ## User stories
 
-
+I want to be able to add a new booking.
+I want to be able to change my booking.
+I want to be able to cancel my booking.
+I would like the program to recognize my email as a returning customer.
 
 ## Technologies used
 - Code Institute template with HTML and CSS
 - Python
+- google sheets
 - Libraries:
     * gsptread
     * re
@@ -241,8 +254,7 @@ Line 326, 589. 753, 754 - if statement is very long in those lines and had to be
 
 
 
-5. Samsung Galaxy A40
-user tries to click on letters on the phone's keyboard, but in the program it displays as varous random letters. Seems like autofill option interfearing with user options. Unable to fix the problem, as phone is company property and I can't edit settings. It seems that the issue is with the phone not with the program, but I could not test this theory.
+
 
 ## Thanks to
 - [Code Institute Template](https://github.com/Code-Institute-Org/python-essentials-template)
