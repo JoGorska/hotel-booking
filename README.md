@@ -42,18 +42,26 @@ Various validation on user input allows the user to run the program without erro
 
 
 ## Bugs
-1. Issue with accessing data needed to update both worksheets. Each set of data: dates, email, room number were local variables in the new booking function. Managed to pass various variables to the functions so each value is read correctly.
+1. Issue with accessing data needed to update both worksheets.
 
-2. Issue with Rooms Worksheet - recording new booking - new booking was not apearing in the apropriate column for the room. Found that data is saved under identical column number as it is saved in clients worksheet. Found function that was refering to clients worksheet and replaced it with variable worksheet. Worksheet wariable had the appropriate worksheet passed to it when the function was called and the correct column in the rooms worksheet was updated.
+    Each set of data: dates, email, room number were local variables in the new booking function. Managed to pass various variables to the functions so each value is read correctly.
+
+2. Issue with Rooms Worksheet
+
+    Recording new booking - new booking was not apearing in the apropriate column for the room. Found that data is saved under identical column number as it is saved in clients worksheet. Found function that was refering to clients worksheet and replaced it with variable worksheet. Worksheet wariable had the appropriate worksheet passed to it when the function was called and the correct column in the rooms worksheet was updated.
 
 3. Issue with lenght of the line:
-- the errors were raised in the lines where the if statement was very long. followed advice from [stack overflow](https://stackoverflow.com/questions/5253348/very-long-if-statement-in-python)
 
-- the error with very long regex - Initialy I was reluctant to touch it due to complexity of the code and worry that I would break it. My mentor Felipe Sousa has suggested solution on [stack overflow](https://stackoverflow.com/questions/8006551/how-to-split-long-regular-expression-rules-to-multiple-lines-in-python/8006576#8006576) which didn't seem to work fully. I implemented some kind of different solution that didn't break the regex. 
+    - the errors were raised in the lines where the if statement was very long. followed advice from [stack overflow](https://stackoverflow.com/questions/5253348/very-long-if-statement-in-python)
 
-4. Bug caused by is_empty_cell function. The function was supposed to test if the cell is empty, I tried to use it both for validation of new booking as well as cancellation of the existing booking. There logic was incorrect and I created the seperate function to is_full_cell - to test if all cells are full. 
+    - the error with very long regex - Initialy I was reluctant to touch it due to complexity of the code and worry that I would break it. My mentor Felipe Sousa has suggested solution on [stack overflow](https://stackoverflow.com/questions/8006551/how-to-split-long-regular-expression-rules-to-multiple-lines-in-python/8006576#8006576) which didn't seem to work fully. I implemented some kind of different solution that didn't break the regex. 
+
+4. Bug caused by is_empty_cell function.
+
+    The function was supposed to test if the cell is empty, I tried to use it both for validation of new booking as well as cancellation of the existing booking. There logic was incorrect and I created the seperate function to is_full_cell - to test if all cells are full. 
 
 5. Bug in deleting the booking from the spreadsheet. 
+
     - the user inputs the dates for cancelation. The dates are validated for format
     - next the program checks what was the room name on the first date within cancelation period in the clients spreadsheet
     - the program deletes the booking from the rooms spreadsheet on the basis of what room was within the first day of booking
@@ -62,36 +70,49 @@ Various validation on user input allows the user to run the program without erro
     - I reversed to the version of the function that assumes that the room that is being cancelled is the same for the whole cancelation period
     solution: ask the user to input the room which he wants to cancel. Validation needs to match dates and the room.
     return an error if any of the cells are empty within given dates in column room or in column email
+
 6. Double booking
-Program only checks if the room is available on those dates, it can over ride the entries of old booking under the client's email and add an new booking in a different room. The client would end up having 2 rooms booked in the same time, but only the most recent room would display under his name.
+
+    Program only checks if the room is available on those dates, it can over ride the entries of old booking under the client's email and add an new booking in a different room. The client would end up having 2 rooms booked in the same time, but only the most recent room would display under his name.
 
 7. Double emails
-Program was allowing to add a new email to spreadsheet if the user used lower case or upper case differently to previous entry. Fixed error by returning the email string as all lowercase.
 
-8. Errors inputed by adding the image of the castle
-the gitpod displays various errors, not accepting the characters that are used in the castle image. I need to leave those as they are as it would ruin the image if I delete or edit those characters
+    Program was allowing to add a new email to spreadsheet if the user used lower case or upper case differently to previous entry. Fixed error by returning the email string as all lowercase.
+
+8. Errors inputed by image of the castle
+
+    the gitpod displays various errors, not accepting the characters that are used in the castle image. I need to leave those as they are as it would ruin the image if I delete or edit those characters
+
+9. Error in room number
+
+    When user was putting the letters instead of a number, the validation error was not displaying a correct message. The message was "invalid literal for int() with base 10". This would not help user to estimate what he has done wrong. 
+
+    I added another validation - regex to validate input if it is numbers or other symbors. I also moved int() function to the elif statement so the input is changed to integer only after it passes validation that it is actualy the number. The regex I found on [stack overflow](https://stackoverflow.com/questions/50177113/regex-for-only-numbers-in-string) accepts digits and space - which gives the user a little more flexibility if accidental white space is input. 
 
 
 ## Remaining Bugs
-From the above mentioned list the bugs that were remaining
+    From the above mentioned list the bugs that were remaining
 
 8. issue with errors raised by image of the castle - I left it untouched as editing it might destroy the image
   
 ## Validation
 
 1. Email validation
-- used regex to validate if the user's input resambles a standard email
-- program converts the email to small leters and save it in this format in the spreadsheet to prevent double entries in different formats
+    - used regex to validate if the user's input resambles a standard email
+    - program converts the email to small leters and save it in this format in the spreadsheet to prevent double entries in different formats
 
 2. Date validation
-- used regex to validate the date format
-- checking if the input date is not in the past
+    - used regex to validate the date format
+    - checking if the input date is not in the past
 
 3. Period of booking validation
-program checks if the booking is not 
-- shorter than 7 days
-- longer than 30 days
-- end date was input before start date
+    program checks if the booking is not 
+    - shorter than 7 days
+    - longer than 30 days
+    - end date was input before start date
+4. Room number validation
+    - validates if user input is a digit or digit and a white space
+    - validates if the number is between 1 - 9
 
 ## Deployment
 
@@ -194,9 +215,10 @@ Line 326, 589. 753, 754 - if statement is very long in those lines and had to be
         - putting date in the past returns error
         - putting end date earlier than starts date returns error after the period of booking is validated
     * room
-        - putting letters instead of number returns error invalid literal for int() with base 10 ??? clear this and add to bugs???
-        - putting symbols instead of the number returns same error ??? deal with this????
+        - putting letters instead of number returns validation error that you have entered other characters than a number
+        - putting other characters - not numbers returns the same validation error
         - program returns validation error when two digit number is entered instead of one digit
+        - empty input gives error that you have entered other characters than a number.
 
 
 
