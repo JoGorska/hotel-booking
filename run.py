@@ -179,10 +179,17 @@ def validate_room(room_number):
     """
 
     try:
-        room_number = int(room_number)
-        if room_number not in range(1, 10):
+        # regex that accepts a number or a white space with number
+
+        regex_number = r'^([\s\d]+)$'
+
+        if(not re.fullmatch(regex_number, room_number)):
+            raise ValueError("You have entered other characters than numbers")
+
+        elif int(room_number) not in range(1, 10):
+
             raise ValueError(f"The room '{room_number}' does not seem to be "
-                             "in the correct format")
+                             "in the correct range 1 - 9")
 
     except ValueError as e:
         print(f"{Fore.RED}Invalid room number: {e}, please try again.\n")

@@ -164,14 +164,10 @@ Next important feature that needs to be developed is the "print" option
 
 The code has been put through validation Pep8online. I have checked the errors displayed initialy. The error reports can be found here: [first report](assets/images/pep8-errors.png), [second report](assets/images/pep8-final.png). Final version of the report can be found below:
 
+Line 326, 589. 753, 754 - if statement is very long in those lines and had to be split into two lines. Pip8 returns it as an errror, alternative would be to have whole if statement in one line - than pip8 would return error - line too long. 
+
 
 ![third and final reprot from pep8](assets/images/pep8-third.png)
-
-
-
-
-- line 304, 553, 717 - if statement is very long in those lines and had to be split into two lines. Pip8 returns it as an errror, alternative would be to have whole if statement in one line - than pip8 would return error - line too long. 
-
 
 
 2. Different operating system
@@ -198,7 +194,9 @@ The code has been put through validation Pep8online. I have checked the errors d
         - putting date in the past returns error
         - putting end date earlier than starts date returns error after the period of booking is validated
     * room
-        - putting letters instead of number returns error invalid literal for int() with base 10 ??? 
+        - putting letters instead of number returns error invalid literal for int() with base 10 ??? clear this and add to bugs???
+        - putting symbols instead of the number returns same error ??? deal with this????
+        - program returns validation error when two digit number is entered instead of one digit
 
 
 
