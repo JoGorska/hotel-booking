@@ -339,7 +339,7 @@ def validate_date(date):
     # https://stackoverflow.com/questions/15491894/regex-to-validate-date-format-dd-mm-yyyy-with-leap-year-support
     #
     # how to split long regex
-    # https://stackoverflow.com/questions/8006551/how-to-split-long-regular-expression-rules-to-multiple-lines-in-python/8006576#8006576 
+    # https://stackoverflow.com/questions/8006551/how-to-split-long-regular-expression-rules-to-multiple-lines-in-python/8006576#8006576
 
     regex_date = re.compile(
                 r'^(?:(?:31(\/)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|'
@@ -734,7 +734,7 @@ def get_returning_client_option():
         print("change your booking (change),")
         print("cancel your booking (cancel)\n")
         chosen_option = input("Write 'add', 'print', "
-                              "'change' or 'cancel' here: \n")
+                              "'change', 'cancel' or 'quit' here: \n")
 
         if validate_client_option(chosen_option):
 
@@ -750,7 +750,8 @@ def validate_client_option(option):
     """
     try:
         if (option != "add" and option != "print"
-                and option != "change" and option != "cancel"):
+                and option != "change" and option != "cancel"
+                and option != "quit"):
             # returns error if the given word does not match
             # any of the given options
             raise ValueError(f"The the word '{option}' does not seem to be "
@@ -801,6 +802,12 @@ def activate_chosen_option(option, email):
 
         chosen_option = get_returning_client_option()
         activate_chosen_option(chosen_option, email)
+
+    elif option == "quit":
+        # prints a cat climbing into a box and
+        # a goodbye message
+        # ends the program
+        print_cat()
 
 
 def is_returning_client(email):
