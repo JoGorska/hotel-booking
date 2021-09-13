@@ -48,7 +48,8 @@ Various validation on user input allows the user to run the program without erro
 
 3. Issue with lenght of the line:
 - the errors were raised in the lines where the if statement was very long. followed advice from [stack overflow](https://stackoverflow.com/questions/5253348/very-long-if-statement-in-python)
-- the error with very long regex - I left it untouched as I am concerned that it would stop working
+
+- the error with very long regex - Initialy I was reluctant to touch it due to complexity of the code and worry that I would break it. My mentor Felipe Sousa has suggested solution on [stack overflow](https://stackoverflow.com/questions/8006551/how-to-split-long-regular-expression-rules-to-multiple-lines-in-python/8006576#8006576) which didn't seem to work fully. I implemented some kind of different solution that didn't break the regex. 
 
 4. Bug caused by is_empty_cell function. The function was supposed to test if the cell is empty, I tried to use it both for validation of new booking as well as cancellation of the existing booking. There logic was incorrect and I created the seperate function to is_full_cell - to test if all cells are full. 
 
@@ -73,7 +74,7 @@ the gitpod displays various errors, not accepting the characters that are used i
 
 ## Remaining Bugs
 From the above mentioned list the bugs that were remaining
-3. issue with very long regex. I do not want to break this complex code. I left it untouched
+
 8. issue with errors raised by image of the castle - I left it untouched as editing it might destroy the image
   
 ## Validation
@@ -146,19 +147,32 @@ Next important feature that needs to be developed is the "print" option
 
 
 ## Technologies used
-python
+- Code Institute template with HTML and CSS
+- Python
+- Libraries:
+    * gsptread
+    * re
+    * colorama
+    * google.oauth2.service_account
+    * datetime
+
 
 ## Testing
 
 1. [Pep8online](http://pep8online.com/)
-![errors report](assets/images/pep8-errors.png)
 
-I have checked the errors displayed initialy by pep8online. I have tried to correct those errors.
 
-![second errors report](assets/images/pep8-final.png)
+The code has been put through validation Pep8online. I have checked the errors displayed initialy. The error reports can be found here: [first report](assets/images/pep8-errors.png), [second report](assets/images/pep8-final.png). Final version of the report can be found below:
 
-- line 319 - error line too long is caused by Regex. I do not feel competent enough to split this regex into lines without damaging it's functionality
+
+![third and final reprot from pep8](assets/images/pep8-third.png)
+
+
+
+
 - line 304, 553, 717 - if statement is very long in those lines and had to be split into two lines. Pip8 returns it as an errror, alternative would be to have whole if statement in one line - than pip8 would return error - line too long. 
+
+
 
 2. Different operating system
     * Windows computer: all working correctly
@@ -184,14 +198,16 @@ I have checked the errors displayed initialy by pep8online. I have tried to corr
         - putting date in the past returns error
         - putting end date earlier than starts date returns error after the period of booking is validated
     * room
-        - putting letters instead of number returns error invalid literal for int() with base 10
+        - putting letters instead of number returns error invalid literal for int() with base 10 ??? 
 
 
 
-5. samsung????
-user tries to click on letters on the phone's keyboard, but in the program it displays as varous random letters. 
+5. Samsung Galaxy A40
+user tries to click on letters on the phone's keyboard, but in the program it displays as varous random letters. Seems like autofill option interfearing with user options. Unable to fix the problem, as phone is company property and I can't edit settings. It seems that the issue is with the phone not with the program, but I could not test this theory.
 
 ## Thanks to
+- [Code Institute Template](https://github.com/Code-Institute-Org/python-essentials-template)
 - [Asciiart] (https://www.asciiart.eu/buildings-and-places/castles)
+
 
 
