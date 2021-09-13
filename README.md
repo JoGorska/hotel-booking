@@ -183,8 +183,8 @@ I have checked the errors displayed initialy by pep8online. I have tried to corr
         - putting date in the past returns error
         - putting end date earlier than starts date returns error after the period of booking is validated
     * room
-        - putting letters instead of number returns error invalid literal for int()
-        
+        - putting letters instead of number returns error invalid literal for int() with base 10
+
 
 
 5. samsung????
