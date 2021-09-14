@@ -7,7 +7,6 @@
 link to live page [here](https://caths-cats-castle-booking.herokuapp.com/)
 
 
-
 ## Aim of the program
 
 The aim of the website is to allow users to book their cats' stay in the hotel. 
@@ -26,7 +25,6 @@ the image of the castle is shown when the program starts. This gives a nice intr
 the image of a cat climbing into a box is shown when the program ends. This gives a memorable goodbye to a user.
 
 ![castle](assets/images/img-castle.png)
-
 
 
 ![cat climbing into a box](assets/images/img-cat.png)
@@ -110,7 +108,8 @@ To make the terminal messages more intuitive colorama colors were introduced. Th
 
 
 ## Remaining Bugs
-    From the above mentioned list the bugs that were remaining
+
+From the above mentioned list the bugs that were remaining
 
 8. issue with errors raised by image of the castle - I left it untouched as editing it might destroy the image
   
@@ -134,6 +133,10 @@ To make the terminal messages more intuitive colorama colors were introduced. Th
     - validates if the number is between 1 - 9
 
 ## Deployment
+
+The site was deployed to Heroku. Please follow the below steps.
+
+### Deployment steps
 
 1. add list of requirements by writing in the terminal "pip3 freeze > requirements.txt"
 2. Add six and colorama==0.4.4 as they didn't seem to add automaticaly
@@ -174,6 +177,19 @@ Once the program runs:
 you should see the message "the app was sussesfuly deployed"
 23. Click button "View"
 
+### Forking the GitHub repository
+By forking out of this repository you will be able to view and edit the code without affecting the oryginal repository. 
+
+1. Locate the github repository. Link can be found [here](https://github.com/JoGorska/hotel-booking).
+2. Click the button in top right hand corner "Fork"
+3. This will take you to your own repository to a fork that is called the same as oryginal branch. 
+
+### Making a local clone
+
+1. Locate the github repository. Link can be found [here](https://github.com/JoGorska/hotel-booking).
+2. Next to green Gitpod button you will see a button "code" with arrow pointing down
+3. You are given option to open with github desktop or download zip
+4. You can also copy https full link, go to git bash and write git clone and paste the full link
 
 
 ## Further developement the website
@@ -251,6 +267,8 @@ Line 326, 589. 753, 754 - if statement is very long in those lines and had to be
         - empty input gives error that you have entered other characters than a number.
 
     * returning user options
+        - putting empty value returns validation error
+        - putting numbers, random letters or sighns returns a validation error
 
 
 
@@ -258,7 +276,9 @@ Line 326, 589. 753, 754 - if statement is very long in those lines and had to be
 
 ## Thanks to
 - [Code Institute Template](https://github.com/Code-Institute-Org/python-essentials-template)
-- [Asciiart] (https://www.asciiart.eu/buildings-and-places/castles)
+- [Asciiart](https://www.asciiart.eu/buildings-and-places/castles)
+- Fernanda Brito - for help with Readme 
+- Felipe Sousa Alarcon - for mentoring 
 
 
 
