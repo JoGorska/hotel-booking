@@ -743,7 +743,7 @@ def make_list_of_dates(worksheet, row_start, row_end):
         column = 1
         val = read_cell_value(worksheet, row, column)
         list_of_excel_dates.append(val)
-        print(list_of_excel_dates)
+
     return list_of_excel_dates
 
 
@@ -768,12 +768,14 @@ def make_list_from_column(worksheet, row_start, row_end, column_value):
         # this allows to print column containing various users
         # emails without revealing the identity who booked it.
 
-        if val != "":
-            val = "reserved"
+        # if val != "":
+        #      val = "reserved"
+        # elif val == "":
+        #      val = " "
 
         list_of_column_values.append(val)
-        print(list_of_column_values)
-        return list_of_column_values
+
+    return list_of_column_values
 
 
 def make_dictionary_from_lists(list1, list2):
@@ -794,12 +796,12 @@ def print_dictionary(dictionary):
     are on next line, this should make the print more user friendly
     """
     for i in dictionary:
-        print(dictionary[i])
+        print(i + ": " + dictionary[i])
 
 
 def print_user_booking(email):
     """
-    gets the dates from functions and initializes the functions to make 
+    gets the dates from functions and initializes the functions to make
     lists and dictionary with data needed for the print
     lastly it initializes function to print the dictionary
     """
@@ -807,9 +809,8 @@ def print_user_booking(email):
     end = end_date_input()
     # finds in which row those dates are
     row_start = find_a_row(start)
-    row_end = find_a_row(end) + 1
-    print(row_start)
-    print(row_end)
+    row_end = find_a_row(end)
+
 
     list_column_dates = make_list_of_dates(clients_worksheet,
                                            row_start, row_end)
