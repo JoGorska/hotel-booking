@@ -7,7 +7,6 @@
 link to live page [here](https://caths-cats-castle-booking.herokuapp.com/)
 
 
-
 ## Aim of the program
 
 The aim of the website is to allow users to book their cats' stay in the hotel. 
@@ -26,7 +25,6 @@ the image of the castle is shown when the program starts. This gives a nice intr
 the image of a cat climbing into a box is shown when the program ends. This gives a memorable goodbye to a user.
 
 ![castle](assets/images/img-castle.png)
-
 
 
 ![cat climbing into a box](assets/images/img-cat.png)
@@ -57,6 +55,8 @@ Various validation on user input allows the user to run the program without erro
 
 ## Styling
 
+Styling in the terminal is very limited. The interaction with the user is by Validation errors or messages informing that input has passed validation.
+To make the terminal messages more intuitive colorama colors were introduced. The error messages are in red and positive validation messages are in green. Also some images was added as welcome and goodbye screen.
 
 ## Bugs
 1. Issue with accessing data needed to update both worksheets.
@@ -108,7 +108,8 @@ Various validation on user input allows the user to run the program without erro
 
 
 ## Remaining Bugs
-    From the above mentioned list the bugs that were remaining
+
+From the above mentioned list the bugs that were remaining
 
 8. issue with errors raised by image of the castle - I left it untouched as editing it might destroy the image
   
@@ -132,6 +133,10 @@ Various validation on user input allows the user to run the program without erro
     - validates if the number is between 1 - 9
 
 ## Deployment
+
+The site was deployed to Heroku. Please follow the below steps.
+
+### Deployment steps
 
 1. add list of requirements by writing in the terminal "pip3 freeze > requirements.txt"
 2. Add six and colorama==0.4.4 as they didn't seem to add automaticaly
@@ -172,21 +177,45 @@ Once the program runs:
 you should see the message "the app was sussesfuly deployed"
 23. Click button "View"
 
+### Forking the GitHub repository
+By forking out of this repository you will be able to view and edit the code without affecting the oryginal repository. 
+
+1. Locate the github repository. Link can be found [here](https://github.com/JoGorska/hotel-booking).
+2. Click the button in top right hand corner "Fork"
+3. This will take you to your own repository to a fork that is called the same as oryginal branch. 
+
+### Making a local clone
+
+1. Locate the github repository. Link can be found [here](https://github.com/JoGorska/hotel-booking).
+2. Next to green Gitpod button you will see a button "code" with arrow pointing down
+3. You are given option to open with github desktop or download zip
+4. You can also copy https full link, go to git bash and write git clone and paste the full link
 
 
 ## Further developement the website
 
+1. Change database
+    The system of saving data that I have introduced inputs new column each time a new user is registered. This makes the spreadsheet really big.
+    I have prepared the spreadsheet to accomodate booking untill 26/05/2024. Any further booking would requre manualy extending the spreadsheet to add more rows and more dates. 
+    Each booking should be registered as a new row with email, date, room as the columns and have unique refference number. This way user could easily reffer to this particular booking, cancel it or change it.
+
+??? check if implemented
 Next important feature that needs to be developed is the "print" option
 - to display user's booking
 - to display available dates in particular room
+- change database - 
 
 ## User stories
 
-
+I want to be able to add a new booking.
+I want to be able to change my booking.
+I want to be able to cancel my booking.
+I would like the program to recognize my email as a returning customer.
 
 ## Technologies used
 - Code Institute template with HTML and CSS
 - Python
+- google sheets
 - Libraries:
     * gsptread
     * re
@@ -238,15 +267,18 @@ Line 326, 589. 753, 754 - if statement is very long in those lines and had to be
         - empty input gives error that you have entered other characters than a number.
 
     * returning user options
+        - putting empty value returns validation error
+        - putting numbers, random letters or sighns returns a validation error
 
 
 
-5. Samsung Galaxy A40
-user tries to click on letters on the phone's keyboard, but in the program it displays as varous random letters. Seems like autofill option interfearing with user options. Unable to fix the problem, as phone is company property and I can't edit settings. It seems that the issue is with the phone not with the program, but I could not test this theory.
+
 
 ## Thanks to
 - [Code Institute Template](https://github.com/Code-Institute-Org/python-essentials-template)
-- [Asciiart] (https://www.asciiart.eu/buildings-and-places/castles)
+- [Asciiart](https://www.asciiart.eu/buildings-and-places/castles)
+- Fernanda Brito - for help with Readme 
+- Felipe Sousa Alarcon - for mentoring 
 
 
 

@@ -763,7 +763,7 @@ def validate_client_option(option):
                 and option != "quit"):
             # returns error if the given word does not match
             # any of the given options
-            raise ValueError(f"The the word '{option}' does not seem to be "
+            raise ValueError(f"The the word '{option}' does not\n seem to be "
                              "matching any of the given options\n")
 
     except ValueError as e:
