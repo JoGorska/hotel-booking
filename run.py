@@ -724,10 +724,76 @@ def delete_booking_from_spreadsheet(email):
     add_data_to_spreadsheet(clients_worksheet, start_date_str,
                             end_date_str, email, cell_value)
     # updates rooms worksheet
-    # ??? what if there are different rooms within cancelation period?!!!
 
     add_data_to_spreadsheet(rooms_worksheet, start_date_str,
                             end_date_str, room_short_name, cell_value)
+
+
+def choose_print_dates(worksheet):
+    """
+    Asks the user to choose the date range start and finish 
+
+    """
+    # gets dates from the user
+    start = start_date_input()
+    end = end_date_input()
+    # finds in which row those dates are
+    row_start = find_a_row(start)
+    row_end = find_a_row(end) + 1
+    print(row_start)
+    print(row_end)
+
+def make_list_of_dates(worksheet, row_start, row_end):
+    """
+    returns list of dates
+    """
+    # makes a list of values containing each date in excel format (string dd/mm/yyyy)
+    list_of_excel_dates = []
+    # for loop gets each cell value and appends the list
+    for row in range(row_start, (row_end + 1)):
+        # gets the value of the cell in the column for the choosen room
+        # and each row in within the booked period of time
+        # column is 1 as the date strings are in first column
+        column = 1
+        val = read_cell_value(worksheet, row, column)
+        string_of_excel_dates.append(val)
+        print(string_of_excel_dates)
+
+def make_list_from_column(worksheet, row_start, row_end, column_value):
+    """
+    collects value from each cell in the given worksheet, column, and 
+    from row_start to row_end
+    appends the value to the list_of_column_values
+    """
+    # makes a list of values containing each date in excel format (string dd/mm/yyyy)
+    list_of_column_values = []
+    # for loop gets each cell value and appends the list
+    for row in range(row_start, (row_end + 1)):
+        # gets the value of the cell in the column for the choosen room
+        # and each row in within the booked period of time
+        # column is 1 as the date strings are in first column
+        column = 1
+        val = read_cell_value(worksheet, row, column)
+        string_of_excel_dates.append(val)
+        print(string_of_excel_dates)
+
+#####copied from codeinstutute challenge for love sandwiches, result that I wrote
+
+def print_dictionary(dictionary):
+    for i in dictionary:
+        print(dictionary[i])
+
+def get_stock_values(data):
+   
+    headings = SHEET.worksheet("stock").row_values(1)
+    
+    zip_iterator = zip(headings, data)
+    a_dictionary = dict(zip_iterator)
+    return a_dictionary
+    
+stock_values = get_stock_values(stock_data)
+print("Make the following numbers of sandwiches for next market:")
+print(stock_values)
 
 
 def get_returning_client_option():
