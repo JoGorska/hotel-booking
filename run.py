@@ -729,21 +729,6 @@ def delete_booking_from_spreadsheet(email):
                             end_date_str, room_short_name, cell_value)
 
 
-def choose_print_dates(worksheet):
-    """
-    Asks the user to choose the date range start and finish 
-
-    """
-    # gets dates from the user
-    start = start_date_input()
-    end = end_date_input()
-    # finds in which row those dates are
-    row_start = find_a_row(start)
-    row_end = find_a_row(end) + 1
-    print(row_start)
-    print(row_end)
-
-
 def make_list_of_dates(worksheet, row_start, row_end):
     """
     returns list of dates
@@ -788,6 +773,7 @@ def make_list_from_column(worksheet, row_start, row_end, column_value):
 
         list_of_column_values.append(val)
         print(list_of_column_values)
+        return list_of_column_values
 
 
 def make_dictionary_from_lists(list1, list2):
@@ -809,6 +795,30 @@ def print_dictionary(dictionary):
     """
     for i in dictionary:
         print(dictionary[i])
+
+
+def print_user_booking(email):
+    """
+    gets the dates from functions and initializes the functions to make 
+    lists and dictionary with data needed for the print
+    lastly it initializes function to print the dictionary
+    """
+    start = start_date_input()
+    end = end_date_input()
+    # finds in which row those dates are
+    row_start = find_a_row(start)
+    row_end = find_a_row(end) + 1
+    print(row_start)
+    print(row_end)
+
+    list_column_dates = make_list_of_dates(clients_worksheet,
+                                           row_start, row_end)
+    list_column_email = make_list_from_column(clients_worksheet,
+                                              row_start, row_end, email)
+    dictionary = make_dictionary_from_lists(list_column_dates, 
+                                            list_column_email)
+    print_dictionary(dictionary)
+    print(dictionary)
 
 
 def get_returning_client_option():
@@ -869,8 +879,8 @@ def activate_chosen_option(option, email):
         chosen_option = get_returning_client_option()
         activate_chosen_option(chosen_option, email)
     elif option == "print":
-        print(f"The option '{option}'' is currently not available."
-              f" We are working on it.")
+
+        print_user_booking(email)
         chosen_option = get_returning_client_option()
         activate_chosen_option(chosen_option, email)
 
