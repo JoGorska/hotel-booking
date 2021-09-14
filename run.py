@@ -743,6 +743,7 @@ def choose_print_dates(worksheet):
     print(row_start)
     print(row_end)
 
+
 def make_list_of_dates(worksheet, row_start, row_end):
     """
     returns list of dates
@@ -756,44 +757,58 @@ def make_list_of_dates(worksheet, row_start, row_end):
         # column is 1 as the date strings are in first column
         column = 1
         val = read_cell_value(worksheet, row, column)
-        string_of_excel_dates.append(val)
-        print(string_of_excel_dates)
+        list_of_excel_dates.append(val)
+        print(list_of_excel_dates)
+    return list_of_excel_dates
+
 
 def make_list_from_column(worksheet, row_start, row_end, column_value):
     """
-    collects value from each cell in the given worksheet, column, and 
+    collects value from each cell in the given worksheet, column, and
     from row_start to row_end
     appends the value to the list_of_column_values
     """
-    # makes a list of values containing each date in excel format (string dd/mm/yyyy)
+    # makes a list of values containing each date in excel format
+    # (string dd/mm/yyyy)
     list_of_column_values = []
     # for loop gets each cell value and appends the list
     for row in range(row_start, (row_end + 1)):
         # gets the value of the cell in the column for the choosen room
         # and each row in within the booked period of time
         # column is 1 as the date strings are in first column
-        column = 1
+        column = find_a_column(worksheet, column_value)
         val = read_cell_value(worksheet, row, column)
-        string_of_excel_dates.append(val)
-        print(string_of_excel_dates)
 
-#####copied from codeinstutute challenge for love sandwiches, result that I wrote
+        # this codes the value keeps it private
+        # this allows to print column containing various users
+        # emails without revealing the identity who booked it.
 
-def print_dictionary(dictionary):
-    for i in dictionary:
-        print(dictionary[i])
+        if val != "":
+            val = "reserved"
 
-def get_stock_values(data):
-   
-    headings = SHEET.worksheet("stock").row_values(1)
-    
-    zip_iterator = zip(headings, data)
+        list_of_column_values.append(val)
+        print(list_of_column_values)
+
+
+def make_dictionary_from_lists(list1, list2):
+    """
+    creates a dictionary from two lists
+    code copied from code instutute challenge for love sandwiches,
+    the result that I wrote, based on love sandwiches presentation
+    """
+
+    zip_iterator = zip(list1, list2)
     a_dictionary = dict(zip_iterator)
     return a_dictionary
-    
-stock_values = get_stock_values(stock_data)
-print("Make the following numbers of sandwiches for next market:")
-print(stock_values)
+
+
+def print_dictionary(dictionary):
+    """
+    support function to print the dictionary so the key and value
+    are on next line, this should make the print more user friendly
+    """
+    for i in dictionary:
+        print(dictionary[i])
 
 
 def get_returning_client_option():
