@@ -17,6 +17,27 @@ The program is a comand line program that leads the user through series of quest
 1. Start
 The user is asked for the email
 2. The program checks if it is a returning customer
+3. The program gives user options to choose from - different options for returning and different for a new customer
+    - add - to add a new booking
+    - show - to show room's availibility
+    - print - to print returning user's booking
+    - cancel - to cancel returning user's booking
+    - change - to change returning user's booking
+    - quit - to quit the program
+
+4. When the user wants to action any of the above options he will be asked for
+    - start date
+    - end date
+    - rooms (depending on the option)
+
+5. Once the proces is compleated - the spreadsheet gets updated with apropriate action
+    - add - adds data to spreadsheet
+    - cancel - removes data from spreadsheet
+    - change - adds and removes data from spreadsheet
+
+6. After each action, the user is always given returning user options, so he could make another action
+
+7. User can quit the program - when the question to choose the options is displayed.
 
 ## Features
 
@@ -50,13 +71,14 @@ Various validation on user input allows the user to run the program without erro
 ![partial screenshot showing error message in a terminal](assets/images/error-message.png)
 
 
-
 4. Terminal of 80 characters wide and 24 rows high
 
 ## Styling
 
 Styling in the terminal is very limited. The interaction with the user is by Validation errors or messages informing that input has passed validation.
 To make the terminal messages more intuitive colorama colors were introduced. The error messages are in red and positive validation messages are in green. Also some images was added as welcome and goodbye screen.
+
+If user wishes to see their booking, it is displayed one line under another so it is clear to see the pairs key - value (date - booking)
 
 ## Bugs
 1. Issue with accessing data needed to update both worksheets.
@@ -121,6 +143,12 @@ To make the terminal messages more intuitive colorama colors were introduced. Th
 
     When checking the spreadsheet I realised that this booking was saved in clients_worksheet, but not in rooms_worksheet. Further investigation revealed that the tester had API error during booking of this room. This interupted the process of saving. 
 
+13. Confusing message about date in the past
+
+    Tester pointed out that the program shows error - Date in the past for today date. This is due Python converting user input from string to Python date time object, which makes it Today midnight, while python today object takes the time from now. This means that user inputing today's date is considered by python as being in the past.
+
+    I have reworded the error message so it explains that booking is available from tomorrow onwards.  
+
 ## Remaining Bugs
 
 From the above mentioned list the bugs that were remaining
@@ -152,6 +180,12 @@ From the above mentioned list the bugs that were remaining
 4. Room number validation
     - validates if user input is a digit or digit and a white space
     - validates if the number is between 1 - 9
+
+8. User options validation
+    - empty input returns value error
+    - random letters return error
+    - random words return error
+    - validation looks for keywords to be present
 
 ## Deployment
 
@@ -216,20 +250,59 @@ By forking out of this repository you will be able to view and edit the code wit
 ## Further developement the website
 
 1. Change database
+
     The system of saving data that I have introduced inputs new column each time a new user is registered. This makes the spreadsheet really big.
     I have prepared the spreadsheet to accomodate booking untill 26/05/2024. Any further booking would requre manualy extending the spreadsheet to add more rows and more dates. 
     Each booking should be registered as a new row with email, date, room as the columns and have unique refference number. This way user could easily reffer to this particular booking, cancel it or change it.
 
     Gspread has also strong limitations on number of API requests. It was not good for the testing of the app. I can also see the problems if the hotel was introducing any last minute deals - the database would get blocked with too many clients trying to book at the same time.
 
+2. Connect to the live page of the hotel
+
+    Live page cor Cath's cats Castle can be found [here](https://jogorska.github.io/Luxury_cat_hotel/index.html).
+
+    The comandline interface is not user friendly. User needs to be able to see the rooms, while he makes a choise. 
+
+    Also booking a cat into a cattery requires the cat owner to put a lot of data of the cat, so appropriate care can be put in place. Inputing data on a comandline interface can be difficult. It is so much better to use HTML form with drop downs and radio buttons plus validation suggesting the correct format before form is subbmited. 
+
+
 ## User stories
 
-I want to be able to add a new booking.
-I want to be able to change my booking.
-I want to be able to cancel my booking.
-I would like the program to recognize my email as a returning customer.
-I would like to be able to check if the room is available in my choosen dates
-I would like to check my own booking.
+### First time visitor
+
+- I want be able to add a booking
+- I want to be able to check if the room is available for me to book
+- Once I added my booking I want to be able to change it or cancell.
+- I want to be able to print my booking.
+- I want to be able to quit the program and not continue with the booking.
+
+### The goals were accomplished in the following ways
+
+- First time visitor is given option to add booking.
+- First time visitor can use option to show room's availiblity. User can choose dates and room, that we wants to check. 
+- Once his new booking is saved, he is given options to change it or cancell
+- After the booking is completed the user can print his own booking to the terminal
+- User can quit the program as soon as the options are shown. This can be after he has input his email or after completed booking
+
+### Returning visitor
+
+- I would like the program to recognize my email as a returning customer.
+
+- I want to be able to add a new booking.
+- I want to be able to change my booking.
+- I want to be able to cancel my booking.
+
+- I would like to be able to check if the room is available in my choosen dates
+- I would like to check my own booking.
+
+### The goals were accomplished in the following ways
+
+- Program check user's email and displays welcome message when email is found in the database.
+- The option to show room's availiblity is enabled for returning customer as well. User can choose dates and room, that we wants to check. 
+- Once his new booking is saved, he is given options to change it or cancell
+- After the booking is completed the user can print his own booking to the terminal
+- User can quit the program as soon as the options are shown. This can be after he has input his email or after completed booking
+
 
 ## Technologies used
 - Code Institute template with HTML and CSS
