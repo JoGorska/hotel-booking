@@ -901,6 +901,48 @@ def validate_client_option(option):
     return True
 
 
+def get_new_client_option():
+
+    """
+    gives new client various options to choose from
+    fuction returns a chosen option
+    """
+
+    while True:
+        print("Please choose one of the following options:")
+        print("to add a new booking (add)")
+        print("check room availability (check),")
+        print("quit the program (quit)\n")
+        chosen_option = input("Write 'add', 'check', "
+                              "or 'quit' here: \n")
+
+        if validate_new_client_option(chosen_option):
+
+            print(f"{Fore.GREEN}Your option is valid\n")
+            break
+    return chosen_option
+
+
+ def validate_new_client_option(option):
+    """
+    function to validate the option that returning customer
+    has chosen
+    """
+    try:
+        if (option != "add" and option != "show"
+                and option != "quit"):
+            # returns error if the given word does not match
+            # any of the given options
+            raise ValueError(f"The the word '{option}' does not\n seem to be "
+                             "matching any of the given options\n")
+
+    except ValueError as e:
+        print(f"{Fore.RED}Invalid option: {e} please try again.\n")
+        return False
+
+    return True
+
+
 def activate_chosen_option(option, email):
     """
     initializes the function depending on the function that client has chosen
@@ -955,26 +997,7 @@ def activate_chosen_option(option, email):
         print_cat()
 
 
-def get_new_client_option():
 
-    """
-    gives new client various options to choose from
-    fuction returns a chosen option
-    """
-
-    while True:
-        print("Please choose one of the following options:")
-        print("to add a new booking (add)")
-        print("check room availability (check),")
-        print("quit the program (quit)\n")
-        chosen_option = input("Write 'add', 'check', "
-                              "or 'quit' here: \n")
-
-        if validate_client_option(chosen_option):
-
-            print(f"{Fore.GREEN}Your option is valid\n")
-            break
-    return chosen_option
 
 
 def is_returning_client(email):
