@@ -106,6 +106,9 @@ To make the terminal messages more intuitive colorama colors were introduced. Th
 
     I added another validation - regex to validate input if it is numbers or other symbors. I also moved int() function to the elif statement so the input is changed to integer only after it passes validation that it is actualy the number. The regex I found on [stack overflow](https://stackoverflow.com/questions/50177113/regex-for-only-numbers-in-string) accepts digits and space - which gives the user a little more flexibility if accidental white space is input. 
 
+10. Program crushing when attempting to print dates, when booking was none
+    It seems that when cell vaue was empty, the python was returning None, not an empty strig. Python was returning error that it can only concate strings, not none.
+    I have added if statement to check if value is an empty string or if value is none so it converts the val to string "None" This way I could concate string and print the data for the user in the form that I have designed.
 
 ## Remaining Bugs
 
