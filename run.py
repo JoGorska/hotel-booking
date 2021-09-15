@@ -916,11 +916,12 @@ def get_returning_client_option():
     while True:
         print("Please choose one of the following options:")
         print("to add a new booking (add)")
+        print("show room availability (show),")
         print("check your booking (print),")
         print("change your booking (change),")
         print("cancel your booking (cancel)")
         print("quit the program (quit)\n")
-        chosen_option = input("Write 'add', 'print', "
+        chosen_option = input("Write 'add', 'show', 'print', "
                               "'change', 'cancel' or 'quit' here: \n")
 
         if validate_client_option(chosen_option):
@@ -942,7 +943,8 @@ def validate_client_option(option):
             raise ValueError("You didn't choose any option.\n")
 
         elif (option != "add" and option != "print" and option != "change"
-              and option != "cancel" and option != "quit"):
+              and option != "cancel" and option != "quit"
+              and option != "show"):
             # returns error if the given word does not match
             # any of the given options
             raise ValueError(f"The the word '{option}' does not\n seem to be "
