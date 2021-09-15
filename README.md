@@ -107,14 +107,23 @@ To make the terminal messages more intuitive colorama colors were introduced. Th
     I added another validation - regex to validate input if it is numbers or other symbors. I also moved int() function to the elif statement so the input is changed to integer only after it passes validation that it is actualy the number. The regex I found on [stack overflow](https://stackoverflow.com/questions/50177113/regex-for-only-numbers-in-string) accepts digits and space - which gives the user a little more flexibility if accidental white space is input. 
 
 10. Program crushing when attempting to print dates, when booking was none
+
     It seems that when cell vaue was empty, the python was returning None, not an empty strig. Python was returning error that it can only concate strings, not none.
     I have added if statement to check if value is an empty string or if value is none so it converts the val to string "None" This way I could concate string and print the data for the user in the form that I have designed.
+
+11. Gspread error - Exceeded read requests per minute per user.
+
+    During intense testing I have received the error that I have exceeded the Read requests per minute per user. This seem to be limitation of the use of free and simple data base like this. The error message can be found [here](assets/images/error-gspread.png).
 
 ## Remaining Bugs
 
 From the above mentioned list the bugs that were remaining
 
 8. issue with errors raised by image of the castle - I left it untouched as editing it might destroy the image
+
+11. Gspread error - Exceeded read requests per minute per user.
+
+    Gspread seems to be very simple database and sufficient for a small project (or a small hotel). For any robust and reliable website, different type of database should be used. 
   
 ## Validation
 
