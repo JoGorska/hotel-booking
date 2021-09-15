@@ -729,6 +729,10 @@ def delete_booking_from_spreadsheet(email):
                             end_date_str, room_short_name, cell_value)
 
 
+# Here start functions that deal with printing / displaying booking
+# or showing room availibility
+
+
 def make_list_of_dates(worksheet, row_start, row_end):
     """
     returns list of dates
@@ -757,11 +761,14 @@ def make_list_from_column(worksheet, row_start, row_end, column_value):
     # makes a list of values containing each date in excel format
     # (string dd/mm/yyyy)
     list_of_column_values = []
+
     # for loop gets each cell value and appends the list
+
     for row in range(row_start, (row_end + 1)):
         # gets the value of the cell in the column for the choosen room
         # and each row in within the booked period of time
         # column is 1 as the date strings are in first column
+
         column = find_a_column(worksheet, column_value)
         val = read_cell_value(worksheet, row, column)
 
@@ -830,7 +837,7 @@ def print_user_booking(email):
     """
     while True:
         # obtains start and end date of the print from the user
-        print("We will now ask you for a start and end date of"
+        print("We will now ask you for a start and end date of\n"
               "the period that you want to print\n")
         start = start_date_input()
         end = end_date_input()
@@ -857,6 +864,47 @@ def print_user_booking(email):
     print_dictionary(dictionary)
 
 
+def show_room_availability():
+    """
+    gets the dates and room from functions and initializes the functions
+    to make lists and dictionary with data needed for the print
+    lastly it initializes function to print the dictionary
+    """
+    while True:
+        # obtains start and end date of the print from the user
+        print("We will now ask you for a start and end date\n"
+              "of the period that you want to check and than\n"
+              "to give us the room number you would like\n")
+        start = start_date_input()
+        end = end_date_input()
+        room_int = get_room_int()
+        room_name = room_short_name(room_int)
+
+        # finds in which row those dates are
+        row_start = find_a_row(start)
+        row_end = find_a_row(end)
+
+        # calls functions that create lists of data from the
+        # appropriate columns and from start to end date
+        print("Checking the spreadsheet...")
+        list_column_dates = make_list_of_dates(rooms_worksheet,
+                                               row_start, row_end)
+        list_column_room = make_list_from_column(rooms_worksheet,
+                                                 row_start, row_end,
+                                                 room_name)
+        # makes dictionary out of two above lists
+        dictionary = make_dictionary_from_lists(list_column_dates,
+                                                list_column_room)
+
+        if validate_print_request(start, end):
+            print(f"{Fore.GREEN}Print request validated.\n")
+            break
+
+    print_dictionary(dictionary)
+
+# Here starts functions that handle user options
+
+
 def get_returning_client_option():
     """
     gives returning client various options to choose from
@@ -868,7 +916,8 @@ def get_returning_client_option():
         print("to add a new booking (add)")
         print("check your booking (print),")
         print("change your booking (change),")
-        print("cancel your booking (cancel)\n")
+        print("cancel your booking (cancel)")
+        print("quit the program (quit)\n")
         chosen_option = input("Write 'add', 'print', "
                               "'change', 'cancel' or 'quit' here: \n")
 
@@ -885,13 +934,64 @@ def validate_client_option(option):
     has chosen
     """
     try:
-        if (option != "add" and option != "print"
-                and option != "change" and option != "cancel"
+
+        if option == "":
+            # returns error when input is empty
+            raise ValueError("You didn't choose any option.\n")
+
+        elif (option != "add" and option != "print" and option != "change"
+              and option != "cancel" and option != "quit"):
+            # returns error if the given word does not match
+            # any of the given options
+            raise ValueError(f"The the word '{option}' does not\n seem to be "
+                             f"matching any of the given options\n")
+
+    except ValueError as e:
+        print(f"{Fore.RED}Invalid option: {e} please try again.\n")
+        return False
+
+    return True
+
+
+def get_new_client_option():
+
+    """
+    gives new client various options to choose from
+    fuction returns a chosen option
+    """
+
+    while True:
+        print("Please choose one of the following options:")
+        print("add a new booking (add)")
+        print("show room availability (show),")
+        print("quit the program (quit)\n")
+        chosen_option = input("Write 'add', 'show', "
+                              "or 'quit' here: \n")
+
+        if validate_new_client_option(chosen_option):
+
+            print(f"{Fore.GREEN}Your option is valid\n")
+            break
+    return chosen_option
+
+
+def validate_new_client_option(option):
+    """
+    function to validate the option that returning customer
+    has chosen
+    """
+    try:
+
+        if option == "":
+            # returns error when input is empty
+            raise ValueError("You didn't choose any option.\n")
+
+        elif (option != "add" and option != "show"
                 and option != "quit"):
             # returns error if the given word does not match
             # any of the given options
             raise ValueError(f"The the word '{option}' does not\n seem to be "
-                             "matching any of the given options\n")
+                             f"matching any of the given options\n")
 
     except ValueError as e:
         print(f"{Fore.RED}Invalid option: {e} please try again.\n")
@@ -914,6 +1014,14 @@ def activate_chosen_option(option, email):
 
         chosen_option = get_returning_client_option()
         activate_chosen_option(chosen_option, email)
+
+    elif option == "show":
+        show_room_availability()
+        chosen_option = get_new_client_option()
+        activate_chosen_option(chosen_option, email)
+        chosen_option = get_returning_client_option()
+        activate_chosen_option(chosen_option, email)
+
     elif option == "print":
 
         print_user_booking(email)
@@ -976,7 +1084,8 @@ def main():
         chosen_option = get_returning_client_option()
         activate_chosen_option(chosen_option, customer_email)
     else:
-        register_new_booking(customer_email)
+        chosen_option = get_new_client_option()
+        activate_chosen_option(chosen_option, customer_email)
         # once registration is complete -
         # client can choose from the given options what to do next
         chosen_option = get_returning_client_option()
