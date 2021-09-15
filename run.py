@@ -955,6 +955,26 @@ def activate_chosen_option(option, email):
         print_cat()
 
 
+def get_new_client_option():
+
+    """
+    gives new client various options to choose from
+    fuction returns a chosen option
+    """
+
+    while True:
+        print("Please choose one of the following options:")
+        print("to add a new booking (add)")
+        print("check room availability (check),")
+        print("quit the program (quit)\n")
+        chosen_option = input("Write 'add', 'check', "
+                              "or 'quit' here: \n")
+
+        if validate_client_option(chosen_option):
+
+            print(f"{Fore.GREEN}Your option is valid\n")
+            break
+    return chosen_option
 
 
 def is_returning_client(email):
