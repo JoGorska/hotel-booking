@@ -824,19 +824,27 @@ def print_user_booking(email):
     lists and dictionary with data needed for the print
     lastly it initializes function to print the dictionary
     """
-    start = start_date_input()
-    end = end_date_input()
-    # finds in which row those dates are
-    row_start = find_a_row(start)
-    row_end = find_a_row(end)
+    while True:
+        start = start_date_input()
+        end = end_date_input()
+        # finds in which row those dates are
+        row_start = find_a_row(start)
+        row_end = find_a_row(end)
+        # calls functions that create lists of data from the
+        # appropriate columns and from start to end date
+        list_column_dates = make_list_of_dates(clients_worksheet,
+                                               row_start, row_end)
+        list_column_email = make_list_from_column(clients_worksheet,
+                                                  row_start, row_end, email)
+        # makes dictionary out of two above lists
+        dictionary = make_dictionary_from_lists(list_column_dates,
+                                                list_column_email)
 
-    list_column_dates = make_list_of_dates(clients_worksheet,
-                                           row_start, row_end)
-    list_column_email = make_list_from_column(clients_worksheet,
-                                              row_start, row_end, email)
-    dictionary = make_dictionary_from_lists(list_column_dates,
-                                            list_column_email)
-    print_dictionary(dictionary)
+        if (validate_print_request(start, end):
+            print(f"{Fore.GREEN}Print request validated.\n")
+            break
+
+        print_dictionary(dictionary)
 
 
 def get_returning_client_option():
