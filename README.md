@@ -181,6 +181,12 @@ From the above mentioned list the bugs that were remaining
     - validates if user input is a digit or digit and a white space
     - validates if the number is between 1 - 9
 
+8. User options validation
+    - empty input returns value error
+    - random letters return error
+    - random words return error
+    - validation looks for keywords to be present
+
 ## Deployment
 
 The site was deployed to Heroku. Please follow the below steps.
@@ -244,20 +250,59 @@ By forking out of this repository you will be able to view and edit the code wit
 ## Further developement the website
 
 1. Change database
+
     The system of saving data that I have introduced inputs new column each time a new user is registered. This makes the spreadsheet really big.
     I have prepared the spreadsheet to accomodate booking untill 26/05/2024. Any further booking would requre manualy extending the spreadsheet to add more rows and more dates. 
     Each booking should be registered as a new row with email, date, room as the columns and have unique refference number. This way user could easily reffer to this particular booking, cancel it or change it.
 
     Gspread has also strong limitations on number of API requests. It was not good for the testing of the app. I can also see the problems if the hotel was introducing any last minute deals - the database would get blocked with too many clients trying to book at the same time.
 
+2. Connect to the live page of the hotel
+
+    Live page cor Cath's cats Castle can be found [here](https://jogorska.github.io/Luxury_cat_hotel/index.html).
+
+    The comandline interface is not user friendly. User needs to be able to see the rooms, while he makes a choise. 
+
+    Also booking a cat into a cattery requires the cat owner to put a lot of data of the cat, so appropriate care can be put in place. Inputing data on a comandline interface can be difficult. It is so much better to use HTML form with drop downs and radio buttons plus validation suggesting the correct format before form is subbmited. 
+
+
 ## User stories
 
-I want to be able to add a new booking.
-I want to be able to change my booking.
-I want to be able to cancel my booking.
-I would like the program to recognize my email as a returning customer.
-I would like to be able to check if the room is available in my choosen dates
-I would like to check my own booking.
+### First time visitor
+
+- I want be able to add a booking
+- I want to be able to check if the room is available for me to book
+- Once I added my booking I want to be able to change it or cancell.
+- I want to be able to print my booking.
+- I want to be able to quit the program and not continue with the booking.
+
+### The goals were accomplished in the following ways
+
+- First time visitor is given option to add booking.
+- First time visitor can use option to show room's availiblity. User can choose dates and room, that we wants to check. 
+- Once his new booking is saved, he is given options to change it or cancell
+- After the booking is completed the user can print his own booking to the terminal
+- User can quit the program as soon as the options are shown. This can be after he has input his email or after completed booking
+
+### Returning visitor
+
+- I would like the program to recognize my email as a returning customer.
+
+- I want to be able to add a new booking.
+- I want to be able to change my booking.
+- I want to be able to cancel my booking.
+
+- I would like to be able to check if the room is available in my choosen dates
+- I would like to check my own booking.
+
+### The goals were accomplished in the following ways
+
+- Program check user's email and displays welcome message when email is found in the database.
+- The option to show room's availiblity is enabled for returning customer as well. User can choose dates and room, that we wants to check. 
+- Once his new booking is saved, he is given options to change it or cancell
+- After the booking is completed the user can print his own booking to the terminal
+- User can quit the program as soon as the options are shown. This can be after he has input his email or after completed booking
+
 
 ## Technologies used
 - Code Institute template with HTML and CSS
