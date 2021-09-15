@@ -802,6 +802,22 @@ def print_dictionary(dictionary):
         print(i + ": " + dictionary[i])
 
 
+def validate_print_request(start, end):
+    """
+    Inside try raises ValueError if user entered end date before start date
+    for the print request. 
+    """
+    try:
+        if (end_date_before_start(start, end)):
+            raise ValueError("You have entered end date before start date\n")
+
+    except ValueError as e:
+        print(f"{Fore.RED}Invalid print request: {e}\n please try again.\n")
+        return False
+
+    return True
+
+
 def print_user_booking(email):
     """
     gets the dates from functions and initializes the functions to make
