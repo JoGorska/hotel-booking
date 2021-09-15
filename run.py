@@ -945,6 +945,31 @@ def activate_chosen_option(option, email):
         # ends the program
         print_cat()
 
+def activate_new_user_options(option, email):
+    """
+    initializes the function depending on the keyword that
+    client has chosen, limited options for
+    new customers
+    """
+    if option == "add":
+        # uses provided email to register new booking,
+        # initializes function to register new booking
+        register_new_booking(email)
+
+        # once new booking is completed the client
+        # gets the returning customer options
+
+        chosen_option = get_returning_client_option()
+        activate_chosen_option(chosen_option, email)
+
+    elif option == "check":
+        
+
+    elif option == "quit":
+        # prints a cat climbing into a box and
+        # a goodbye message
+        # ends the program
+        print_cat()
 
 def is_returning_client(email):
     """
