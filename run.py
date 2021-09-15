@@ -868,7 +868,8 @@ def get_returning_client_option():
         print("to add a new booking (add)")
         print("check your booking (print),")
         print("change your booking (change),")
-        print("cancel your booking (cancel)\n")
+        print("cancel your booking (cancel)")
+        print("quit the program (quit)\n")
         chosen_option = input("Write 'add', 'print', "
                               "'change', 'cancel' or 'quit' here: \n")
 
@@ -914,6 +915,14 @@ def activate_chosen_option(option, email):
 
         chosen_option = get_returning_client_option()
         activate_chosen_option(chosen_option, email)
+
+    elif option == "check":
+        show_room_availability()
+        chosen_option = get_new_client_option()
+        activate_chosen_option(chosen_option, email)
+        chosen_option = get_returning_client_option()
+        activate_chosen_option(chosen_option, email)
+    
     elif option == "print":
 
         print_user_booking(email)
@@ -945,31 +954,8 @@ def activate_chosen_option(option, email):
         # ends the program
         print_cat()
 
-def activate_new_user_options(option, email):
-    """
-    initializes the function depending on the keyword that
-    client has chosen, limited options for
-    new customers
-    """
-    if option == "add":
-        # uses provided email to register new booking,
-        # initializes function to register new booking
-        register_new_booking(email)
 
-        # once new booking is completed the client
-        # gets the returning customer options
 
-        chosen_option = get_returning_client_option()
-        activate_chosen_option(chosen_option, email)
-
-    elif option == "check":
-        
-
-    elif option == "quit":
-        # prints a cat climbing into a box and
-        # a goodbye message
-        # ends the program
-        print_cat()
 
 def is_returning_client(email):
     """
@@ -1001,7 +987,8 @@ def main():
         chosen_option = get_returning_client_option()
         activate_chosen_option(chosen_option, customer_email)
     else:
-        register_new_booking(customer_email)
+        chosen_option = get_new_client_option()
+        activate_chosen_option(chosen_option, customer_email)
         # once registration is complete -
         # client can choose from the given options what to do next
         chosen_option = get_returning_client_option()
