@@ -886,16 +886,17 @@ def validate_client_option(option):
     has chosen
     """
     try:
-        if (option != "add" and option != "print"
-                and option != "change" and option != "cancel"
-                and option != "quit"):
+
+        if option == "":
+            # returns error when input is empty
+            raise ValueError("You didn't choose any option.\n")
+
+        elif (option != "add" and option != "print" and option != "change"
+              and option != "cancel" and option != "quit"):
             # returns error if the given word does not match
             # any of the given options
             raise ValueError(f"The the word '{option}' does not\n seem to be "
-                             "matching any of the given options\n")
-        elif option == "":
-            # returns error when input is empty
-            raise ValueError("You didn't choose any option.\n")
+                             f"matching any of the given options\n")
 
     except ValueError as e:
         print(f"{Fore.RED}Invalid option: {e} please try again.\n")
@@ -932,15 +933,17 @@ def validate_new_client_option(option):
     has chosen
     """
     try:
-        if (option != "add" and option != "show"
+
+        if option == "":
+            # returns error when input is empty
+            raise ValueError("You didn't choose any option.\n")
+
+        elif (option != "add" and option != "show"
                 and option != "quit"):
             # returns error if the given word does not match
             # any of the given options
             raise ValueError(f"The the word '{option}' does not\n seem to be "
-                             "matching any of the given options\n")
-        elif option == "":
-            # returns error when input is empty
-            raise ValueError("You didn't choose any option.\n")
+                              "matching any of the given options\n")
 
     except ValueError as e:
         print(f"{Fore.RED}Invalid option: {e} please try again.\n")
@@ -970,7 +973,7 @@ def activate_chosen_option(option, email):
         activate_chosen_option(chosen_option, email)
         chosen_option = get_returning_client_option()
         activate_chosen_option(chosen_option, email)
-    
+
     elif option == "print":
 
         print_user_booking(email)
@@ -1001,9 +1004,6 @@ def activate_chosen_option(option, email):
         # a goodbye message
         # ends the program
         print_cat()
-
-
-
 
 
 def is_returning_client(email):
