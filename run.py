@@ -797,6 +797,9 @@ def print_dictionary(dictionary):
     key and value pairs are on seperate line,
     this should make the print more user friendly
     """
+    print("Checking spreadsheet...")
+    # prints one date below another, which will let the user
+    # scroll through the results.
     for i in dictionary:
 
         print(i + ": " + dictionary[i])
@@ -805,9 +808,10 @@ def print_dictionary(dictionary):
 def validate_print_request(start, end):
     """
     Inside try raises ValueError if user entered end date before start date
-    for the print request. 
+    for the print request.
     """
     try:
+        print("Validating print request...\n")
         if (end_date_before_start(start, end)):
             raise ValueError("You have entered end date before start date\n")
 
@@ -825,13 +829,19 @@ def print_user_booking(email):
     lastly it initializes function to print the dictionary
     """
     while True:
+        # obtains start and end date of the print from the user
+        print("We will now ask you for a start and end date of"
+              "the period that you want to print\n")
         start = start_date_input()
         end = end_date_input()
+
         # finds in which row those dates are
         row_start = find_a_row(start)
         row_end = find_a_row(end)
+
         # calls functions that create lists of data from the
         # appropriate columns and from start to end date
+        print("Checking the spreadsheet...")
         list_column_dates = make_list_of_dates(clients_worksheet,
                                                row_start, row_end)
         list_column_email = make_list_from_column(clients_worksheet,
@@ -840,11 +850,11 @@ def print_user_booking(email):
         dictionary = make_dictionary_from_lists(list_column_dates,
                                                 list_column_email)
 
-        if (validate_print_request(start, end):
+        if validate_print_request(start, end):
             print(f"{Fore.GREEN}Print request validated.\n")
             break
 
-        print_dictionary(dictionary)
+    print_dictionary(dictionary)
 
 
 def get_returning_client_option():
