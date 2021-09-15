@@ -733,7 +733,8 @@ def make_list_of_dates(worksheet, row_start, row_end):
     """
     returns list of dates
     """
-    # makes a list of values containing each date in excel format (string dd/mm/yyyy)
+    # makes a list of values containing each date in excel format
+    # (string dd/mm/yyyy)
     list_of_excel_dates = []
     # for loop gets each cell value and appends the list
     for row in range(row_start, (row_end + 1)):
@@ -768,10 +769,10 @@ def make_list_from_column(worksheet, row_start, row_end, column_value):
         # this allows to print column containing various users
         # emails without revealing the identity who booked it.
 
-        # if val != "":
-        #      val = "reserved"
-        # elif val == "":
-        #      val = " "
+        if (val == "") or (val is None):
+            val = "None"
+        elif "@" in val:
+            val = "Reserved"
 
         list_of_column_values.append(val)
 
@@ -792,10 +793,12 @@ def make_dictionary_from_lists(list1, list2):
 
 def print_dictionary(dictionary):
     """
-    support function to print the dictionary so the key and value
-    are on next line, this should make the print more user friendly
+    support function to print the dictionary so that each
+    key and value pairs are on seperate line,
+    this should make the print more user friendly
     """
     for i in dictionary:
+
         print(i + ": " + dictionary[i])
 
 
@@ -811,15 +814,13 @@ def print_user_booking(email):
     row_start = find_a_row(start)
     row_end = find_a_row(end)
 
-
     list_column_dates = make_list_of_dates(clients_worksheet,
                                            row_start, row_end)
     list_column_email = make_list_from_column(clients_worksheet,
                                               row_start, row_end, email)
-    dictionary = make_dictionary_from_lists(list_column_dates, 
+    dictionary = make_dictionary_from_lists(list_column_dates,
                                             list_column_email)
     print_dictionary(dictionary)
-    print(dictionary)
 
 
 def get_returning_client_option():
