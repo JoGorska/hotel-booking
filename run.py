@@ -367,7 +367,9 @@ def validate_date(date):
             raise ValueError(f"The date '{date}' does not seem to be "
                              "in the correct format\n")
         elif (date_in_the_past(date)):
-            raise ValueError(f"The date '{date}' is in the past\n")
+            raise ValueError(f"The date '{date}' is not available\n"
+                             f"we can only accept booking from\n"
+                             f"tomorrow onwards,")
         elif date_not_in_worksheet(date):
             # assuming that administrator will extend both worksheets equaly.
             existing_dates_rooms = rooms_worksheet.col_values(1)
