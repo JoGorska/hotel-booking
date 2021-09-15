@@ -893,6 +893,9 @@ def validate_client_option(option):
             # any of the given options
             raise ValueError(f"The the word '{option}' does not\n seem to be "
                              "matching any of the given options\n")
+        elif option == "":
+            # returns error when input is empty
+            raise ValueError("You didn't choose any option.\n")
 
     except ValueError as e:
         print(f"{Fore.RED}Invalid option: {e} please try again.\n")
@@ -923,7 +926,7 @@ def get_new_client_option():
     return chosen_option
 
 
- def validate_new_client_option(option):
+def validate_new_client_option(option):
     """
     function to validate the option that returning customer
     has chosen
@@ -935,6 +938,9 @@ def get_new_client_option():
             # any of the given options
             raise ValueError(f"The the word '{option}' does not\n seem to be "
                              "matching any of the given options\n")
+        elif option == "":
+            # returns error when input is empty
+            raise ValueError("You didn't choose any option.\n")
 
     except ValueError as e:
         print(f"{Fore.RED}Invalid option: {e} please try again.\n")
