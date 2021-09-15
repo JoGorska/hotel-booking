@@ -115,6 +115,12 @@ To make the terminal messages more intuitive colorama colors were introduced. Th
 
     During intense testing I have received the error that I have exceeded the Read requests per minute per user. This seem to be limitation of the use of free and simple data base like this. The error message can be found [here](assets/images/error-gspread.png).
 
+12. User can't cancell the booking
+
+    One of the testers (something@aol.com) reported that they can see their booking displayed by their program (booking Glasgow  10-20 October 2021), but the program doesn't allow them to cancell this booking. 
+
+    When checking the spreadsheet I realised that this booking was saved in clients_worksheet, but not in rooms_worksheet. Further investigation revealed that the tester had API error during booking of this room. This interupted the process of saving. 
+
 ## Remaining Bugs
 
 From the above mentioned list the bugs that were remaining
@@ -124,6 +130,9 @@ From the above mentioned list the bugs that were remaining
 11. Gspread error - Exceeded read requests per minute per user.
 
     Gspread seems to be very simple database and sufficient for a small project (or a small hotel). For any robust and reliable website, different type of database should be used. 
+
+12. User can't cancel the booking
+    The data base was designed as two worksheets and if anything breaks in between them than bookig is not valid. Unfortunately it is too late to change the database completly but it is another weeknes of the chosen type of database.
   
 ## Validation
 
@@ -211,11 +220,7 @@ By forking out of this repository you will be able to view and edit the code wit
     I have prepared the spreadsheet to accomodate booking untill 26/05/2024. Any further booking would requre manualy extending the spreadsheet to add more rows and more dates. 
     Each booking should be registered as a new row with email, date, room as the columns and have unique refference number. This way user could easily reffer to this particular booking, cancel it or change it.
 
-??? check if implemented
-Next important feature that needs to be developed is the "print" option
-- to display user's booking
-- to display available dates in particular room
-- change database - 
+    Gspread has also strong limitations on number of API requests. It was not good for the testing of the app. I can also see the problems if the hotel was introducing any last minute deals - the database would get blocked with too many clients trying to book at the same time.
 
 ## User stories
 
@@ -223,6 +228,8 @@ I want to be able to add a new booking.
 I want to be able to change my booking.
 I want to be able to cancel my booking.
 I would like the program to recognize my email as a returning customer.
+I would like to be able to check if the room is available in my choosen dates
+I would like to check my own booking.
 
 ## Technologies used
 - Code Institute template with HTML and CSS
@@ -290,6 +297,7 @@ Line 326, 589. 753, 754 - if statement is very long in those lines and had to be
 - [Code Institute Template](https://github.com/Code-Institute-Org/python-essentials-template)
 - [Asciiart](https://www.asciiart.eu/buildings-and-places/castles)
 - Fernanda Brito - for help with Readme 
+- Richard Eldridge - for extensive testing
 - Felipe Sousa Alarcon - for mentoring 
 
 
