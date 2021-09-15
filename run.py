@@ -761,11 +761,14 @@ def make_list_from_column(worksheet, row_start, row_end, column_value):
     # makes a list of values containing each date in excel format
     # (string dd/mm/yyyy)
     list_of_column_values = []
+
     # for loop gets each cell value and appends the list
+
     for row in range(row_start, (row_end + 1)):
         # gets the value of the cell in the column for the choosen room
         # and each row in within the booked period of time
         # column is 1 as the date strings are in first column
+
         column = find_a_column(worksheet, column_value)
         val = read_cell_value(worksheet, row, column)
 
@@ -834,7 +837,7 @@ def print_user_booking(email):
     """
     while True:
         # obtains start and end date of the print from the user
-        print("We will now ask you for a start and end date of"
+        print("We will now ask you for a start and end date of\n"
               "the period that you want to print\n")
         start = start_date_input()
         end = end_date_input()
@@ -869,9 +872,9 @@ def show_room_availability():
     """
     while True:
         # obtains start and end date of the print from the user
-        print("We will now ask you for a start and end date of"
-              " the period that you want to check and than"
-              " to give us the room number you would like\n")
+        print("We will now ask you for a start and end date\n"
+              "of the period that you want to check and than\n"
+              "to give us the room number you would like\n")
         start = start_date_input()
         end = end_date_input()
         room_int = get_room_int()
