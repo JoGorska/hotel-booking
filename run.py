@@ -724,10 +724,137 @@ def delete_booking_from_spreadsheet(email):
     add_data_to_spreadsheet(clients_worksheet, start_date_str,
                             end_date_str, email, cell_value)
     # updates rooms worksheet
-    # ??? what if there are different rooms within cancelation period?!!!
 
     add_data_to_spreadsheet(rooms_worksheet, start_date_str,
                             end_date_str, room_short_name, cell_value)
+
+
+def make_list_of_dates(worksheet, row_start, row_end):
+    """
+    returns list of dates
+    """
+    # makes a list of values containing each date in excel format
+    # (string dd/mm/yyyy)
+    list_of_excel_dates = []
+    # for loop gets each cell value and appends the list
+    for row in range(row_start, (row_end + 1)):
+        # gets the value of the cell in the column for the choosen room
+        # and each row in within the booked period of time
+        # column is 1 as the date strings are in first column
+        column = 1
+        val = read_cell_value(worksheet, row, column)
+        list_of_excel_dates.append(val)
+
+    return list_of_excel_dates
+
+
+def make_list_from_column(worksheet, row_start, row_end, column_value):
+    """
+    collects value from each cell in the given worksheet, column, and
+    from row_start to row_end
+    appends the value to the list_of_column_values
+    """
+    # makes a list of values containing each date in excel format
+    # (string dd/mm/yyyy)
+    list_of_column_values = []
+    # for loop gets each cell value and appends the list
+    for row in range(row_start, (row_end + 1)):
+        # gets the value of the cell in the column for the choosen room
+        # and each row in within the booked period of time
+        # column is 1 as the date strings are in first column
+        column = find_a_column(worksheet, column_value)
+        val = read_cell_value(worksheet, row, column)
+
+        # this codes the value keeps it private
+        # this allows to print column containing various users
+        # emails without revealing the identity who booked it.
+
+        if (val == "") or (val is None):
+            val = "None"
+        elif "@" in val:
+            val = "Reserved"
+
+        list_of_column_values.append(val)
+
+    return list_of_column_values
+
+
+def make_dictionary_from_lists(list1, list2):
+    """
+    creates a dictionary from two lists
+    code copied from code instutute challenge for love sandwiches,
+    the result that I wrote, based on love sandwiches presentation
+    """
+
+    zip_iterator = zip(list1, list2)
+    a_dictionary = dict(zip_iterator)
+    return a_dictionary
+
+
+def print_dictionary(dictionary):
+    """
+    support function to print the dictionary so that each
+    key and value pairs are on seperate line,
+    this should make the print more user friendly
+    """
+    print("Checking spreadsheet...")
+    # prints one date below another, which will let the user
+    # scroll through the results.
+    for i in dictionary:
+
+        print(i + ": " + dictionary[i])
+
+
+def validate_print_request(start, end):
+    """
+    Inside try raises ValueError if user entered end date before start date
+    for the print request.
+    """
+    try:
+        print("Validating print request...\n")
+        if (end_date_before_start(start, end)):
+            raise ValueError("You have entered end date before start date\n")
+
+    except ValueError as e:
+        print(f"{Fore.RED}Invalid print request: {e}\n please try again.\n")
+        return False
+
+    return True
+
+
+def print_user_booking(email):
+    """
+    gets the dates from functions and initializes the functions to make
+    lists and dictionary with data needed for the print
+    lastly it initializes function to print the dictionary
+    """
+    while True:
+        # obtains start and end date of the print from the user
+        print("We will now ask you for a start and end date of"
+              "the period that you want to print\n")
+        start = start_date_input()
+        end = end_date_input()
+
+        # finds in which row those dates are
+        row_start = find_a_row(start)
+        row_end = find_a_row(end)
+
+        # calls functions that create lists of data from the
+        # appropriate columns and from start to end date
+        print("Checking the spreadsheet...")
+        list_column_dates = make_list_of_dates(clients_worksheet,
+                                               row_start, row_end)
+        list_column_email = make_list_from_column(clients_worksheet,
+                                                  row_start, row_end, email)
+        # makes dictionary out of two above lists
+        dictionary = make_dictionary_from_lists(list_column_dates,
+                                                list_column_email)
+
+        if validate_print_request(start, end):
+            print(f"{Fore.GREEN}Print request validated.\n")
+            break
+
+    print_dictionary(dictionary)
 
 
 def get_returning_client_option():
@@ -788,8 +915,8 @@ def activate_chosen_option(option, email):
         chosen_option = get_returning_client_option()
         activate_chosen_option(chosen_option, email)
     elif option == "print":
-        print(f"The option '{option}'' is currently not available."
-              f" We are working on it.")
+
+        print_user_booking(email)
         chosen_option = get_returning_client_option()
         activate_chosen_option(chosen_option, email)
 
