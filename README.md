@@ -255,38 +255,38 @@ By forking out of this repository you will be able to view and edit the code wit
 
 1. Change database
 
-    The system of saving data that I have introduced inputs new column each time a new user is registered. This makes the spreadsheet really big.
-    I have prepared the spreadsheet to accomodate booking untill 26/05/2024. Any further booking would requre manualy extending the spreadsheet to add more rows and more dates. 
-    Each booking should be registered as a new row with email, date, room as the columns and have unique refference number. This way user could easily reffer to this particular booking, cancel it or change it.
+    The system of saving data that I have introduced inputs a new column each time a new user is registered. This makes the spreadsheet really big.
+    I have prepared the spreadsheet to accommodate booking until 26/05/2024. Any further booking would require manually extending the spreadsheet to add more rows and more dates. 
+    Each booking should be registered as a new row with email, date, room as the columns and have a unique reference number. This way the user would be able to easily refer to this particular booking, cancel it or change it.
 
-    Gspread has also strong limitations on number of API requests. It was not good for the testing of the app. I can also see the problems if the hotel was introducing any last minute deals - the database would get blocked with too many clients trying to book at the same time.
+    Gspread has also strong limitations on a number of API requests. It was not good for the testing of the app. I can also see the problems if the hotel was introducing any last-minute deals - the database would get blocked with too many clients trying to book at the same time.
 
 2. Connect to the live page of the hotel
 
     Live page cor Cath's cats Castle can be found [here](https://jogorska.github.io/Luxury_cat_hotel/index.html).
 
-    The comandline interface is not user friendly. User needs to be able to see the rooms, while he makes a choise. 
+    The command-line interface is not user-friendly. The user needs to be able to see the rooms, while he makes a choice. 
 
-    Also booking a cat into a cattery requires the cat owner to put a lot of data of the cat, so appropriate care can be put in place. Inputing data on a comandline interface can be difficult. It is so much better to use HTML form with drop downs and radio buttons plus validation suggesting the correct format before form is subbmited. 
+    Also booking a cat into a cattery requires the cat owner to put a lot of data of the cat, so appropriate care can be put in place. Inputting data on a command-line interface can be difficult. It is so much better to use HTML form with dropdowns and radio buttons plus validation suggesting the correct format before the form is submitted. 
 
 
 ## User stories
 
 ### First time visitor
 
-- I want be able to add a booking
+- I want to be able to add a booking
 - I want to be able to check if the room is available for me to book
-- Once I added my booking I want to be able to change it or cancell.
+- Once I added my booking I want to be able to change it or cancel.
 - I want to be able to print my booking.
 - I want to be able to quit the program and not continue with the booking.
 
 ### The goals were accomplished in the following ways
 
-- First time visitor is given option to add booking.
-- First time visitor can use option to show room's availiblity. User can choose dates and room, that we wants to check. 
-- Once his new booking is saved, he is given options to change it or cancell
-- After the booking is completed the user can print his own booking to the terminal
-- User can quit the program as soon as the options are shown. This can be after he has input his email or after completed booking
+- First time visitor is given the option to add booking.
+- First-time visitor can use the option to show the room's availability. The user can choose dates and a room, that he wants to check. 
+- Once his new booking is saved, he is given options to change it or cancel
+- After the booking is completed the user can print his booking to the terminal
+- User can quit the program as soon as the options are shown. This can be after he has input his email or after completed the booking
 
 ### Returning visitor
 
@@ -294,14 +294,14 @@ By forking out of this repository you will be able to view and edit the code wit
 - I want to be able to add a new booking.
 - I want to be able to change my booking.
 - I want to be able to cancel my booking.
-- I would like to be able to check if the room is available in my choosen dates
-- I would like to check my own booking.
+- I would like to be able to check if the room is available on my chosen dates
+- I would like to check my booking.
 
 ### The goals were accomplished in the following ways
 
-- Program check user's email and displays welcome message when email is found in the database.
-- The option to show room's availiblity is enabled for returning customer as well. User can choose dates and room, that we wants to check. 
-- Once his new booking is saved, he is given options to change it or cancell
+- Program checks the user's email and displays a welcome message when the email is found in the database.
+- The option to show room's availability is enabled for returning customer as well. User can choose dates and room, that we wants to check. 
+- Once his new booking is saved, he is given options to change it or cancel
 - After the booking is completed the user can print his own booking to the terminal
 - User can quit the program as soon as the options are shown. This can be after he has input his email or after completed booking
 
@@ -323,13 +323,12 @@ By forking out of this repository you will be able to view and edit the code wit
 1. [Pep8online](http://pep8online.com/)
 
 
-The code has been put through validation Pep8online. I have checked the errors displayed initialy. The error reports can be found here: [first report](assets/images/pep8-errors.png), [second report](assets/images/pep8-final.png). Final version of the report can be found below:
+The code has been put through validation Pep8online. I have checked the errors displayed initially. The error reports can be found here: [first report](assets/images/pep8-errors.png), [third reprot from pep8](assets/images/pep8-third.png). The final version of the report can be found below:
 
-Line 326, 589. 753, 754 - if statement is very long in those lines and had to be split into two lines. Pip8 returns it as an errror, alternative would be to have whole if statement in one line - than pip8 would return error - line too long. 
+Line 333, 598. 944, 945, 992 - if statement is very long in those lines and had to be split into two lines. Pip8 returns it as an error, alternative would be to have the whole if statement in one line - then pip8 would return the error - line too long. 
 
 
-![third and final reprot from pep8](assets/images/pep8-third.png)
-
+![final report](assets/images/pep8-final.png)
 
 2. Different operating system
     * Windows computer: all working correctly
