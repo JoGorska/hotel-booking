@@ -123,14 +123,12 @@ def add_new_client(email):
     """
     Update clients worksheet, add email as a header
     of a next empty column and add new empty column
-    ??? uncomment new column when spreasheet full
     """
     print("Adding your email to worksheet...\n")
 
     clients_worksheet = SHEET.worksheet('clients')
     # ads new column so excel doesn't run out of cells
     # (oryginaly document contained a-z columns only)
-    # ??? unmute when spreadsheet full
     clients_worksheet.add_cols(1)
     # Coordinates to add email to customers worksheets:
     # row = 1 (first row in the worksheet)
