@@ -1004,14 +1004,14 @@ def validate_new_client_option(option):
 
 def activate_chosen_option(option, email):
     """
-    initializes the function depending on the function that client has chosen
+    initializes the function depending on the function that the client has chosen
     """
     if option == "add":
         # uses provided email to register new booking,
         # initializes function to register new booking
         register_new_booking(email)
 
-        # once new booking is completed the client
+        # once the new booking is completed the client
         # gets the returning customer options
 
         chosen_option = get_returning_client_option()
@@ -1032,7 +1032,7 @@ def activate_chosen_option(option, email):
 
     elif option == "change":
         print("To change your booking we will first ask you to delete "
-              "the booking on the dates that need to be canceled and than "
+              "the booking on the dates that need to be canceled and then"
               "to add the booking")
         delete_booking_from_spreadsheet(email)
         register_new_booking(email)
@@ -1059,7 +1059,7 @@ def activate_chosen_option(option, email):
 def is_returning_client(email):
     """
     checks the clients worksheet if the email is already listed,
-    prints welcome messag for returning client or adds new client
+    prints welcome message for returning client or adds new client
     """
     # list of emails already added is in first row of clients worksheet
     clients_list = clients_worksheet.row_values(1)

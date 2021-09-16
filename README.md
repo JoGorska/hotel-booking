@@ -365,7 +365,7 @@ Line 333, 598. 944, 945, 992 - if statement is very long in those lines and had 
 
 4. Gramarly
 
-Used [gramarly](https://app.grammarly.com) for spell check for README.md
+Used [gramarly](https://app.grammarly.com) for spell check for README.md and run.py
 
 
 
