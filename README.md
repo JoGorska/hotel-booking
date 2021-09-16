@@ -334,38 +334,38 @@ Line 333, 598. 944, 945, 992 - if statement is very long in those lines and had 
     * Windows computer: all working correctly
     * Linux computer: all working correctly
     * Samsung galaxy note 8: all working correctly
-    * Samsung galaxy A40: instead of the input that user is trying to type it inputs random letters or numbers. Schreenshot option is blocked on this phone (work phone) The photo of the screen can be seen [here](assets/images/samsunga40.png). It seems like it is an issue of the phone, rather than an app. It might be something to do with autofill.
+    * Samsung galaxy A40: instead of the input that the user is trying to type it inputs random letters or numbers. The screenshot option is blocked on this phone (work phone) The photo of the screen can be seen [here](assets/images/samsunga40.png). It seems like it is an issue of the phone, rather than an app. It might be something to do with autofill.
 
 3. Testing validation
     * email
-        - submiting empty input returns error
+        - submitting empty input returns an error
         - missing "@" - returns error
-        - fullstop "." in wrong place - returns error
-        - putting letters only returns error
-        - putting numbers only returns error
+        - full stop "." in the wrong place - returns an error
+        - putting letters only returns an error
+        - putting numbers only returns an error
 
     * dates
-        - submiting empty field returns error
-        - putting all numbers returns error
-        - putting all letters returns error
-        - putting date with "." instead of "/" returns error
-        - putting month one digit only returns error
-        - putting year as two digit only returns error
-        - putting date in the past returns error
+        - submitting an empty field returns an error
+        - putting all numbers returns an error
+        - putting all letters returns an error
+        - putting date with "." instead of "/" returns an error
+        - putting month one digit only returns an error
+        - putting year as two-digit only returns an error
+        - putting the date in the past returns an error
         - putting end date earlier than starts date returns error after the period of booking is validated
     * room
-        - putting letters instead of number returns validation error that you have entered other characters than a number
+        - putting letters instead of numbers returns validation error that you have entered other characters than a number
         - putting other characters - not numbers returns the same validation error
-        - program returns validation error when two digit number is entered instead of one digit
-        - empty input gives error that you have entered other characters than a number.
+        - program returns a validation error when two-digit number is entered instead of one digit
+        - empty input gives an error that you have entered other characters than a number.
 
     * returning user options
         - putting empty value returns validation error
-        - putting numbers, random letters or sighns returns a validation error
+        - putting numbers, random letters or signs returns a validation error
 
 4. Gramarly
 
-Used [gramarly](https://app.grammarly.com) for spell check for README.md and for run.py
+Used [gramarly](https://app.grammarly.com) for spell check for README.md
 
 
 
