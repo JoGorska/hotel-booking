@@ -9,9 +9,12 @@ link to live page [here](https://caths-cats-castle-booking.herokuapp.com/)
 
 ## Aim of the program
 
-The aim of the website is to allow users to book their cats' stay in the hotel. 
+The aim of the website is to allow users to book their cats' stay in the fictitious cattery callded Cath's Cats' castle. 
+The project was designed for the purpose of completing Portfolio 3 Project for Diploma in Software Development (E-commerce Applications) with Code Institute
 
 ## Structure of the program
+
+The flow chart showing the logic of the program can be found [here](assets/images/flow-chart.png)
 
 The program is a comand line program that leads the user through series of questions. 
 1. Start
@@ -287,11 +290,9 @@ By forking out of this repository you will be able to view and edit the code wit
 ### Returning visitor
 
 - I would like the program to recognize my email as a returning customer.
-
 - I want to be able to add a new booking.
 - I want to be able to change my booking.
 - I want to be able to cancel my booking.
-
 - I would like to be able to check if the room is available in my choosen dates
 - I would like to check my own booking.
 
