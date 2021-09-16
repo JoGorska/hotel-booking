@@ -14,6 +14,8 @@ The project was designed for the purpose of completing Portfolio 3 Project for D
 
 ## Structure of the program
 
+The flow chart showing the logic of the program can be found [here](assets/images/flow-chart.png)
+
 The program is a comand line program that leads the user through series of questions. 
 1. Start
 The user is asked for the email
