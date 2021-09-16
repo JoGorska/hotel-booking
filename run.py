@@ -200,7 +200,7 @@ def validate_room(room_number):
 
 def room_full_name(room_number):
     """
-    takes customer's choise of a room number and returns room name
+    takes customer's choice of a room number and returns room name
     """
     if room_number == 1:
         return "Kew Gardens Suite"
@@ -224,7 +224,7 @@ def room_full_name(room_number):
 
 def room_short_name(room_number):
     """
-    takes customer's choise of a room number and returns room name
+    takes customer's choice of a room number and returns room name
     """
     if room_number == 1:
         return "Kew"
@@ -385,7 +385,7 @@ def validate_date(date):
 
 def find_a_row(value):
     """
-    finds a cell that contains the given value and returns it's row number
+    finds a cell that contains the given value and returns its row number
     """
     target_cell = clients_worksheet.find(value)
 
@@ -394,7 +394,7 @@ def find_a_row(value):
 
 def find_a_column(worksheet, value):
     """
-    finds a cell that contains the given value and return it's column number
+    finds a cell that contains the given value and return its column number
     """
     target_cell = worksheet.find(value)
 
@@ -405,7 +405,7 @@ def add_data_to_spreadsheet(worksheet, start, end, column_val, cell_value):
     """
     Adds name of the booked room to the appropriate cell
     in the client's spreadsheet
-    Adds client's email to appropriate cell in rooms spreaedsheet
+    Adds client's email to appropriate cell in rooms spreadsheet
     """
     # uses strings to locate the cell and gets the row numbers
     # for start and end date
@@ -460,7 +460,7 @@ def end_date_before_start(start, end):
 
 def validate_lenght_of_stay(start, end):
     """
-    Inside try raises ValueError if the lenght of stay fails validation
+    Inside try raises ValueError if the length of stay fails validation
     and returns False prints information for the user about the error
     if no error - returns True
     """
@@ -558,8 +558,8 @@ def is_any_full_cell(worksheet, start_str, end_str, column):
 
 def validate_room_availibility(start, end, room_int, email):
     """
-    uses a function to validate the rooms' availiblity
-    and returns error if the room has already been booked in those dates
+    uses a function to validate the rooms' availability
+    and returns an error if the room has already been booked on those dates
     """
     try:
         column_room = room_int + 1
@@ -604,8 +604,8 @@ def get_all_booking_info(email):
 
 def register_new_booking(email):
     """
-    initializes two functions one after enother, that are asking
-    for room, start date and end date,
+    initializes two functions one after another, that are asking
+    for the room, start date, and end date,
     than initializes adding the booked dates into the spreadsheets
     """
     print("To add new booking we will need the "
@@ -670,8 +670,8 @@ def get_cancelation_data(email):
 
 def validate_cancelation_dates(start_str, end_str, room_int, email):
     """
-    in try checks if cell is empty - this way it
-    checks if the period that client has put to be cancelled,
+    in try checks, if cell is empty - this way it
+    checks if the period that client has put to be canceled,
     is a valid booking. Checks value of each cell within the
     date range in the column under email the client has given
     Raises ValueError if the cell was empty, there is nothing
@@ -699,7 +699,7 @@ def validate_cancelation_dates(start_str, end_str, room_int, email):
 
 def delete_booking_from_spreadsheet(email):
     """
-    deletes booking from spreadsheet
+    deletes booking from a spreadsheet
     """
     print("To cancel your booking please provide us with"
           " start and end date of the booking you want to cancel")
@@ -742,9 +742,9 @@ def make_list_of_dates(worksheet, row_start, row_end):
     list_of_excel_dates = []
     # for loop gets each cell value and appends the list
     for row in range(row_start, (row_end + 1)):
-        # gets the value of the cell in the column for the choosen room
-        # and each row in within the booked period of time
-        # column is 1 as the date strings are in first column
+        # gets the value of the cell in the column for the chosen room
+        # and each row in within the booked period
+        # column is "1" as the date strings are in the first column
         column = 1
         val = read_cell_value(worksheet, row, column)
         list_of_excel_dates.append(val)
@@ -765,16 +765,16 @@ def make_list_from_column(worksheet, row_start, row_end, column_value):
     # for loop gets each cell value and appends the list
 
     for row in range(row_start, (row_end + 1)):
-        # gets the value of the cell in the column for the choosen room
+        # gets the value of the cell in the column for the chosen room
         # and each row in within the booked period of time
-        # column is 1 as the date strings are in first column
+        # column is 1 as the date strings are in the first column
 
         column = find_a_column(worksheet, column_value)
         val = read_cell_value(worksheet, row, column)
 
         # this codes the value keeps it private
-        # this allows to print column containing various users
-        # emails without revealing the identity who booked it.
+        # this allows printing column containing various users
+        # emails without revealing the identity of who booked it.
 
         if (val == "") or (val is None):
             val = "None"
@@ -789,7 +789,7 @@ def make_list_from_column(worksheet, row_start, row_end, column_value):
 def make_dictionary_from_lists(list1, list2):
     """
     creates a dictionary from two lists
-    code copied from code instutute challenge for love sandwiches,
+    code copied from code institute challenge for love sandwiches,
     the result that I wrote, based on love sandwiches presentation
     """
 
@@ -801,7 +801,7 @@ def make_dictionary_from_lists(list1, list2):
 def print_dictionary(dictionary):
     """
     support function to print the dictionary so that each
-    key and value pairs are on seperate line,
+    key and value pairs are on a separate line,
     this should make the print more user friendly
     """
     print("Checking spreadsheet...")
@@ -814,8 +814,8 @@ def print_dictionary(dictionary):
 
 def validate_print_request(start, end):
     """
-    Inside try raises ValueError if user entered end date before start date
-    for the print request.
+    Inside try raises ValueError if the user entered end date before
+    the start date for the print request.
     """
     try:
         print("Validating print request...\n")
@@ -833,7 +833,7 @@ def print_user_booking(email):
     """
     gets the dates from functions and initializes the functions to make
     lists and dictionary with data needed for the print
-    lastly it initializes function to print the dictionary
+    lastly, it initializes the function to print the dictionary
     """
     while True:
         # obtains start and end date of the print from the user
@@ -867,8 +867,8 @@ def print_user_booking(email):
 def show_room_availability():
     """
     gets the dates and room from functions and initializes the functions
-    to make lists and dictionary with data needed for the print
-    lastly it initializes function to print the dictionary
+    to make lists and a dictionary with data needed for the print
+    lastly, it initializes the function to print the dictionary
     """
     while True:
         # obtains start and end date of the print from the user
@@ -959,7 +959,7 @@ def get_new_client_option():
 
     """
     gives new client various options to choose from
-    fuction returns a chosen option
+    function returns a chosen option
     """
 
     while True:
