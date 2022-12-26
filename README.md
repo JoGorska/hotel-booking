@@ -4,10 +4,12 @@
 ![showpiece start screen](assets/images/showpiece.png)
 
 
-link to live page [here](https://caths-cats-castle-booking.herokuapp.com/)
+link to live page [here](https://hotel-booking-r6x7.onrender.com/)
 
 
 ## Aim of the program
+
+This python script was created to complete Project 3 in the Code Institute full stack course. This project is build on the provide template that allows to run a terminal in the browser. 
 
 The aim of the website is to allow users to book their cats' stay in the fictitious cattery called Cath's Cats' castle. 
 The project was designed for the purpose of completing Portfolio 3 Project for Diploma in Software Development (E-commerce Applications) with Code Institute
@@ -157,7 +159,7 @@ If the user wishes to see their booking, it is displayed one line under another 
 
 From the above mentioned list the bugs that were remaining
 
-8. issue with errors raised by image of the castle - I left it untouched as editing it might destroy the image
+8. issue with linting errors raised by image of the castle - I left it untouched as editing it might destroy the image
 
 11. Gspread error - Exceeded read requests per minute per user.
 
@@ -166,7 +168,7 @@ From the above mentioned list the bugs that were remaining
 12. User can't cancel the booking
     In rare circumstances, the user might not be able to cancel the booking. The database was designed as two worksheets and if anything breaks in between them then the booking is not valid. Unfortunately, it is too late to change the database completely but it is another weakness of the chosen type of database and the formating style of storing data.
   
-## Validation
+## Validation of the user input
 
 1. Email validation
     - used regex to validate if the user's input resembles a standard email
@@ -193,9 +195,11 @@ From the above mentioned list the bugs that were remaining
 
 ## Deployment
 
-The site was deployed to Heroku. Please follow the below steps.
+The site was initially deployed to Heroku. For deployment to heroku, please follow below steps.
 
-### Deployment steps
+In light of Heroku removing free tiers, the project was moved to render.
+
+### Deployment steps (Heroku)
 
 1. add the list of requirements by writing in the terminal "pip3 freeze > requirements.txt"
 2. Add six and colorama==0.4.4 as they didn't seem to add automatically
@@ -236,6 +240,37 @@ Once the program runs:
 you should see the message "the app was sussesfully deployed"
 23. Click the button "View"
 
+
+### Deployment steps (Render)
+These steps are describing moving the existing project from Heroku to Render.
+
+1. Create account on [render](https://render.com/) or log in
+2. click "Create" top right hand corder and choose option "Web service"
+3. choose repository from list displayed below. If repository is not listed use "configure account" and link repositories to your render account.
+4. Once created - new project will show on "Dashboard" from where it can be managed
+5. Go to Dashboard and click into your project. On the left you should see various options - go to "Enviroment"
+6. Add following enviromental variables:
+
+| Key | Value|
+|---|---|
+|  PORT | 8000 |
+| PYTHON_VERSION | 3.8.11 |
+
+7. Secret Files - add file name creds.json and add content of the creds file in json format as below example. This file is needed for google api
+```
+{
+  "type": "",
+  "project_id": "",
+  "private_key_id": "",
+  "private_key": "",
+  "client_id": "",
+  "auth_uri": "",
+  "token_uri": "",
+  "auth_provider_x509_cert_url": "",
+  "client_x509_cert_url": ""
+}
+```
+
 ### Forking the GitHub repository
 By forking out of this repository you will be able to view and edit the code without affecting the original repository. 
 
@@ -253,7 +288,7 @@ By forking out of this repository you will be able to view and edit the code wit
 
 ## Further developement the website
 
-1. Change database
+1. Change excel spreadsheet to a real database
 
     The system of saving data that I have introduced inputs a new column each time a new user is registered. This makes the spreadsheet really big.
     I have prepared the spreadsheet to accommodate booking until 26/05/2024. Any further booking would require manually extending the spreadsheet to add more rows and more dates. 
@@ -262,12 +297,7 @@ By forking out of this repository you will be able to view and edit the code wit
     Gspread has also strong limitations on a number of API requests. It was not good for the testing of the app. I can also see the problems if the hotel was introducing any last-minute deals - the database would get blocked with too many clients trying to book at the same time.
 
 2. Connect to the live page of the hotel
-
-    Live page cor Cath's cats Castle can be found [here](https://jogorska.github.io/Luxury_cat_hotel/index.html).
-
-    The command-line interface is not user-friendly. The user needs to be able to see the rooms, while he makes a choice. 
-
-    Also booking a cat into a cattery requires the cat owner to put a lot of data of the cat, so appropriate care can be put in place. Inputting data on a command-line interface can be difficult. It is so much better to use HTML form with dropdowns and radio buttons plus validation suggesting the correct format before the form is submitted. 
+    In this day and age it is not realistic to ask user to book a room in a hotel in something that resambles commandline interface. Having that said - this concept of hotel bookin and validating dates and rooms availibility will be explored further. My previous project Cath's cats Castle can be found [here](https://jogorska.github.io/Luxury_cat_hotel/index.html) is a front end application and does not allow users to register and book a room. This page will need a back end connected to it. Some logic build in this application could be reviewed and used in upgrade of this application"
 
 
 ## User stories
@@ -318,7 +348,7 @@ By forking out of this repository you will be able to view and edit the code wit
     * datetime
 
 
-## Testing
+## Code Validation
 
 1. [Pep8online](http://pep8online.com/)
 
@@ -327,16 +357,16 @@ The code has been put through validation Pep8online. I have checked the errors d
 
 Line 333, 598. 944, 945, 992 - if statement is very long in those lines and had to be split into two lines. Pip8 returns it as an error, alternative would be to have the whole if statement in one line - then pip8 would return the error - line too long. 
 
-
+## Manual testing
 ![final report](assets/images/pep8-final.png)
 
-2. Different operating system
+1. Different operating system
     * Windows computer: all working correctly
     * Linux computer: all working correctly
     * Samsung galaxy note 8: all working correctly
     * Samsung galaxy A40: instead of the input that the user is trying to type it inputs random letters or numbers. The screenshot option is blocked on this phone (work phone) The photo of the screen can be seen [here](assets/images/samsunga40.png). It seems like it is an issue of the phone, rather than an app. It might be something to do with autofill.
 
-3. Testing validation
+2. Testing user input validation
     * email
         - submitting empty input returns an error
         - missing "@" - returns error
@@ -363,10 +393,9 @@ Line 333, 598. 944, 945, 992 - if statement is very long in those lines and had 
         - putting empty value returns validation error
         - putting numbers, random letters or signs returns a validation error
 
-4. Gramarly
+3. Gramarly
 
 Used [gramarly](https://app.grammarly.com) for spell check for README.md and run.py
-
 
 
 ## Thanks to
@@ -375,6 +404,3 @@ Used [gramarly](https://app.grammarly.com) for spell check for README.md and run
 - Fernanda Brito - for help with Readme 
 - Richard Eldridge - for extensive testing
 - Felipe Sousa Alarcon - for mentoring 
-
-
-
