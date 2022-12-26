@@ -1,7 +1,7 @@
 # Cath's Cats' Castle - booking
 ## Screenshot 
 
-![showpiece start screen](assets/images/showpiece.png)
+[![showpiece start screen](assets/images/showpiece.png)](https://hotel-booking-r6x7.onrender.com/)
 
 
 link to live page [here](https://hotel-booking-r6x7.onrender.com/)
