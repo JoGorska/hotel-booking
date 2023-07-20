@@ -5,7 +5,7 @@ from google.oauth2.service_account import Credentials
 from datetime import datetime
 from colorama import Fore
 from booking.images import Image
-
+from booking.user_prompts import UserPrompt
 colorama.init(autoreset=True)
 
 SCOPE = [
@@ -21,48 +21,6 @@ SHEET = GSPREAD_CLIENT.open('hotel-booking')
 
 clients_worksheet = SHEET.worksheet('clients')
 rooms_worksheet = SHEET.worksheet('rooms')
-
-
-def get_email_from_user():
-    """
-    Get email from the user, validate user email input
-    and return customer email input
-    """
-    while True:
-        print("Please enter your email address")
-        print("Example: email@domain.uk\n")
-
-        customer_email_input = input("Enter your email here: \n")
-        customer_email_input = customer_email_input.lower()
-        print(f"You entered {customer_email_input}\n")
-
-        if validate_email(customer_email_input):
-            print(f"{Fore.GREEN}Your email is valid\n")
-            break
-
-    return customer_email_input
-
-# validate email code and regex:
-# https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/
-
-
-def validate_email(email):
-    """
-    Inside try raises ValueError if the email fails validation
-    and returns False, prints information for the user about the error
-    if no error - returns True
-    """
-    regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-    try:
-        if(not re.fullmatch(regex_email, email)):
-            raise ValueError(f"The address '{email}' does not seem to be "
-                             "correct")
-
-    except ValueError as e:
-        print(f"{Fore.RED}Invalid email: {e} please try again.\n")
-        return False
-
-    return True
 
 
 def update_one_cell(worksheet, row, column, value):
@@ -1035,7 +993,7 @@ def main():
     Run all program functions
     """
     Image.print_image(Image.CASTLE)
-    customer_email = get_email_from_user()
+    customer_email = UserPrompt.get_email()
 
     if is_returning_client(customer_email):
         chosen_option = get_returning_client_option()
