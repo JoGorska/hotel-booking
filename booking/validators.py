@@ -1,7 +1,14 @@
 import re
 from datetime import datetime
 from colorama import Fore
-from .worksheet_utils import rooms_worksheet, clients_worksheet
+from booking.worksheet_utils import (
+    clients_worksheet, rooms_worksheet, update_one_cell, add_new_client,
+    find_a_row, find_a_column, add_data_to_spreadsheet, read_cell_value
+)
+
+MINIMUM_STAY = 2
+MAXIMUM_STAY = 7
+
 
 class Validator:
     def email(email):
@@ -123,3 +130,149 @@ class Validator:
             return False
 
         return True
+
+
+    def is_too_short(start, end):
+        """
+        checks if the booked stay is too short
+        """
+        row_start = find_a_row(start)
+        row_end = find_a_row(end)
+        lenght = row_end - row_start
+        if lenght < MINIMUM_STAY:
+            return True
+        else:
+            return False
+
+
+    def is_too_long(start, end):
+        """
+        check if the booked stay is too long
+        """
+        row_start = find_a_row(start)
+        row_end = find_a_row(end)
+        lenght = row_end - row_start
+        if lenght > MAXIMUM_STAY:
+            return True
+        else:
+            return False
+
+    def end_date_before_start(start, end):
+        """
+        check if end date was enetered before start date
+        """
+        row_start = find_a_row(start)
+        row_end = find_a_row(end)
+        lenght = row_end - row_start
+        if lenght < 0:
+            return True
+        else:
+            return False
+
+    def validate_lenght_of_stay(start, end):
+        """
+        Inside try raises ValueError if the length of stay fails validation
+        and returns False prints information for the user about the error
+        if no error - returns True
+        """
+        try:
+            if Validator.is_too_short(start, end):
+                raise ValueError("We can only accpet booking for "
+                                "the minimum of 7 days\n")
+            elif (Validator.is_too_long(start, end)):
+                raise ValueError("We can only accept booking for "
+                                "maximum of 30 days,\n please contact"
+                                "the hotel if you require longer stay\n")
+            elif (Validator.end_date_before_start(start, end)):
+                raise ValueError("You have entered end date before start date\n")
+
+        except ValueError as e:
+            print(f"{Fore.RED}Invalid booking: {e} please try again.\n")
+            return False
+
+        return True
+
+
+    def is_any_empty_cell(worksheet, start_str, end_str, column):
+        """
+        checks if the cell is empty,
+        cell coordinates calculated from
+        start and end date strings
+        """
+        print("Checking if any of the cells are empty...")
+        # gets integer - exact row number for the date
+        # that customer has provided
+        row_start = find_a_row(start_str)
+        row_end = find_a_row(end_str)
+
+        result = []
+        for row in range(row_start, (row_end + 1)):
+            # gets the value of the cell in the column for the choosen room
+            # and each row in within the booked period of time
+            val = read_cell_value(worksheet, row, column)
+
+            # if cell is empty - returns true, as room is available to book
+            if val is None:
+                result.append("true")
+
+            else:
+
+                result.append("false")
+
+        if "true" in result:
+            print("At least one of the cells was empty.")
+            return True
+        else:
+            print("None of the cells were empty.")
+            return False
+
+
+    def is_any_full_cell(worksheet, start_str, end_str, column):
+
+        """
+        checks if any of the cells are full
+        """
+        print("Checking if any of the dates are taken...")
+        # gets integer - exact row number for the date
+        # that customer has provided
+        row_start = find_a_row(start_str)
+        row_end = find_a_row(end_str)
+
+        result = []
+        for row in range(row_start, (row_end + 1)):
+            # gets the value of the cell in the column for the choosen room
+            # and each row in within the booked period of time
+            val = read_cell_value(worksheet, row, column)
+
+            # if cell is empty - returns true, as room is available to book
+            if val is None:
+                result.append("false")
+            else:
+                result.append("true")
+
+        if "true" in result:
+            print("At least one of the dates is taken.")
+            return True
+        else:
+            print("None of the dates are taken.")
+            return False
+
+
+    def validate_room_availibility(start, end, room_int, email):
+        """
+        uses a function to validate the rooms' availability
+        and returns an error if the room has already been booked on those dates
+        """
+        try:
+            column_room = room_int + 1
+            column_email = find_a_column(clients_worksheet, email)
+            if (Validator.is_any_full_cell(rooms_worksheet, start, end, column_room) or
+            Validator.is_any_full_cell(clients_worksheet, start, end, column_email)):
+                raise ValueError("Unfortunately those dates are not available\n")
+
+        except ValueError as e:
+            print(f"{Fore.RED}Invalid booking: {e} please try again.\n")
+            return False
+
+        return True
+

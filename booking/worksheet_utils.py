@@ -83,3 +83,11 @@ def add_data_to_spreadsheet(worksheet, start, end, column_val, cell_value):
 
         column_number = find_a_column(worksheet, column_val)
         update_one_cell(worksheet, row, column_number, cell_value)
+
+def read_cell_value(worksheet, row_no, col_no):
+    """
+    reads the value of the cell in the given worksheet,
+    row and column coordinates
+    """
+    value = worksheet.cell(row_no, col_no).value
+    return value
