@@ -276,3 +276,30 @@ class Validator:
 
         return True
 
+    def validate_cancelation_dates(start_str, end_str, room_int, email):
+        """
+        in try checks, if cell is empty - this way it
+        checks if the period that client has put to be canceled,
+        is a valid booking. Checks value of each cell within the
+        date range in the column under email the client has given
+        Raises ValueError if the cell was empty, there is nothing
+        to cancel
+        """
+
+        try:
+
+            column_email = find_a_column(clients_worksheet, email)
+
+            column_room = room_int + 1
+
+            if (Validator.is_any_empty_cell(clients_worksheet, start_str, end_str,
+                                column_email) or
+                Validator.is_any_empty_cell(rooms_worksheet, start_str, end_str,
+                                column_room)):
+                raise ValueError("There is no booking matching your criteria\n")
+
+        except ValueError as e:
+            print(f"{Fore.RED}Invalid cancelation dates: {e} please try again.\n")
+            return False
+
+        return True

@@ -104,40 +104,11 @@ def get_cancelation_data(email):
         cancelation_data_list.append(end_str)
         cancelation_data_list.append(room_short)
 
-        if validate_cancelation_dates(start_str, end_str, room_int, email):
+        if Validator.validate_cancelation_dates(start_str, end_str, room_int, email):
             print(f"{Fore.GREEN}Valid cancellation dates")
             break
 
     return cancelation_data_list
-
-
-def validate_cancelation_dates(start_str, end_str, room_int, email):
-    """
-    in try checks, if cell is empty - this way it
-    checks if the period that client has put to be canceled,
-    is a valid booking. Checks value of each cell within the
-    date range in the column under email the client has given
-    Raises ValueError if the cell was empty, there is nothing
-    to cancel
-    """
-
-    try:
-
-        column_email = find_a_column(clients_worksheet, email)
-
-        column_room = room_int + 1
-
-        if (is_any_empty_cell(clients_worksheet, start_str, end_str,
-                              column_email) or
-            is_any_empty_cell(rooms_worksheet, start_str, end_str,
-                              column_room)):
-            raise ValueError("There is no booking matching your criteria\n")
-
-    except ValueError as e:
-        print(f"{Fore.RED}Invalid cancelation dates: {e} please try again.\n")
-        return False
-
-    return True
 
 
 def delete_booking_from_spreadsheet(email):
@@ -182,7 +153,9 @@ def make_list_of_dates(worksheet, row_start, row_end):
     """
     # makes a list of values containing each date in excel format
     # (string dd/mm/yyyy)
-    list_of_excel_dates = []
+    # todo - here
+    list_of_dates = []
+    # list_of_excel_dates = [read_cell_value(worksheet, row, column) for row in range(row_start, (row_end + 1))]
     # for loop gets each cell value and appends the list
     for row in range(row_start, (row_end + 1)):
         # gets the value of the cell in the column for the chosen room
