@@ -22,3 +22,27 @@ class UserPrompt:
                 break
 
         return customer_email_input
+
+    def get_room_int():
+    """
+    gives options to choose which room to book
+    """
+    while True:
+        print("Please choose one of rooms:")
+        print("1. Kew Gardens Suite")
+        print("2. Oxford Suite")
+        print("3. London Suite")
+        print("4. Verulamium Suite")
+        print("5. Cambridge Botanic Gardens")
+        print("6. Stonehenge Suite")
+        print("7. Lucretia's Suite")
+        print("8. Glasgow Suite")
+        print("9. Ware Suite\n")
+        global room_number
+        room_number = input("Write a number 1 - 9: \n")
+
+        if Validator.room(room_number):
+
+            print(f"{Fore.GREEN}Your room is valid\n")
+            break
+    return int(room_number)

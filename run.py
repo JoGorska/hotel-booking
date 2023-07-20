@@ -29,7 +29,12 @@ def update_one_cell(worksheet, row, column, value):
     one cell pointed by row and column
     row and column count starts from 1
     """
-    worksheet.update_cell(row, column, value)
+    try:
+        worksheet.update_cell(row, column, value)
+    except:
+        error as e:
+        print(f"{Fore.RED}Problem with accessing gspread \
+        spreadsheet: {e} please try again.\n")
 
 
 def add_new_client(email):
@@ -56,59 +61,6 @@ def add_new_client(email):
 
 
 room_number = 1
-
-
-def get_room_int():
-    """
-    gives options to choose which room to book
-    """
-
-    while True:
-        print("Please choose one of rooms:")
-        print("1. Kew Gardens Suite")
-        print("2. Oxford Suite")
-        print("3. London Suite")
-        print("4. Verulamium Suite")
-        print("5. Cambridge Botanic Gardens")
-        print("6. Stonehenge Suite")
-        print("7. Lucretia's Suite")
-        print("8. Glasgow Suite")
-        print("9. Ware Suite\n")
-        global room_number
-        room_number = input("Write a number 1 - 9: \n")
-
-        if validate_room(room_number):
-
-            print(f"{Fore.GREEN}Your room is valid\n")
-            break
-    return int(room_number)
-
-
-def validate_room(room_number):
-    """
-    changes user input to integer and validates user input for choosing a room
-    """
-
-    try:
-        # regex that accepts a number or a white space with number
-        # https://stackoverflow.com/questions/50177113/regex-for-only-numbers-in-string
-
-        regex_number = r'^([\s\d]+)$'
-
-        if(not re.fullmatch(regex_number, room_number)):
-            raise ValueError("You have entered other"
-                             "characters than numbers\n")
-
-        elif int(room_number) not in range(1, 10):
-
-            raise ValueError(f"The room '{room_number}' does not seem to be "
-                             "in the correct range 1 - 9\n")
-
-    except ValueError as e:
-        print(f"{Fore.RED}Invalid room number: {e} please try again.\n")
-        return False
-
-    return True
 
 
 def room_full_name(room_number):
@@ -505,7 +457,7 @@ def get_all_booking_info(email):
         list_start_end_room.append(end)
 
         # initializes function to get user input for room number
-        room = get_room_int()
+        room = UserPrompt.get_room_int()
         list_start_end_room.append(room)
         if (validate_lenght_of_stay(start, end)
                 and validate_room_availibility(start, end, room, email)):
@@ -565,7 +517,7 @@ def get_cancelation_data(email):
         end_str = end_date_input()
 
         # gets the room name and room number
-        room_int = get_room_int()
+        room_int = UserPrompt.get_room_int()
         room_short = room_short_name(room_int)
 
         # appends the strings to make the list with data
@@ -790,7 +742,7 @@ def show_room_availability():
               "to give us the room number you would like\n")
         start = start_date_input()
         end = end_date_input()
-        room_int = get_room_int()
+        room_int = UserPrompt.get_room_int()
         room_name = room_short_name(room_int)
 
         # finds in which row those dates are
