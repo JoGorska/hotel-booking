@@ -61,119 +61,6 @@ def add_new_client(email):
 room_number = 1
 
 
-def start_date_input():
-    """
-    Prompts client to input start date for the booking
-    """
-    while True:
-        print("Please use format dd/mm/yyyy for dates\n")
-        start_date = input("Write start date here: \n")
-
-        if validate_date(start_date):
-            print(f"{Fore.GREEN}Your date is in valid format.\n")
-
-            break
-
-    return start_date
-
-
-def end_date_input():
-    """
-    Prompts client to input end date for the booking
-    """
-    while True:
-        print("Please use format dd/mm/yyyy for dates\n")
-        end_date = input("Write end date here: \n")
-
-        if validate_date(end_date):
-            print(f"{Fore.GREEN}Your date is in valid format.\n")
-            break
-    return end_date
-
-
-def convert_input_to_date(input_date):
-    """
-    takes date input by the user in the format dd/mm/yyyy and converts
-    to a python date time object
-    """
-    date_object = datetime.strptime(input_date, "%d/%m/%Y")
-    return date_object
-
-
-def date_in_the_past(input_date):
-    """
-    tests if given date is in the past
-    """
-    today = datetime.today()
-    date_object = convert_input_to_date(input_date)
-
-    if date_object < today:
-        return True
-    else:
-        return False
-
-
-def date_not_in_worksheet(date_str):
-    """
-    check if date exists in the spreadsheet,
-    currently period 01/09/2021 - 26/05/2024
-    """
-    existing_dates_rooms = rooms_worksheet.col_values(1)
-    existing_dates_clients = clients_worksheet.col_values(1)
-    if ((date_str not in existing_dates_rooms)
-       or (date_str not in existing_dates_clients)):
-        return True
-    else:
-        return False
-
-
-def validate_date(date):
-    """
-    Inside try raises ValueError if the date fails validation and returns False
-    prints information for the user about the error
-    if no error - returns True
-    """
-    # regex for date with leap year support
-    # https://stackoverflow.com/questions/15491894/regex-to-validate-date-format-dd-mm-yyyy-with-leap-year-support
-    #
-    # how to split long regex
-    # https://stackoverflow.com/questions/8006551/how-to-split-long-regular-expression-rules-to-multiple-lines-in-python/8006576#8006576
-
-    regex_date = re.compile(
-                r'^(?:(?:31(\/)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|'
-                r'Dec)))\1|(?:(?:29|30)(\/)(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|'
-                r'May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\2))(?:(?:1[6-9]|[2-9]\d)\d'
-                r'{2})$|^(?:29(\/)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]'
-                r'|[2-9]\d)(?:0[48]|[2468][048]|[13579][26])'
-                r'|(?:(?:16|[2468][048]|[3579][26])00))))$|^'
-                r'(?:0?[1-9]|1\d|2[0-8])(\/)(?:(?:0?[1-9]|(?'
-                r':Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1'
-                r'[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]'
-                r'\d)\d{2})$', re.IGNORECASE)
-
-    try:
-        if(not re.fullmatch(regex_date, date)):
-            raise ValueError(f"The date '{date}' does not seem to be "
-                             "in the correct format\n")
-        elif (date_in_the_past(date)):
-            raise ValueError(f"The date '{date}' is not available\n"
-                             f"we can only accept booking from\n"
-                             f"tomorrow onwards,")
-        elif date_not_in_worksheet(date):
-            # assuming that administrator will extend both worksheets equaly.
-            existing_dates_rooms = rooms_worksheet.col_values(1)
-            last_row = len(existing_dates_rooms)
-            max_date = read_cell_value(clients_worksheet, last_row, 1)
-            raise ValueError(f"We can only accept booking between"
-                             f" today and {max_date}\n")
-
-    except ValueError as e:
-        print(f"{Fore.RED}Invalid date: {e} please try again.\n")
-        return False
-
-    return True
-
-
 def find_a_row(value):
     """
     finds a cell that contains the given value and returns its row number
@@ -377,9 +264,9 @@ def get_all_booking_info(email):
               "and end date, please follow the given date format\n")
         list_start_end_room = []
         # initializes functions to get user input for start and end date
-        start = start_date_input()
+        start = UserPrompt.start_date_input()
         list_start_end_room.append(start)
-        end = end_date_input()
+        end = UserPrompt.end_date_input()
         list_start_end_room.append(end)
 
         # initializes function to get user input for room number
@@ -439,8 +326,8 @@ def get_cancelation_data(email):
         cancelation_data_list = []
         # gets the strings containing start and end dates
         # from the user
-        start_str = start_date_input()
-        end_str = end_date_input()
+        start_str = UserPrompt.start_date_input()
+        end_str = UserPrompt.end_date_input()
 
         # gets the room name and room number
         room_int = UserPrompt.get_room_int()
@@ -630,8 +517,8 @@ def print_user_booking(email):
         # obtains start and end date of the print from the user
         print("We will now ask you for a start and end date of\n"
               "the period that you want to print\n")
-        start = start_date_input()
-        end = end_date_input()
+        start = UserPrompt.start_date_input()
+        end = UserPrompt.end_date_input()
 
         # finds in which row those dates are
         row_start = find_a_row(start)
@@ -666,8 +553,8 @@ def show_room_availability():
         print("We will now ask you for a start and end date\n"
               "of the period that you want to check and than\n"
               "to give us the room number you would like\n")
-        start = start_date_input()
-        end = end_date_input()
+        start = UserPrompt.start_date_input()
+        end = UserPrompt.end_date_input()
         room_int = UserPrompt.get_room_int()
         room_name = room_short_name(room_int)
 

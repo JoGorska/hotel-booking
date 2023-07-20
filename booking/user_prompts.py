@@ -46,3 +46,32 @@ class UserPrompt:
                 print(f"{Fore.GREEN}Your room is valid\n")
                 break
         return int(room_number)
+
+    def start_date_input():
+        """
+        Prompts client to input start date for the booking
+        """
+        while True:
+            print("Please use format dd/mm/yyyy for dates\n")
+            start_date = input("Write start date here: \n")
+
+            if Validator.validate_date(start_date):
+                print(f"{Fore.GREEN}Your date is in valid format.\n")
+
+                break
+
+        return start_date
+
+
+    def end_date_input():
+        """
+        Prompts client to input end date for the booking
+        """
+        while True:
+            print("Please use format dd/mm/yyyy for dates\n")
+            end_date = input("Write end date here: \n")
+
+            if Validator.validate_date(end_date):
+                print(f"{Fore.GREEN}Your date is in valid format.\n")
+                break
+        return end_date
