@@ -4,6 +4,8 @@ import colorama
 from google.oauth2.service_account import Credentials
 from datetime import datetime
 from colorama import Fore
+from booking.images import Image
+
 colorama.init(autoreset=True)
 
 SCOPE = [
@@ -19,53 +21,6 @@ SHEET = GSPREAD_CLIENT.open('hotel-booking')
 
 clients_worksheet = SHEET.worksheet('clients')
 rooms_worksheet = SHEET.worksheet('rooms')
-
-
-def print_castle():
-    """
-    prints the image of the castle
-    art from https://www.asciiart.eu/buildings-and-places/castles
-    """
-    print('''
-                                     T~~
-                                     |
-                                     /"\\
-                             T~~     |'| T~~
-                         T~~ |    T~ WWWW|
-                         |  /"\   |  |  |/\T~~
-                         /"\ WWW  /"\ |' |WW|
-                         WWWWW/\| /   \|'/\|/"\\
-                         |   /__\/]WWW[\/__\WWWW
-                         |"  WWWW'|I_I|'WWWW'  |
-                         |   |' |/  -  \|' |'  |
-                         |'  |  |LI=H=LI|' |   |
-                         |   |' | |[_]| |  |'  |
-                         |   |  |_|###|_|  |   |
-                         '---'--'-/___\-'--'---'
-                     \n
-                     Welcome to Cath's Cats' Castle!\n''')
-
-
-def print_cat():
-    """
-    prints image of a cat
-    art from https://www.asciiart.eu/animals/cats
-    """
-    print('''
-
-                      ,-.       _,---._ __  / \\
-                     /  )    .-'       `./ /   \\
-                    (  (   ,'            `/    /|
-                     \  `-"             \'\   / |
-                      `.              ,  \ \ /  |
-                       /`.          ,'-`----Y   |
-                      (            ;        |   '
-                      |  ,-.    ,-'         |  /
-                      |  | (   |        hjw | /
-                      )  |  \  `.___________|/
-                      `--'   `--'
-                        \n
-            Thank you for visiting. Please come again!\n''')
 
 
 def get_email_from_user():
@@ -1079,7 +1034,7 @@ def main():
     """
     Run all program functions
     """
-    print_castle()
+    Image.print_image(Image.CASTLE)
     customer_email = get_email_from_user()
 
     if is_returning_client(customer_email):
