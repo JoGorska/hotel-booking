@@ -1,21 +1,16 @@
-
-import re
 import colorama
-from datetime import datetime
 from colorama import Fore
 from booking.images import Image
 from booking.user_prompts import UserPrompt
 from booking.validators import Validator
-from booking.rooms import room_full_name, room_short_name, change_room_name_to_number
+from booking.rooms import (
+    room_full_name, room_short_name, change_room_name_to_number
+)
 from booking.worksheet_utils import (
     clients_worksheet, rooms_worksheet, update_one_cell, add_new_client,
     find_a_row, find_a_column, add_data_to_spreadsheet, read_cell_value
 )
 colorama.init(autoreset=True)
-
-
-
-room_number = 1
 
 
 def get_all_booking_info(email):
@@ -37,8 +32,11 @@ def get_all_booking_info(email):
         # initializes function to get user input for room number
         room = UserPrompt.get_room_int()
         list_start_end_room.append(room)
-        if (Validator.validate_lenght_of_stay(start, end)
-                and validate_room_availibility(start, end, room, email)):
+        if (
+                Validator.validate_lenght_of_stay(start, end)
+                and Validator.validate_room_availibility(
+                    start, end, room, email)
+        ):
             print(f"{Fore.GREEN}Booking validated.\n")
             break
 

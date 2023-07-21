@@ -4,7 +4,7 @@ class Image:
     prints the image of the castle
     art from https://www.asciiart.eu/buildings-and-places/castles
     """
-    CASTLE =  '''
+    CASTLE = '''
                                      T~~
                                      |
                                      /"\\
@@ -43,5 +43,5 @@ class Image:
                         \n
             Thank you for visiting. Please come again!\n'''
 
-    def print_image(image_name):
+    def print_image(self, image_name):
         print(image_name)
