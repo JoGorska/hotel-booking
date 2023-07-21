@@ -1,13 +1,13 @@
 import colorama
 from colorama import Fore
 from booking.images import Image
-from booking.user_prompts import UserPrompt
+from booking.user_inputs import UserInput
 from booking.validators import Validator
 from booking.rooms import (
-    room_full_name, room_short_name, change_room_name_to_number
+    room_full_name, room_short_name
 )
 from booking.worksheet_utils import (
-    clients_worksheet, rooms_worksheet, update_one_cell, add_new_client,
+    clients_worksheet, rooms_worksheet, add_new_client,
     find_a_row, find_a_column, add_data_to_spreadsheet, read_cell_value
 )
 colorama.init(autoreset=True)
@@ -24,13 +24,13 @@ def get_all_booking_info(email):
               "and end date, please follow the given date format\n")
         list_start_end_room = []
         # initializes functions to get user input for start and end date
-        start = UserPrompt.start_date_input()
+        start = UserInput.start_date
         list_start_end_room.append(start)
-        end = UserPrompt.end_date_input()
+        end = UserInput.end_date
         list_start_end_room.append(end)
 
         # initializes function to get user input for room number
-        room = UserPrompt.get_room_int()
+        room = UserInput.room_integer
         list_start_end_room.append(room)
         if (
                 Validator.validate_lenght_of_stay(start, end)
@@ -89,11 +89,11 @@ def get_cancelation_data(email):
         cancelation_data_list = []
         # gets the strings containing start and end dates
         # from the user
-        start_str = UserPrompt.start_date_input()
-        end_str = UserPrompt.end_date_input()
+        start_str = UserInput.start_date
+        end_str = UserInput.end_date
 
         # gets the room name and room number
-        room_int = UserPrompt.get_room_int()
+        room_int = UserInput.room_integer
         room_short = room_short_name(room_int)
 
         # appends the strings to make the list with data
@@ -153,7 +153,9 @@ def make_list_of_dates(worksheet, row_start, row_end):
     # (string dd/mm/yyyy)
     # todo - here
     list_of_excel_dates = []
-    # list_of_excel_dates = [read_cell_value(worksheet, row, column) for row in range(row_start, (row_end + 1))]
+    # list_of_excel_dates = [
+    # read_cell_value(worksheet, row, column) for row in range(row_start, (row_end + 1))
+    # ]
     # for loop gets each cell value and appends the list
     for row in range(row_start, (row_end + 1)):
         # gets the value of the cell in the column for the chosen room
@@ -253,8 +255,8 @@ def print_user_booking(email):
         # obtains start and end date of the print from the user
         print("We will now ask you for a start and end date of\n"
               "the period that you want to print\n")
-        start = UserPrompt.start_date_input()
-        end = UserPrompt.end_date_input()
+        start = UserInput.start_date
+        end = UserInput.end_date
 
         # finds in which row those dates are
         row_start = find_a_row(start)
@@ -289,9 +291,9 @@ def show_room_availability():
         print("We will now ask you for a start and end date\n"
               "of the period that you want to check and than\n"
               "to give us the room number you would like\n")
-        start = UserPrompt.start_date_input()
-        end = UserPrompt.end_date_input()
-        room_int = UserPrompt.get_room_int()
+        start = UserInput.start_date
+        end = UserInput.end_date
+        room_int = UserInput.room_integer
         room_name = room_short_name(room_int)
 
         # finds in which row those dates are
@@ -494,7 +496,7 @@ def main():
     Run all program functions
     """
     print(Image.CASTLE)
-    customer_email = UserPrompt.get_email()
+    customer_email = UserInput.email
 
     if is_returning_client(customer_email):
         chosen_option = get_returning_client_option()

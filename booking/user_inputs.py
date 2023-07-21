@@ -3,8 +3,9 @@ from colorama import Fore
 from .validators import Validator
 
 
-class UserPrompt:
-    def get_email():
+class UserInput:
+    @property
+    def email(self):
         """
         Get email from the user, validate user email input
         and return customer email input
@@ -23,7 +24,8 @@ class UserPrompt:
 
         return customer_email_input
 
-    def get_room_int():
+    @property
+    def room_integer(self):
         """
         gives options to choose which room to book
         """
@@ -47,7 +49,8 @@ class UserPrompt:
                 break
         return int(room_number)
 
-    def start_date_input():
+    @property
+    def start_date(self):
         """
         Prompts client to input start date for the booking
         """
@@ -62,8 +65,8 @@ class UserPrompt:
 
         return start_date
 
-
-    def end_date_input():
+    @property
+    def end_date(self):
         """
         Prompts client to input end date for the booking
         """
