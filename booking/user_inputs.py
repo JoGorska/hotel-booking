@@ -1,6 +1,6 @@
 
 from colorama import Fore
-from .validators import Validator
+from .validators import Validator, OptionsValidator
 
 
 class UserInput:
@@ -23,6 +23,51 @@ class UserInput:
                 break
 
         return customer_email_input
+
+    @property
+    def returning_client_option(self):
+        """
+        gives returning client various options to choose from
+        returns the option
+        """
+
+        while True:
+            print("Please choose one of the following options:")
+            print("to add a new booking (add)")
+            print("show room availability (show),")
+            print("check your booking (print),")
+            print("change your booking (change),")
+            print("cancel your booking (cancel)")
+            print("quit the program (quit)\n")
+            chosen_option = input("Write 'add', 'show', 'print', "
+                                  "'change', 'cancel' or 'quit' here: \n")
+
+            if OptionsValidator.returning_client_options(chosen_option):
+                print(f"{Fore.GREEN}Your option is valid\n")
+                break
+        return chosen_option
+
+    @property
+    def new_client_option(self):
+
+        """
+        gives new client various options to choose from
+        function returns a chosen option
+        """
+
+        while True:
+            print("Please choose one of the following options:")
+            print("add a new booking (add)")
+            print("show room availability (show),")
+            print("quit the program (quit)\n")
+            chosen_option = input("Write 'add', 'show', "
+                                  "or 'quit' here: \n")
+
+            if OptionsValidator.new_client_options(chosen_option):
+
+                print(f"{Fore.GREEN}Your option is valid\n")
+                break
+        return chosen_option
 
     @property
     def room_integer(self):

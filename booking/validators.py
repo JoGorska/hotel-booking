@@ -305,3 +305,54 @@ class Validator:
             return False
 
         return True
+
+
+class OptionsValidator:
+    def returning_client_options(option):
+        """
+        function to validate the option that returning customer
+        has chosen
+        """
+        try:
+
+            if option == "":
+                # returns error when input is empty
+                raise ValueError("You didn't choose any option.\n")
+
+            elif (option != "add" and option != "print" and option != "change"
+                and option != "cancel" and option != "quit"
+                and option != "show"):
+                # returns error if the given word does not match
+                # any of the given options
+                raise ValueError(f"The the word '{option}' does not\n seem to be "
+                                f"matching any of the given options\n")
+
+        except ValueError as e:
+            print(f"{Fore.RED}Invalid option: {e} please try again.\n")
+            return False
+
+        return True
+
+    def new_client_options(option):
+        """
+        function to validate the option that returning customer
+        has chosen
+        """
+        try:
+
+            if option == "":
+                # returns error when input is empty
+                raise ValueError("You didn't choose any option.\n")
+
+            elif (option != "add" and option != "show"
+                    and option != "quit"):
+                # returns error if the given word does not match
+                # any of the given options
+                raise ValueError(f"The the word '{option}' does not\n seem to be "
+                                f"matching any of the given options\n")
+
+        except ValueError as e:
+            print(f"{Fore.RED}Invalid option: {e} please try again.\n")
+            return False
+
+        return True

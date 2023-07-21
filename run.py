@@ -321,103 +321,6 @@ def show_room_availability():
 # Here starts functions that handle user options
 
 
-def get_returning_client_option():
-    """
-    gives returning client various options to choose from
-    returns the option
-    """
-
-    while True:
-        print("Please choose one of the following options:")
-        print("to add a new booking (add)")
-        print("show room availability (show),")
-        print("check your booking (print),")
-        print("change your booking (change),")
-        print("cancel your booking (cancel)")
-        print("quit the program (quit)\n")
-        chosen_option = input("Write 'add', 'show', 'print', "
-                              "'change', 'cancel' or 'quit' here: \n")
-
-        if validate_client_option(chosen_option):
-
-            print(f"{Fore.GREEN}Your option is valid\n")
-            break
-    return chosen_option
-
-
-def validate_client_option(option):
-    """
-    function to validate the option that returning customer
-    has chosen
-    """
-    try:
-
-        if option == "":
-            # returns error when input is empty
-            raise ValueError("You didn't choose any option.\n")
-
-        elif (option != "add" and option != "print" and option != "change"
-              and option != "cancel" and option != "quit"
-              and option != "show"):
-            # returns error if the given word does not match
-            # any of the given options
-            raise ValueError(f"The the word '{option}' does not\n seem to be "
-                             f"matching any of the given options\n")
-
-    except ValueError as e:
-        print(f"{Fore.RED}Invalid option: {e} please try again.\n")
-        return False
-
-    return True
-
-
-def get_new_client_option():
-
-    """
-    gives new client various options to choose from
-    function returns a chosen option
-    """
-
-    while True:
-        print("Please choose one of the following options:")
-        print("add a new booking (add)")
-        print("show room availability (show),")
-        print("quit the program (quit)\n")
-        chosen_option = input("Write 'add', 'show', "
-                              "or 'quit' here: \n")
-
-        if validate_new_client_option(chosen_option):
-
-            print(f"{Fore.GREEN}Your option is valid\n")
-            break
-    return chosen_option
-
-
-def validate_new_client_option(option):
-    """
-    function to validate the option that returning customer
-    has chosen
-    """
-    try:
-
-        if option == "":
-            # returns error when input is empty
-            raise ValueError("You didn't choose any option.\n")
-
-        elif (option != "add" and option != "show"
-                and option != "quit"):
-            # returns error if the given word does not match
-            # any of the given options
-            raise ValueError(f"The the word '{option}' does not\n seem to be "
-                             f"matching any of the given options\n")
-
-    except ValueError as e:
-        print(f"{Fore.RED}Invalid option: {e} please try again.\n")
-        return False
-
-    return True
-
-
 def activate_chosen_option(option, email):
     """
     initializes the function depending on the function that the client has chosen
@@ -430,20 +333,20 @@ def activate_chosen_option(option, email):
         # once the new booking is completed the client
         # gets the returning customer options
 
-        chosen_option = get_returning_client_option()
+        chosen_option = UserInput.returning_client_option
         activate_chosen_option(chosen_option, email)
 
     elif option == "show":
         show_room_availability()
-        chosen_option = get_new_client_option()
+        chosen_option = UserInput.new_client_option
         activate_chosen_option(chosen_option, email)
-        chosen_option = get_returning_client_option()
+        chosen_option = UserInput.returning_client_option
         activate_chosen_option(chosen_option, email)
 
     elif option == "print":
 
         print_user_booking(email)
-        chosen_option = get_returning_client_option()
+        chosen_option = UserInput.returning_client_option
         activate_chosen_option(chosen_option, email)
 
     elif option == "change":
@@ -452,7 +355,7 @@ def activate_chosen_option(option, email):
               "to add the booking")
         delete_booking_from_spreadsheet(email)
         register_new_booking(email)
-        chosen_option = get_returning_client_option()
+        chosen_option = UserInput.returning_client_option
         activate_chosen_option(chosen_option, email)
 
     elif option == "cancel":
@@ -462,7 +365,7 @@ def activate_chosen_option(option, email):
         # once booking is cancelled the client
         # gets the returning customer options
 
-        chosen_option = get_returning_client_option()
+        chosen_option = UserInput.returning_client_option
         activate_chosen_option(chosen_option, email)
 
     elif option == "quit":
@@ -499,14 +402,14 @@ def main():
     customer_email = UserInput.email
 
     if is_returning_client(customer_email):
-        chosen_option = get_returning_client_option()
+        chosen_option = UserInput.returning_client_option
         activate_chosen_option(chosen_option, customer_email)
     else:
-        chosen_option = get_new_client_option()
+        chosen_option = UserInput.new_client_option
         activate_chosen_option(chosen_option, customer_email)
         # once registration is complete -
         # client can choose from the given options what to do next
-        chosen_option = get_returning_client_option()
+        chosen_option = UserInput.returning_client_option
         activate_chosen_option(chosen_option, customer_email)
 
 
