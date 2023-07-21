@@ -1,7 +1,9 @@
 
 from colorama import Fore
-from .validators import Validator, OptionsValidator
-
+from .validators import (
+    Validator, ClientValidator, OptionsValidator, DateValidator,
+    LengthOfStayValidator
+)
 
 class UserInput:
     @property
@@ -18,7 +20,7 @@ class UserInput:
             customer_email_input = customer_email_input.lower() if customer_email_input else ''
             print(f'You entered "{customer_email_input}"\n')
 
-            if Validator.email(customer_email_input):
+            if ClientValidator.email(ClientValidator, customer_email_input):
                 print(f"{Fore.GREEN}Your email is valid\n")
                 break
 
@@ -103,7 +105,7 @@ class UserInput:
             print("Please use format dd/mm/yyyy for dates\n")
             start_date = input("Write start date here: \n")
 
-            if Validator.validate_date(start_date):
+            if DateValidator.validate_date(start_date):
                 print(f"{Fore.GREEN}Your date is in valid format.\n")
 
                 break

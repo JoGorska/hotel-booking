@@ -10,6 +10,7 @@ from booking.worksheet_utils import (
     clients_worksheet, rooms_worksheet, add_new_client,
     find_a_row, find_a_column, add_data_to_spreadsheet, read_cell_value
 )
+from booking.validators import ClientValidator
 colorama.init(autoreset=True)
 
 
@@ -375,25 +376,6 @@ def activate_chosen_option(option, email):
         print(Image.CAT)
 
 
-def is_returning_client(email):
-    """
-    checks the clients worksheet if the email is already listed,
-    prints welcome message for returning client or adds new client
-    """
-    # list of emails already added is in first row of clients worksheet
-    clients_list = clients_worksheet.row_values(1)
-
-    if email in clients_list:
-        # welcomes returning customers
-        print("Welcome back")
-        return True
-
-    else:
-        # adds new customers to spreadsheet
-        add_new_client(email)
-        return False
-
-
 def main():
     """
     Run all program functions
@@ -401,10 +383,13 @@ def main():
     print(Image.CASTLE)
     customer_email = UserInput.email
 
-    if is_returning_client(customer_email):
+    if ClientValidator.is_returning_client(ClientValidator, email=customer_email):
+        print("Welcome back")
         chosen_option = UserInput.returning_client_option
         activate_chosen_option(chosen_option, customer_email)
     else:
+        # adds new customers to spreadsheet
+        add_new_client(customer_email)
         chosen_option = UserInput.new_client_option
         activate_chosen_option(chosen_option, customer_email)
         # once registration is complete -

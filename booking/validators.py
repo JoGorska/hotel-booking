@@ -9,9 +9,20 @@ from booking.worksheet_utils import (
 MINIMUM_STAY = 2
 MAXIMUM_STAY = 7
 
+# class BaseValidator:
+#     def __init__
+#     validated object
+#     object type
+# should fail on empty value?
+#     regex = None
+# default error failed validation
+#     fail on empty value
+#     object is required to be in list
+# object is required NOT to be in list
 
-class Validator:
-    def email(email):
+
+class ClientValidator:
+    def email(self, email):
         """
         Inside try raises ValueError if the email fails validation
         and returns False, prints information for the user about the error
@@ -34,6 +45,19 @@ class Validator:
 
         return True
 
+    def is_returning_client(self, email):
+        """
+        checks the clients worksheet if the email is already listed
+        list of clients' emails already added is in first row of clients worksheet
+        """
+        clients_list = clients_worksheet.row_values(1)
+
+        if email in clients_list:
+            return True
+        return False
+
+
+class Validator:
     def room(room_number):
         """
         changes user input to integer and validates user input for choosing a room
@@ -59,7 +83,8 @@ class Validator:
 
         return True
 
-    def date_in_the_past(input_date):
+class DateValidator:
+    def date_in_the_past(self, input_date):
         """
         tests if given date is in the past
         """
@@ -74,20 +99,21 @@ class Validator:
             return False
 
 
-    def date_not_in_worksheet(date_str):
+    def date_not_in_worksheet(self, date_str):
         """
         check if date exists in the spreadsheet,
         currently period 01/09/2021 - 26/05/2024
         """
+        # todo join two litst!!!
         existing_dates_rooms = rooms_worksheet.col_values(1)
         existing_dates_clients = clients_worksheet.col_values(1)
         if ((date_str not in existing_dates_rooms)
-        or (date_str not in existing_dates_clients)):
+            or (date_str not in existing_dates_clients)):
             return True
         else:
             return False
 
-    def validate_date(date):
+    def validate_date(self, date):
         """
         Inside try raises ValueError if the date fails validation and returns False
         prints information for the user about the error
@@ -115,11 +141,11 @@ class Validator:
             if(not re.fullmatch(regex_date, date)):
                 raise ValueError(f"The date '{date}' does not seem to be "
                                 "in the correct format\n")
-            elif (Validator.date_in_the_past(date)):
+            elif (self.date_in_the_past(date)):
                 raise ValueError(f"The date '{date}' is not available\n"
                                 f"we can only accept booking from\n"
                                 f"tomorrow onwards,")
-            elif Validator.date_not_in_worksheet(date):
+            elif self.date_not_in_worksheet(date):
                 # assuming that administrator will extend both worksheets equaly.
                 existing_dates_rooms = rooms_worksheet.col_values(1)
                 last_row = len(existing_dates_rooms)
@@ -133,8 +159,8 @@ class Validator:
 
         return True
 
-
-    def is_too_short(start, end):
+class LengthOfStayValidator:
+    def is_too_short(self, start, end):
         """
         checks if the booked stay is too short
         """
@@ -147,7 +173,7 @@ class Validator:
             return False
 
 
-    def is_too_long(start, end):
+    def is_too_long(self, start, end):
         """
         check if the booked stay is too long
         """
@@ -159,7 +185,7 @@ class Validator:
         else:
             return False
 
-    def end_date_before_start(start, end):
+    def end_date_before_start(self, start, end):
         """
         check if end date was enetered before start date
         """
@@ -171,21 +197,21 @@ class Validator:
         else:
             return False
 
-    def validate_lenght_of_stay(start, end):
+    def validate_lenght_of_stay(self, start, end):
         """
         Inside try raises ValueError if the length of stay fails validation
         and returns False prints information for the user about the error
         if no error - returns True
         """
         try:
-            if Validator.is_too_short(start, end):
+            if self.is_too_short(start, end):
                 raise ValueError("We can only accpet booking for "
                                 "the minimum of 7 days\n")
-            elif (Validator.is_too_long(start, end)):
+            elif (self.is_too_long(start, end)):
                 raise ValueError("We can only accept booking for "
                                 "maximum of 30 days,\n please contact"
                                 "the hotel if you require longer stay\n")
-            elif (Validator.end_date_before_start(start, end)):
+            elif (self.end_date_before_start(start, end)):
                 raise ValueError("You have entered end date before start date\n")
 
         except ValueError as e:
@@ -194,8 +220,8 @@ class Validator:
 
         return True
 
-
-    def is_any_empty_cell(worksheet, start_str, end_str, column):
+class AvailibilityValidator:
+    def is_any_empty_cell(self, worksheet, start_str, end_str, column):
         """
         checks if the cell is empty,
         cell coordinates calculated from
@@ -229,7 +255,7 @@ class Validator:
             return False
 
 
-    def is_any_full_cell(worksheet, start_str, end_str, column):
+    def is_any_full_cell(self, worksheet, start_str, end_str, column):
 
         """
         checks if any of the cells are full
@@ -260,7 +286,7 @@ class Validator:
             return False
 
 
-    def validate_room_availibility(start, end, room_int, email):
+    def validate_room_availibility(self, start, end, room_int, email):
         """
         uses a function to validate the rooms' availability
         and returns an error if the room has already been booked on those dates
@@ -268,8 +294,8 @@ class Validator:
         try:
             column_room = room_int + 1
             column_email = find_a_column(clients_worksheet, email)
-            if (Validator.is_any_full_cell(rooms_worksheet, start, end, column_room) or
-            Validator.is_any_full_cell(clients_worksheet, start, end, column_email)):
+            if (self.is_any_full_cell(rooms_worksheet, start, end, column_room) or
+                    self.is_any_full_cell(clients_worksheet, start, end, column_email)):
                 raise ValueError("Unfortunately those dates are not available\n")
 
         except ValueError as e:
@@ -278,7 +304,7 @@ class Validator:
 
         return True
 
-    def validate_cancelation_dates(start_str, end_str, room_int, email):
+    def validate_cancelation_dates(self, start_str, end_str, room_int, email):
         """
         in try checks, if cell is empty - this way it
         checks if the period that client has put to be canceled,
@@ -294,10 +320,11 @@ class Validator:
 
             column_room = room_int + 1
 
-            if (Validator.is_any_empty_cell(clients_worksheet, start_str, end_str,
-                                column_email) or
-                Validator.is_any_empty_cell(rooms_worksheet, start_str, end_str,
-                                column_room)):
+            if (self.is_any_empty_cell(
+                    clients_worksheet, start_str, end_str, column_email
+                    ) or
+                self.is_any_empty_cell(
+                    rooms_worksheet, start_str, end_str, column_room)):
                 raise ValueError("There is no booking matching your criteria\n")
 
         except ValueError as e:
@@ -308,24 +335,24 @@ class Validator:
 
 
 class OptionsValidator:
-    def returning_client_options(option):
+    @classmethod
+    def returning_client_options(cls, option):
         """
         function to validate the option that returning customer
         has chosen
         """
+        valid_options = ["add", "print", "change", "cancel", "quit", "show"]
         try:
 
             if option == "":
                 # returns error when input is empty
                 raise ValueError("You didn't choose any option.\n")
 
-            elif (option != "add" and option != "print" and option != "change"
-                and option != "cancel" and option != "quit"
-                and option != "show"):
+            elif option not in valid_options:
                 # returns error if the given word does not match
                 # any of the given options
                 raise ValueError(f"The the word '{option}' does not\n seem to be "
-                                f"matching any of the given options\n")
+                                 f"matching any of the given options\n")
 
         except ValueError as e:
             print(f"{Fore.RED}Invalid option: {e} please try again.\n")
@@ -333,19 +360,20 @@ class OptionsValidator:
 
         return True
 
-    def new_client_options(option):
+    @classmethod
+    def new_client_options(cls, option):
         """
         function to validate the option that returning customer
         has chosen
         """
+        valid_options = ['add', 'show', 'quit']
         try:
 
             if option == "":
                 # returns error when input is empty
                 raise ValueError("You didn't choose any option.\n")
 
-            elif (option != "add" and option != "show"
-                    and option != "quit"):
+            elif option not in valid_options:
                 # returns error if the given word does not match
                 # any of the given options
                 raise ValueError(f"The the word '{option}' does not\n seem to be "
