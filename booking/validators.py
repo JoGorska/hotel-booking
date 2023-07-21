@@ -20,13 +20,16 @@ class Validator:
         https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/
         """
         regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+
         try:
-            if(not re.fullmatch(regex_email, email)):
-                raise ValueError(f"The address '{email}' does not seem to be "
-                                "correct")
+            if not email:
+                raise ValueError('No user input')
+            elif not re.fullmatch(regex_email, email):
+                raise ValueError(
+                    f"The address '{email}' does not seem to be correct")
 
         except ValueError as e:
-            print(f"{Fore.RED}Invalid email: {e} please try again.\n")
+            print(f"{Fore.RED}Invalid email: {e}, please try again.\n")
             return False
 
         return True
@@ -42,12 +45,11 @@ class Validator:
 
             regex_number = r'^([\s\d]+)$'
 
-            if(not re.fullmatch(regex_number, room_number)):
+            if not re.fullmatch(regex_number, room_number):
                 raise ValueError("You have entered other"
                                 "characters than numbers\n")
 
             elif int(room_number) not in range(1, 10):
-
                 raise ValueError(f"The room '{room_number}' does not seem to be "
                                 "in the correct range 1 - 9\n")
 

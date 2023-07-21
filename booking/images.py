@@ -1,10 +1,10 @@
 
 class Image:
-    """
-    prints the image of the castle
-    art from https://www.asciiart.eu/buildings-and-places/castles
-    """
-    CASTLE = '''
+    '''
+    each variable in this class is a string representing an image
+    '''
+    # castle image from https://www.asciiart.eu/buildings-and-places/castles
+    CASTLE = r'''
                                      T~~
                                      |
                                      /"\\
@@ -20,14 +20,11 @@ class Image:
                          |   |' | |[_]| |  |'  |
                          |   |  |_|###|_|  |   |
                          '---'--'-/___\-'--'---'
-                     \n
+
                      Welcome to Cath's Cats' Castle!\n'''
 
-    """
-    prints image of a cat
-    art from https://www.asciiart.eu/animals/cats
-    """
-    CAT = '''
+    # cat image from https://www.asciiart.eu/animals/cats
+    CAT = r'''
 
                       ,-.       _,---._ __  / \\
                      /  )    .-'       `./ /   \\
@@ -40,8 +37,5 @@ class Image:
                       |  | (   |        hjw | /
                       )  |  \  `.___________|/
                       `--'   `--'
-                        \n
-            Thank you for visiting. Please come again!\n'''
 
-    def print_image(self, image_name):
-        print(image_name)
+            Thank you for visiting. Please come again!\n'''

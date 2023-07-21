@@ -125,7 +125,7 @@ def delete_booking_from_spreadsheet(email):
     # the cell value will be replaced with empty string
     cell_value = ""
 
-    room_short_name = cancelation_data_list[2]
+    room_short_name_str = cancelation_data_list[2]
 
     # informs the client what is about to happen
     print(f"You are about to cancel booking for the period"
@@ -138,7 +138,7 @@ def delete_booking_from_spreadsheet(email):
     # updates rooms worksheet
 
     add_data_to_spreadsheet(rooms_worksheet, start_date_str,
-                            end_date_str, room_short_name, cell_value)
+                            end_date_str, room_short_name_str, cell_value)
 
 
 # Here start functions that deal with printing / displaying booking
@@ -152,7 +152,7 @@ def make_list_of_dates(worksheet, row_start, row_end):
     # makes a list of values containing each date in excel format
     # (string dd/mm/yyyy)
     # todo - here
-    list_of_dates = []
+    list_of_excel_dates = []
     # list_of_excel_dates = [read_cell_value(worksheet, row, column) for row in range(row_start, (row_end + 1))]
     # for loop gets each cell value and appends the list
     for row in range(row_start, (row_end + 1)):
@@ -233,7 +233,7 @@ def validate_print_request(start, end):
     """
     try:
         print("Validating print request...\n")
-        if (end_date_before_start(start, end)):
+        if (Validator.end_date_before_start(start, end)):
             raise ValueError("You have entered end date before start date\n")
 
     except ValueError as e:
@@ -467,7 +467,7 @@ def activate_chosen_option(option, email):
         # prints a cat climbing into a box and
         # a goodbye message
         # ends the program
-        print_cat()
+        print(Image.CAT)
 
 
 def is_returning_client(email):
@@ -493,7 +493,7 @@ def main():
     """
     Run all program functions
     """
-    Image.print_image(Image.CASTLE)
+    print(Image.CASTLE)
     customer_email = UserPrompt.get_email()
 
     if is_returning_client(customer_email):
