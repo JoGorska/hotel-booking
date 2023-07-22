@@ -1,7 +1,7 @@
 
 from colorama import Fore
 from .validators import (
-    ClientValidator, OptionsValidator, DateValidator,
+    OptionsValidator, DateValidator,
     LengthOfStayValidator, RoomValidator, EmailValidator
 )
 
@@ -36,13 +36,15 @@ class UserInput:
         """
 
         while True:
-            print("Please choose one of the following options:")
-            print("to add a new booking (add)")
-            print("show room availability (show),")
-            print("check your booking (print),")
-            print("change your booking (change),")
-            print("cancel your booking (cancel)")
-            print("quit the program (quit)\n")
+            print(
+                "Please choose one of the following options:"
+                "to add a new booking (add)"
+                "show room availability (show),"
+                "check your booking (print),"
+                "change your booking (change),"
+                "cancel your booking (cancel)"
+                "quit the program (quit)\n"
+            )
             chosen_option = input("Write 'add', 'show', 'print', "
                                   "'change', 'cancel' or 'quit' here: \n")
 
@@ -60,10 +62,11 @@ class UserInput:
         """
 
         while True:
-            print("Please choose one of the following options:")
-            print("add a new booking (add)")
-            print("show room availability (show),")
-            print("quit the program (quit)\n")
+            print(
+                "Please choose one of the following options:"
+                "add a new booking (add)"
+                "show room availability (show),"
+                "quit the program (quit)\n")
             chosen_option = input("Write 'add', 'show', "
                                   "or 'quit' here: \n")
 
@@ -73,22 +76,23 @@ class UserInput:
                 break
         return chosen_option
 
-    @property
-    def room_integer(self):
+    @classmethod
+    def room_integer(cls):
         """
         gives options to choose which room to book
         """
         while True:
-            print("Please choose one of rooms:")
-            print("1. Kew Gardens Suite")
-            print("2. Oxford Suite")
-            print("3. London Suite")
-            print("4. Verulamium Suite")
-            print("5. Cambridge Botanic Gardens")
-            print("6. Stonehenge Suite")
-            print("7. Lucretia's Suite")
-            print("8. Glasgow Suite")
-            print("9. Ware Suite\n")
+            print(
+                "Please choose one of rooms:"
+                "1. Kew Gardens Suite"
+                "2. Oxford Suite"
+                "3. London Suite"
+                "4. Verulamium Suite"
+                "5. Cambridge Botanic Gardens"
+                "6. Stonehenge Suite"
+                "7. Lucretia's Suite"
+                "8. Glasgow Suite"
+                "9. Ware Suite\n")
             room_number = 1
             room_number = input("Write a number 1 - 9: \n")
 
@@ -107,7 +111,7 @@ class UserInput:
             print("Please use format dd/mm/yyyy for dates\n")
             start_date = input("Write start date here: \n")
 
-            if DateValidator.validate_date(start_date):
+            if DateValidator.validate_date(DateValidator, start_date):
                 print(f"{Fore.GREEN}Your date is in valid format.\n")
 
                 break
@@ -123,7 +127,7 @@ class UserInput:
             print("Please use format dd/mm/yyyy for dates\n")
             end_date = input("Write end date here: \n")
 
-            if Validator.validate_date(end_date):
+            if DateValidator.validate_date(DateValidator, end_date):
                 print(f"{Fore.GREEN}Your date is in valid format.\n")
                 break
         return end_date

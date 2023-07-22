@@ -99,11 +99,32 @@ class ReturningClientValidator(BaseValidator):
         '''list of clients' emails already added is in first row of clients worksheet'''
         return clients_worksheet.row_values(1)
 
+class RoomNumberValidator(BaseValidator):
+    '''
+    validates input on empty and regex
+    regex that accepts a number or a white space with number
+    https://stackoverflow.com/questions/50177113/regex-for-only-numbers-in-string
+    '''
+    fail_on_empty = True
+    regex = r'^([\s\d]+)$'
+
+    def get_list_where_object_must_be_member(self):
+        print(range(1, 10))
+        return range(1, 10)
+
+    def validate_object_is_a_member(self):
+        '''
+        assuming regex number validator was passed, I can now safely change object to integer
+        '''
+        self.validated_object = int(self.validated_object)
+        if not self.list_where_object_must_be_member:
+            raise ValueError(f"The room '{self.validated_object}' does not seem to be "
+                             "in the correct range 1 - 9\n")
 
 
 class RoomValidator:
     @classmethod
-    def room(room_number):
+    def room(cls, room_number):
         """
         changes user input to integer and validates user input for choosing a room
         """

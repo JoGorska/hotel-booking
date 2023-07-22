@@ -400,4 +400,5 @@ def main():
         chosen_option = UserInput.returning_client_option
         activate_chosen_option(chosen_option, customer_email)
 
+
 main()
