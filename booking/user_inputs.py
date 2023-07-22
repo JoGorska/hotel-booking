@@ -1,11 +1,12 @@
 
 from colorama import Fore
 from .validators import (
-    DateValidator, AvailibilityValidator, 
+    DateValidator, AvailibilityValidator,
     RoomValidator,
     EmailValidator, NewClientOptionsValidator, ReturningClientOptionsValidator
 )
-from rooms import room_full_name, room_short_name
+from .rooms import room_short_name
+
 
 class UserInput:
     @classmethod

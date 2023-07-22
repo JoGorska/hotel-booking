@@ -2,8 +2,8 @@ import re
 from datetime import datetime
 from colorama import Fore
 from booking.worksheet_utils import (
-    clients_worksheet, rooms_worksheet, update_one_cell, add_new_client,
-    find_a_row, find_a_column, add_data_to_spreadsheet, read_cell_value
+    clients_worksheet, rooms_worksheet,
+    find_a_row, find_a_column, read_cell_value
 )
 
 
@@ -461,6 +461,7 @@ class AvailibilityValidator:
             return False
 
         return True
+
 
 def validate_print_request(start, end):
     """

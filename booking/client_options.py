@@ -123,11 +123,10 @@ class OptionAdd:
             # initializes function to get user input for room number
             room = UserInput.room_integer
             list_start_end_room.append(room)
-            if (
-                    LengthOfStayValidator.validate_lenght_of_stay(LengthOfStayValidator, start, end)
-                    and AvailibilityValidator.validate_room_availibility(
-                        AvailibilityValidator, start, end, room, email)
-            ):
+            if (LengthOfStayValidator.validate_lenght_of_stay(
+                LengthOfStayValidator, start, end) and (
+                    AvailibilityValidator.validate_room_availibility(
+                        AvailibilityValidator, start, end, room, email))):
                 print(f"{Fore.GREEN}Booking validated.\n")
                 break
 
@@ -243,7 +242,7 @@ class OptionChange:
         OptionCancel.delete_booking_from_spreadsheet(email)
         OptionAdd.register_new_booking(email)
         chosen_option = UserInput.returning_client_option()
-        ClientOptions.activate_chosen_option(chosen_option, email)     
+        ClientOptions.activate_chosen_option(chosen_option, email)
 
 
 class OptionCancel:

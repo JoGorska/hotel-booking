@@ -1,17 +1,10 @@
 import colorama
-from colorama import Fore
 from booking.images import Image
 from booking.user_inputs import UserInput
 from booking.validators import (
-    LengthOfStayValidator, AvailibilityValidator, ReturningClientValidator
+    ReturningClientValidator
 )
-from booking.rooms import (
-    room_full_name, room_short_name
-)
-from booking.worksheet_utils import (
-    clients_worksheet, rooms_worksheet, add_new_client,
-    find_a_row, find_a_column, add_data_to_spreadsheet, read_cell_value
-)
+from booking.worksheet_utils import add_new_client
 
 from booking.client_options import ClientOptions
 

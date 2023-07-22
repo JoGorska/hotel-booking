@@ -26,7 +26,6 @@ def update_one_cell(worksheet, row, column, value):
     worksheet.update_cell(row, column, value)
 
 
-
 def add_new_client(email):
     """
     Update clients worksheet, add email as a header
@@ -84,6 +83,7 @@ def add_data_to_spreadsheet(worksheet, start, end, column_val, cell_value):
 
         column_number = find_a_column(worksheet, column_val)
         update_one_cell(worksheet, row, column_number, cell_value)
+
 
 def read_cell_value(worksheet, row_no, col_no):
     """
