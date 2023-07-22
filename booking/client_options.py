@@ -31,60 +31,82 @@ class ClientOptions:
         ADD, SHOW, QUIT
     ]
 
-    def activate_chosen_option(self, option, email):
 
-        """
-        initializes the function depending on the function that the client has chosen
-        """
-        if option == "add":
-            # uses provided email to register new booking,
-            # initializes function to register new booking
-            register_new_booking(email)
+    @classmethod
+    def activate_chosen_option(cls, option, email):
+        map_options = {
+            ClientOptions.ADD: OptionAdd.run_option(email)
+        }
+        map_options.get(option)
 
-            # once the new booking is completed the client
-            # gets the returning customer options
+        # """
+        # initializes the function depending on the function that the client has chosen
+        # """
+        # if option == "add":
+        #     # uses provided email to register new booking,
+        #     # initializes function to register new booking
+        #     register_new_booking(email)
 
-            chosen_option = UserInput.returning_client_option
-            activate_chosen_option(chosen_option, email)
+        #     # once the new booking is completed the client
+        #     # gets the returning customer options
 
-        elif option == "show":
-            show_room_availability()
-            chosen_option = UserInput.new_client_option
-            activate_chosen_option(chosen_option, email)
-            chosen_option = UserInput.returning_client_option
-            activate_chosen_option(chosen_option, email)
+        #     chosen_option = UserInput.returning_client_option
+        #     ClientOptions.activate_chosen_option(chosen_option, email)
 
-        elif option == "print":
+        # elif option == "show":
+        #     show_room_availability()
+        #     chosen_option = UserInput.new_client_option
+        #     ClientOptions.activate_chosen_option(chosen_option, email)
+        #     chosen_option = UserInput.returning_client_option
+        #     ClientOptions.activate_chosen_option(chosen_option, email)
 
-            print_user_booking(email)
-            chosen_option = UserInput.returning_client_option
-            activate_chosen_option(chosen_option, email)
+        # elif option == "print":
 
-        elif option == "change":
-            print("To change your booking we will first ask you to delete "
-                "the booking on the dates that need to be canceled and then"
-                "to add the booking")
-            delete_booking_from_spreadsheet(email)
-            register_new_booking(email)
-            chosen_option = UserInput.returning_client_option
-            activate_chosen_option(chosen_option, email)
+        #     print_user_booking(email)
+        #     chosen_option = UserInput.returning_client_option
+        #     ClientOptions.activate_chosen_option(chosen_option, email)
 
-        elif option == "cancel":
-            # initializes function to cancel booking
-            delete_booking_from_spreadsheet(email)
+        # elif option == "change":
+        #     print(
+        #         "To change your booking we will first ask you to delete "
+        #         "the booking on the dates that need to be canceled and then"
+        #         "to add the booking")
+        #     delete_booking_from_spreadsheet(email)
+        #     register_new_booking(email)
+        #     chosen_option = UserInput.returning_client_option
+        #     ClientOptions.activate_chosen_option(chosen_option, email)
 
-            # once booking is cancelled the client
-            # gets the returning customer options
+        # elif option == "cancel":
+        #     # initializes function to cancel booking
+        #     delete_booking_from_spreadsheet(email)
 
-            chosen_option = UserInput.returning_client_option
-            activate_chosen_option(chosen_option, email)
+        #     # once booking is cancelled the client
+        #     # gets the returning customer options
 
-        elif option == "quit":
-            # prints a cat climbing into a box and
-            # a goodbye message
-            # ends the program
-            print(Image.CAT)
+        #     chosen_option = UserInput.returning_client_option
+        #     ClientOptions.activate_chosen_option(chosen_option, email)
 
+        # elif option == "quit":
+        #     # prints a cat climbing into a box and
+        #     # a goodbye message
+        #     # ends the program
+        #     print(Image.CAT)
+
+
+class OptionAdd:
+    name = ClientOptions.ADD
+
+    @classmethod
+    def run_option(self, email):
+        # uses provided email to register new booking,
+        # initializes function to register new booking
+        register_new_booking(email)
+
+        # once the new booking is completed the client
+        # gets the returning customer options
+
+        chosen_option = UserInput.returning_client_option
+        ClientOptions.activate_chosen_option(chosen_option, email)
 
 
 

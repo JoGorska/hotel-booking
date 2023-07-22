@@ -5,7 +5,7 @@ from booking.worksheet_utils import (
     clients_worksheet, rooms_worksheet, update_one_cell, add_new_client,
     find_a_row, find_a_column, add_data_to_spreadsheet, read_cell_value
 )
-from booking.client_options import ClientOptions
+
 
 MINIMUM_STAY = 2
 MAXIMUM_STAY = 7
@@ -117,6 +117,9 @@ class NewClientOptionsValidator(BaseValidator):
     raise_error_when_membership_test_fails = True
 
     def get_list_where_object_must_be_member(self):
+        # need to import here due to circular import error
+        from .client_options import ClientOptions # noqa
+        print(ClientOptions.NEW_CLIENT_OPTIONS)
         return [ClientOptions.NEW_CLIENT_OPTIONS]
 
     def validate_object_is_a_member(self):
@@ -138,6 +141,8 @@ class ReturningClientOptionsValidator(BaseValidator):
     raise_error_when_membership_test_fails = True
 
     def get_list_where_object_must_be_member(self):
+        # need to import here due to circular import error
+        from .client_options import ClientOptions # noqa
         return [ClientOptions.RETURNING_CLIENT_OPTIONS]
 
     def validate_object_is_a_member(self):

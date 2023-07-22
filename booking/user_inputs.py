@@ -1,9 +1,9 @@
 
 from colorama import Fore
 from .validators import (
-    OptionsValidator, DateValidator,
+    DateValidator,
     RoomValidator,
-    EmailValidator, NewClientOptionsValidator
+    EmailValidator, NewClientOptionsValidator, ReturningClientOptionsValidator
 )
 
 
@@ -73,12 +73,10 @@ class UserInput:
             chosen_option = input("Write 'add', 'show', 'print', "
                                   "'change', 'cancel' or 'quit' here: \n")
 
-            if OptionsValidator.returning_client_options(chosen_option):
+            if ReturningClientOptionsValidator(chosen_option, 'option').result:
                 print(f"{Fore.GREEN}Your option is valid\n")
                 break
             return chosen_option
-
-
 
     @classmethod
     def room_integer(cls):
