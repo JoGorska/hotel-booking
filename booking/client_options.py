@@ -101,7 +101,7 @@ class OptionAdd:
     def run_option(self, email):
         # uses provided email to register new booking,
         # initializes function to register new booking
-        register_new_booking(email)
+        OptionAdd.register_new_booking(email)
 
         # once the new booking is completed the client
         # gets the returning customer options
@@ -109,6 +109,41 @@ class OptionAdd:
         chosen_option = UserInput.returning_client_option
         ClientOptions.activate_chosen_option(chosen_option, email)
 
+    @classmethod
+    def register_new_booking(cls, email):
+        """
+        initializes two functions one after another, that are asking
+        for the room, start date, and end date,
+        than initializes adding the booked dates into the spreadsheets
+        """
+        print(
+            "To add new booking we will need the "
+            "name of the room as well as start and end date\n")
+
+        # initializes function to get all booking informations:
+        # start and end dates and room number
+
+        list_dates_room = get_all_booking_info(email)
+        start_date_str = list_dates_room[0]
+        end_date_str = list_dates_room[1]
+
+        room_number = list_dates_room[2]
+        # displays room name in two different formats
+        booked_room_full_name = room_full_name(room_number)
+        room_short = room_short_name(room_number)
+
+        print(
+            f"You entered booking for {booked_room_full_name} from "
+            f"{start_date_str} to {end_date_str}\n")
+        # ads the above data to spreadsheet
+        print(f"{Fore.BLUE}Recording your booking in the spreadsheet...")
+        add_data_to_spreadsheet(
+            clients_worksheet, start_date_str,
+            end_date_str, email, room_short)
+        add_data_to_spreadsheet(
+            rooms_worksheet, start_date_str,
+            end_date_str, room_short, email)
+        print("Worksheet updated.\n\n")
 
 
 def show_room_availability():
@@ -282,36 +317,7 @@ def make_list_of_dates(worksheet, row_start, row_end):
     return list_of_excel_dates
 
 
-def register_new_booking(email):
-    """
-    initializes two functions one after another, that are asking
-    for the room, start date, and end date,
-    than initializes adding the booked dates into the spreadsheets
-    """
-    print("To add new booking we will need the "
-          "name of the room as well as start and end date\n")
 
-    # initializes function to get all booking informations:
-    # start and end dates and room number
-
-    list_dates_room = get_all_booking_info(email)
-    start_date_str = list_dates_room[0]
-    end_date_str = list_dates_room[1]
-
-    room_number = list_dates_room[2]
-    # displays room name in two different formats
-    booked_room_full_name = room_full_name(room_number)
-    room_short = room_short_name(room_number)
-
-    print(f"You entered booking for {booked_room_full_name} from "
-          f"{start_date_str} to {end_date_str}\n")
-    # ads the above data to spreadsheet
-    print(f"{Fore.BLUE}Recording your booking in the spreadsheet...")
-    add_data_to_spreadsheet(clients_worksheet, start_date_str,
-                            end_date_str, email, room_short)
-    add_data_to_spreadsheet(rooms_worksheet, start_date_str,
-                            end_date_str, room_short, email)
-    print("Worksheet updated.\n\n")
 
 
 def get_cancelation_data(email):

@@ -231,8 +231,9 @@ class DateValidator:
         # todo join two litst!!!
         existing_dates_rooms = rooms_worksheet.col_values(1)
         existing_dates_clients = clients_worksheet.col_values(1)
-        if ((date_str not in existing_dates_rooms)
-            or (date_str not in existing_dates_clients)):
+        if ((
+            date_str not in existing_dates_rooms) or (
+                date_str not in existing_dates_clients)):
             return True
         else:
             return False
@@ -276,8 +277,9 @@ class DateValidator:
                 existing_dates_rooms = rooms_worksheet.col_values(1)
                 last_row = len(existing_dates_rooms)
                 max_date = read_cell_value(clients_worksheet, last_row, 1)
-                raise ValueError(f"We can only accept booking between"
-                                f" today and {max_date}\n")
+                raise ValueError(
+                    f"We can only accept booking between"
+                    f" today and {max_date}\n")
 
         except ValueError as e:
             print(f"{Fore.RED}Invalid date: {e} please try again.\n")
@@ -348,6 +350,7 @@ class LengthOfStayValidator:
 
         return True
 
+
 class AvailibilityValidator:
     def is_any_empty_cell(self, worksheet, start_str, end_str, column):
         """
@@ -382,7 +385,6 @@ class AvailibilityValidator:
             print("None of the cells were empty.")
             return False
 
-
     def is_any_full_cell(self, worksheet, start_str, end_str, column):
 
         """
@@ -412,7 +414,6 @@ class AvailibilityValidator:
         else:
             print("None of the dates are taken.")
             return False
-
 
     def validate_room_availibility(self, start, end, room_int, email):
         """
@@ -460,6 +461,3 @@ class AvailibilityValidator:
             return False
 
         return True
-
-
-
