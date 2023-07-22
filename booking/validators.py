@@ -5,6 +5,7 @@ from booking.worksheet_utils import (
     clients_worksheet, rooms_worksheet, update_one_cell, add_new_client,
     find_a_row, find_a_column, add_data_to_spreadsheet, read_cell_value
 )
+from booking.client_options import ClientOptions
 
 MINIMUM_STAY = 2
 MAXIMUM_STAY = 7
@@ -13,6 +14,7 @@ MAXIMUM_STAY = 7
 class BaseValidator:
     fail_on_empty = None
     regex = None
+    raise_error_when_membership_test_fails = False
 
     def __init__(
             self,
@@ -37,7 +39,7 @@ class BaseValidator:
         if not self.fail_on_empty:
             return True
         if not self.validated_object:
-            raise ValueError('No user input')
+            raise ValueError('No user input,')
         return True
 
     def validate_regex(self):
@@ -49,7 +51,7 @@ class BaseValidator:
             return True
         if not re.fullmatch(self.regex, self.validated_object):
             raise ValueError(
-                f"The {self.object_type} does not seem to be correct"
+                f"The {self.object_type} does not seem to be correct,"
             )
         return True
 
@@ -62,6 +64,12 @@ class BaseValidator:
         # I don't want to raise errors for no member here, just return false
 
     def validate_object_is_a_member(self):
+        '''
+        this validator only runs when
+        raise_error_when_membership_test_fails is set to True
+        '''
+        if not self.raise_error_when_membership_test_fails:
+            return True
         if not self.check_object_is_a_member():
             raise ValueError(
                 f"The {self.object_type} was not found"
@@ -76,7 +84,7 @@ class BaseValidator:
             self.validate_regex()
             self.validate_object_is_a_member()
         except ValueError as e:
-            print(f"{Fore.RED}Invalid {self.object_type}: {e}, please try again.\n")
+            print(f"{Fore.RED}Invalid {self.object_type}: {e} please try again.\n")
             return False
 
         return True
@@ -99,6 +107,49 @@ class ReturningClientValidator(BaseValidator):
         '''list of clients' emails already added is in first row of clients worksheet'''
         return clients_worksheet.row_values(1)
 
+
+class NewClientOptionsValidator(BaseValidator):
+    '''
+    checks if user chose an option and if option is one of the given option choices
+    list_where_object_must_be_member is a list of valid options
+    '''
+    fail_on_empty = True
+    raise_error_when_membership_test_fails = True
+
+    def get_list_where_object_must_be_member(self):
+        return [ClientOptions.NEW_CLIENT_OPTIONS]
+
+    def validate_object_is_a_member(self):
+        '''
+        customises error message when object fails membership test
+        '''
+        if not self.check_object_is_a_member():
+            raise ValueError(
+                f"The the word '{self.validated_object}' does not\n seem to be "
+                f"matching any of the given options,\n")
+
+
+class ReturningClientOptionsValidator(BaseValidator):
+    '''
+    checks if user chose an option and if option is one of the given option choices
+    list_where_object_must_be_member is a list of valid options
+    '''
+    fail_on_empty = True
+    raise_error_when_membership_test_fails = True
+
+    def get_list_where_object_must_be_member(self):
+        return [ClientOptions.RETURNING_CLIENT_OPTIONS]
+
+    def validate_object_is_a_member(self):
+        '''
+        customises error message when object fails membership test
+        '''
+        if not self.check_object_is_a_member():
+            raise ValueError(
+                f"The the word '{self.validated_object}' does not\n seem to be "
+                f"matching any of the given options,\n")
+
+
 class RoomNumberValidator(BaseValidator):
     '''
     validates input on empty and regex
@@ -117,7 +168,7 @@ class RoomNumberValidator(BaseValidator):
         assuming regex number validator was passed, I can now safely change object to integer
         '''
         self.validated_object = int(self.validated_object)
-        if not self.list_where_object_must_be_member:
+        if self.validated_object not in self.list_where_object_must_be_member:
             raise ValueError(f"The room '{self.validated_object}' does not seem to be "
                              "in the correct range 1 - 9\n")
 
@@ -400,53 +451,4 @@ class AvailibilityValidator:
         return True
 
 
-class OptionsValidator:
-    @classmethod
-    def returning_client_options(cls, option):
-        """
-        function to validate the option that returning customer
-        has chosen
-        """
-        valid_options = ["add", "print", "change", "cancel", "quit", "show"]
-        try:
 
-            if option == "":
-                # returns error when input is empty
-                raise ValueError("You didn't choose any option.\n")
-
-            elif option not in valid_options:
-                # returns error if the given word does not match
-                # any of the given options
-                raise ValueError(f"The the word '{option}' does not\n seem to be "
-                                 f"matching any of the given options\n")
-
-        except ValueError as e:
-            print(f"{Fore.RED}Invalid option: {e} please try again.\n")
-            return False
-
-        return True
-
-    @classmethod
-    def new_client_options(cls, option):
-        """
-        function to validate the option that returning customer
-        has chosen
-        """
-        valid_options = ['add', 'show', 'quit']
-        try:
-
-            if option == "":
-                # returns error when input is empty
-                raise ValueError("You didn't choose any option.\n")
-
-            elif option not in valid_options:
-                # returns error if the given word does not match
-                # any of the given options
-                raise ValueError(f"The the word '{option}' does not\n seem to be "
-                                f"matching any of the given options\n")
-
-        except ValueError as e:
-            print(f"{Fore.RED}Invalid option: {e} please try again.\n")
-            return False
-
-        return True

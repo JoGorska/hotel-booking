@@ -2,7 +2,8 @@
 from colorama import Fore
 from .validators import (
     OptionsValidator, DateValidator,
-    LengthOfStayValidator, RoomValidator, EmailValidator
+    RoomValidator,
+    EmailValidator, NewClientOptionsValidator
 )
 
 
@@ -29,6 +30,30 @@ class UserInput:
         return customer_email_input
 
     @classmethod
+    def new_client_option(cls):
+        """
+        gives new client various options to choose from
+        function returns a chosen option
+        """
+
+        while True:
+            print(
+                "Please choose one of the following options:"
+                "add a new booking (add)"
+                "show room availability (show),"
+                "quit the program (quit)\n")
+            chosen_option = input(
+                "Write 'add', 'show' or 'quit' here: \n"
+            )
+
+            # if OptionsValidator.new_client_options(chosen_option):
+            if NewClientOptionsValidator(chosen_option, 'option').result:
+
+                print(f"{Fore.GREEN}Your option is valid\n")
+                break
+        return chosen_option
+
+    @classmethod
     def returning_client_option(cls):
         """
         gives returning client various options to choose from
@@ -53,28 +78,7 @@ class UserInput:
                 break
             return chosen_option
 
-    @classmethod
-    def new_client_option(cls):
 
-        """
-        gives new client various options to choose from
-        function returns a chosen option
-        """
-
-        while True:
-            print(
-                "Please choose one of the following options:"
-                "add a new booking (add)"
-                "show room availability (show),"
-                "quit the program (quit)\n")
-            chosen_option = input("Write 'add', 'show', "
-                                  "or 'quit' here: \n")
-
-            if OptionsValidator.new_client_options(chosen_option):
-
-                print(f"{Fore.GREEN}Your option is valid\n")
-                break
-        return chosen_option
 
     @classmethod
     def room_integer(cls):
