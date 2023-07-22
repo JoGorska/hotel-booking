@@ -35,8 +35,8 @@ class ClientOptions:
     def activate_chosen_option(cls, option, email):
         map_options = {
             ClientOptions.ADD: OptionAdd.run_option(email),
-            ClientOptions.SHOW: OptionShow.run_option(),
-            ClientOptions.PRINT: OptionPrint.run_option(),
+            ClientOptions.SHOW: OptionShow.run_option(email),
+            ClientOptions.PRINT: OptionPrint.run_option(email),
             ClientOptions.QUIT: OptionQuit.run_option(),
 
         }
@@ -152,12 +152,12 @@ class OptionShow:
     name = ClientOptions.SHOW
 
     @classmethod
-    def run_option(cls):
+    def run_option(cls, email):
         OptionShow.show_room_availability()
         chosen_option = UserInput.new_client_option
         ClientOptions.activate_chosen_option(chosen_option, email)
         chosen_option = UserInput.returning_client_option
-        ClientOptions.activate_chosen_option(chosen_option, email)   
+        ClientOptions.activate_chosen_option(chosen_option, email) 
 
     @classmethod
     def show_room_availability(cls):
@@ -168,7 +168,8 @@ class OptionShow:
         """
         while True:
             # obtains start and end date of the print from the user
-            print("We will now ask you for a start and end date\n"
+            print(
+                "We will now ask you for a start and end date\n"
                 "of the period that you want to check and than\n"
                 "to give us the room number you would like\n")
             start = UserInput.start_date
@@ -183,11 +184,10 @@ class OptionShow:
             # calls functions that create lists of data from the
             # appropriate columns and from start to end date
             print("Checking the spreadsheet...")
-            list_column_dates = make_list_of_dates(rooms_worksheet,
-                                                row_start, row_end)
-            list_column_room = make_list_from_column(rooms_worksheet,
-                                                    row_start, row_end,
-                                                    room_name)
+            list_column_dates = make_list_of_dates(
+                rooms_worksheet, row_start, row_end)
+            list_column_room = make_list_from_column(
+                rooms_worksheet, row_start, row_end, room_name)
             # makes dictionary out of two above lists
             dictionary = make_dictionary_from_lists(list_column_dates,
                                                     list_column_room)
@@ -198,16 +198,18 @@ class OptionShow:
 
         print_dictionary(dictionary)
 
+
 class OptionPrint:
     name = ClientOptions.PRINT
 
     @classmethod
-    def run_option(cls):
-        print_user_booking(email)
+    def run_option(cls, email):
+        OptionPrint.print_user_booking(email)
         chosen_option = UserInput.returning_client_option
         ClientOptions.activate_chosen_option(chosen_option, email)
 
-    def print_user_booking(email):
+    @classmethod
+    def print_user_booking(cls, email):
         """
         gets the dates from functions and initializes the functions to make
         lists and dictionary with data needed for the print
@@ -215,7 +217,8 @@ class OptionPrint:
         """
         while True:
             # obtains start and end date of the print from the user
-            print("We will now ask you for a start and end date of\n"
+            print(
+                "We will now ask you for a start and end date of\n"
                 "the period that you want to print\n")
             start = UserInput.start_date
             end = UserInput.end_date
@@ -227,20 +230,19 @@ class OptionPrint:
             # calls functions that create lists of data from the
             # appropriate columns and from start to end date
             print("Checking the spreadsheet...")
-            list_column_dates = make_list_of_dates(clients_worksheet,
-                                                row_start, row_end)
-            list_column_email = make_list_from_column(clients_worksheet,
-                                                    row_start, row_end, email)
+            list_column_dates = make_list_of_dates(
+                clients_worksheet, row_start, row_end)
+            list_column_email = make_list_from_column(
+                clients_worksheet, row_start, row_end, email)
             # makes dictionary out of two above lists
-            dictionary = make_dictionary_from_lists(list_column_dates,
-                                                    list_column_email)
+            dictionary = make_dictionary_from_lists(
+                list_column_dates, list_column_email)
 
             if validate_print_request(start, end):
                 print(f"{Fore.GREEN}Print request validated.\n")
                 break
 
         print_dictionary(dictionary)
-
 
 
 def make_dictionary_from_lists(list1, list2):
@@ -326,9 +328,6 @@ def make_list_of_dates(worksheet, row_start, row_end):
     return list_of_excel_dates
 
 
-
-
-
 def get_cancelation_data(email):
     """
     gets a list containing cancelation data:
@@ -394,6 +393,7 @@ def delete_booking_from_spreadsheet(email):
 
     add_data_to_spreadsheet(rooms_worksheet, start_date_str,
                             end_date_str, room_short_name_str, cell_value)
+
 
 def get_all_booking_info(email):
     """
