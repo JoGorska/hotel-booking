@@ -125,7 +125,7 @@ class OptionAdd:
         # initializes function to get all booking informations:
         # start and end dates and room number
 
-        list_dates_room = get_all_booking_info(email)
+        list_dates_room = OptionAdd.get_all_booking_info(email)
         start_date_str = list_dates_room[0]
         end_date_str = list_dates_room[1]
 
@@ -146,6 +146,36 @@ class OptionAdd:
             rooms_worksheet, start_date_str,
             end_date_str, room_short, email)
         print("Worksheet updated.\n\n")
+
+    @classmethod
+    def get_all_booking_info(cls, email):
+        """
+        function to obtain both dates start and end date from the user
+        returns a list containing two elements, start and end dates
+        in a form of string - date as in excel
+        """
+        while True:
+            print("We will now ask you to input your booking start date "
+                "and end date, please follow the given date format\n")
+            list_start_end_room = []
+            # initializes functions to get user input for start and end date
+            start = UserInput.start_date
+            list_start_end_room.append(start)
+            end = UserInput.end_date
+            list_start_end_room.append(end)
+
+            # initializes function to get user input for room number
+            room = UserInput.room_integer
+            list_start_end_room.append(room)
+            if (
+                    LengthOfStayValidator.validate_lenght_of_stay(LengthOfStayValidator, start, end)
+                    and AvailibilityValidator.validate_room_availibility(
+                        AvailibilityValidator, start, end, room, email)
+            ):
+                print(f"{Fore.GREEN}Booking validated.\n")
+                break
+
+        return list_start_end_room
 
 
 class OptionShow:
@@ -245,12 +275,82 @@ class OptionPrint:
         print_dictionary(dictionary)
 
 
+class OptionChange:
+    name = ClientOptions.CHANGE
+
+    @classmethod
+    def run_option(email):
+        print(
+            "To change your booking we will first ask you to delete "
+            "the booking on the dates that need to be canceled and then"
+            "to add the booking")
+        OptionCancel.delete_booking_from_spreadsheet(email)
+        OptionAdd.register_new_booking(email)
+        chosen_option = UserInput.returning_client_option
+        ClientOptions.activate_chosen_option(chosen_option, email)     
+
+
+class OptionCancel:
+    name = ClientOptions.CANCEL
+
+    @classmethod
+    def run_option(email):
+        # initializes function to cancel booking
+        OptionCancel.delete_booking_from_spreadsheet(email)
+
+        # once booking is cancelled the client
+        # gets the returning customer options
+
+        chosen_option = UserInput.returning_client_option
+        ClientOptions.activate_chosen_option(chosen_option, email)
+
+    @classmethod
+    def delete_booking_from_spreadsheet(cls, email):
+        """
+        deletes booking from a spreadsheet
+        """
+        print(
+            "To cancel your booking please provide us with"
+            " start and end date of the booking you want to cancel")
+        # start date and end date strings come from
+        # function get_cancelation_data
+
+        cancelation_data_list = UserInput.cancelation_data(email)
+        start_date_str = cancelation_data_list[0]
+        end_date_str = cancelation_data_list[1]
+
+        # the cell value will be replaced with empty string
+        cell_value = ""
+
+        room_short_name_str = cancelation_data_list[2]
+
+        # informs the client what is about to happen
+        print(
+            "You are about to cancel booking for the period"
+            f" between {start_date_str} and {end_date_str}")
+        print(f"{Fore.BLUE} Deleting your booking from the spreadsheet...")
+
+        # updates clients worksheet
+        add_data_to_spreadsheet(clients_worksheet, start_date_str,
+                                end_date_str, email, cell_value)
+        # updates rooms worksheet
+
+        add_data_to_spreadsheet(rooms_worksheet, start_date_str,
+                                end_date_str, room_short_name_str, cell_value)
+
+
+class OptionQuit:
+    name = ClientOptions.QUIT
+
+    @classmethod
+    def run_option(cls):
+        # prints a cat climbing into a box and
+        # a goodbye message
+        # ends the program
+        print(Image.CAT)
+
+
 def make_dictionary_from_lists(list1, list2):
-    """
-    creates a dictionary from two lists
-    code copied from code institute challenge for love sandwiches,
-    the result that I wrote, based on love sandwiches presentation
-    """
 
     zip_iterator = zip(list1, list2)
     a_dictionary = dict(zip_iterator)
@@ -267,8 +367,22 @@ def print_dictionary(dictionary):
     # prints one date below another, which will let the user
     # scroll through the results.
     for i in dictionary:
-
         print(i + ": " + dictionary[i])
+
+
+def encode_values(worksheet, column_value, row):
+    # gets the value of the cell in the column for the chosen room
+    # and each row in within the booked period of time
+    # column is 1 as the date strings are in the first column
+
+    column = find_a_column(worksheet, column_value)
+    val = read_cell_value(worksheet, row, column)
+
+    # this codes the value keeps it private
+    # this allows printing column containing various users
+    # emails without revealing the identity of who booked it.
+    encoded_value = 'Reserved' if val else 'None'
+    return encoded_value
 
 
 def make_list_from_column(worksheet, row_start, row_end, column_value):
@@ -279,29 +393,10 @@ def make_list_from_column(worksheet, row_start, row_end, column_value):
     """
     # makes a list of values containing each date in excel format
     # (string dd/mm/yyyy)
-    list_of_column_values = []
 
-    # for loop gets each cell value and appends the list
-
-    for row in range(row_start, (row_end + 1)):
-        # gets the value of the cell in the column for the chosen room
-        # and each row in within the booked period of time
-        # column is 1 as the date strings are in the first column
-
-        column = find_a_column(worksheet, column_value)
-        val = read_cell_value(worksheet, row, column)
-
-        # this codes the value keeps it private
-        # this allows printing column containing various users
-        # emails without revealing the identity of who booked it.
-
-        if (val == "") or (val is None):
-            val = "None"
-        elif "@" in val:
-            val = "Reserved"
-
-        list_of_column_values.append(val)
-
+    list_of_column_values = [
+        encode_values(worksheet, column_value, row) for row in range(row_start, (row_end + 1))
+    ]
     return list_of_column_values
 
 
@@ -311,115 +406,12 @@ def make_list_of_dates(worksheet, row_start, row_end):
     """
     # makes a list of values containing each date in excel format
     # (string dd/mm/yyyy)
-    # todo - here
-    list_of_excel_dates = []
-    # list_of_excel_dates = [
-    # read_cell_value(worksheet, row, column) for row in range(row_start, (row_end + 1))
-    # ]
-    # for loop gets each cell value and appends the list
-    for row in range(row_start, (row_end + 1)):
-        # gets the value of the cell in the column for the chosen room
-        # and each row in within the booked period
-        # column is "1" as the date strings are in the first column
-        column = 1
-        val = read_cell_value(worksheet, row, column)
-        list_of_excel_dates.append(val)
 
+    # gets the value of the cell in the column for the chosen room
+    # and each row in within the booked period
+    # column is "1" as the date strings are in the first column
+    column = 1
+    list_of_excel_dates = [
+        read_cell_value(worksheet, row, column) for row in range(row_start, (row_end + 1))
+    ]
     return list_of_excel_dates
-
-
-def get_cancelation_data(email):
-    """
-    gets a list containing cancelation data:
-    start and end as strings and room as integer
-    calls function to validate cancelation dates
-    loops request for cancelation dates
-    if validation of cancelation dates returned an error
-    """
-    while True:
-        print("Please enter the start date and end date"
-              " for the booking that you need to cancel")
-        cancelation_data_list = []
-        # gets the strings containing start and end dates
-        # from the user
-        start_str = UserInput.start_date
-        end_str = UserInput.end_date
-
-        # gets the room name and room number
-        room_int = UserInput.room_integer
-        room_short = room_short_name(room_int)
-
-        # appends the strings to make the list with data
-        # needed for deleting entries from spreadsheet
-        cancelation_data_list.append(start_str)
-        cancelation_data_list.append(end_str)
-        cancelation_data_list.append(room_short)
-
-        if AvailibilityValidator.validate_cancelation_dates(
-                AvailibilityValidator, start_str, end_str, room_int, email):
-            print(f"{Fore.GREEN}Valid cancellation dates")
-            break
-
-    return cancelation_data_list
-
-
-def delete_booking_from_spreadsheet(email):
-    """
-    deletes booking from a spreadsheet
-    """
-    print("To cancel your booking please provide us with"
-          " start and end date of the booking you want to cancel")
-    # start date and end date strings come from
-    # function get_cancelation_data
-
-    cancelation_data_list = get_cancelation_data(email)
-    start_date_str = cancelation_data_list[0]
-    end_date_str = cancelation_data_list[1]
-
-    # the cell value will be replaced with empty string
-    cell_value = ""
-
-    room_short_name_str = cancelation_data_list[2]
-
-    # informs the client what is about to happen
-    print(f"You are about to cancel booking for the period"
-          f" between {start_date_str} and {end_date_str}")
-    print(f"{Fore.BLUE} Deleting your booking from the spreadsheet...")
-
-    # updates clients worksheet
-    add_data_to_spreadsheet(clients_worksheet, start_date_str,
-                            end_date_str, email, cell_value)
-    # updates rooms worksheet
-
-    add_data_to_spreadsheet(rooms_worksheet, start_date_str,
-                            end_date_str, room_short_name_str, cell_value)
-
-
-def get_all_booking_info(email):
-    """
-    function to obtain both dates start and end date from the user
-    returns a list containing two elements, start and end dates
-    in a form of string - date as in excel
-    """
-    while True:
-        print("We will now ask you to input your booking start date "
-              "and end date, please follow the given date format\n")
-        list_start_end_room = []
-        # initializes functions to get user input for start and end date
-        start = UserInput.start_date
-        list_start_end_room.append(start)
-        end = UserInput.end_date
-        list_start_end_room.append(end)
-
-        # initializes function to get user input for room number
-        room = UserInput.room_integer
-        list_start_end_room.append(room)
-        if (
-                LengthOfStayValidator.validate_lenght_of_stay(LengthOfStayValidator, start, end)
-                and AvailibilityValidator.validate_room_availibility(
-                    AvailibilityValidator, start, end, room, email)
-        ):
-            print(f"{Fore.GREEN}Booking validated.\n")
-            break
-
-    return list_start_end_room

@@ -1,11 +1,11 @@
 
 from colorama import Fore
 from .validators import (
-    DateValidator,
+    DateValidator, AvailibilityValidator, 
     RoomValidator,
     EmailValidator, NewClientOptionsValidator, ReturningClientOptionsValidator
 )
-
+from rooms import room_full_name, room_short_name
 
 class UserInput:
     @classmethod
@@ -104,8 +104,8 @@ class UserInput:
                 break
         return int(room_number)
 
-    @property
-    def start_date(self):
+    @classmethod
+    def start_date(cls):
         """
         Prompts client to input start date for the booking
         """
@@ -120,8 +120,8 @@ class UserInput:
 
         return start_date
 
-    @property
-    def end_date(self):
+    @classmethod
+    def end_date(cls):
         """
         Prompts client to input end date for the booking
         """
@@ -133,3 +133,39 @@ class UserInput:
                 print(f"{Fore.GREEN}Your date is in valid format.\n")
                 break
         return end_date
+
+    @classmethod
+    def cancelation_data(cls, email):
+        """
+        gets a list containing cancelation data:
+        start and end as strings and room as integer
+        calls function to validate cancelation dates
+        loops request for cancelation dates
+        if validation of cancelation dates returned an error
+        """
+        while True:
+            print(
+                "Please enter the start date and end date"
+                " for the booking that you need to cancel")
+            cancelation_data_list = []
+            # gets the strings containing start and end dates
+            # from the user
+            start_str = UserInput.start_date
+            end_str = UserInput.end_date
+
+            # gets the room name and room number
+            room_int = UserInput.room_integer
+            room_short = room_short_name(room_int)
+
+            # appends the strings to make the list with data
+            # needed for deleting entries from spreadsheet
+            cancelation_data_list.append(start_str)
+            cancelation_data_list.append(end_str)
+            cancelation_data_list.append(room_short)
+
+            if AvailibilityValidator.validate_cancelation_dates(
+                    AvailibilityValidator, start_str, end_str, room_int, email):
+                print(f"{Fore.GREEN}Valid cancellation dates")
+                break
+
+        return cancelation_data_list
