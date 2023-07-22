@@ -35,7 +35,8 @@ class ClientOptions:
     @classmethod
     def activate_chosen_option(cls, option, email):
         map_options = {
-            ClientOptions.ADD: OptionAdd.run_option(email)
+            ClientOptions.ADD: OptionAdd.run_option(email),
+            ClientOptions.SHOW: OptionShow.run_option(email),
         }
         map_options.get(option)
 

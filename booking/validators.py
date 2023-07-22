@@ -56,6 +56,8 @@ class BaseValidator:
         return True
 
     def check_object_is_a_member(self):
+        print('checking object is a member')
+        print(self.validated_object in self.list_where_object_must_be_member)
         if not self.list_where_object_must_be_member:
             return True
         elif self.validated_object in self.list_where_object_must_be_member:
@@ -205,6 +207,7 @@ class RoomValidator:
 
         return True
 
+
 class DateValidator:
     def date_in_the_past(self, input_date):
         """
@@ -219,7 +222,6 @@ class DateValidator:
             return True
         else:
             return False
-
 
     def date_not_in_worksheet(self, date_str):
         """
@@ -261,12 +263,14 @@ class DateValidator:
 
         try:
             if(not re.fullmatch(regex_date, date)):
-                raise ValueError(f"The date '{date}' does not seem to be "
-                                "in the correct format\n")
+                raise ValueError(
+                    f"The date '{date}' does not seem to be "
+                    "in the correct format\n")
             elif (self.date_in_the_past(date)):
-                raise ValueError(f"The date '{date}' is not available\n"
-                                f"we can only accept booking from\n"
-                                f"tomorrow onwards,")
+                raise ValueError(
+                    f"The date '{date}' is not available\n"
+                    f"we can only accept booking from\n"
+                    f"tomorrow onwards,")
             elif self.date_not_in_worksheet(date):
                 # assuming that administrator will extend both worksheets equaly.
                 existing_dates_rooms = rooms_worksheet.col_values(1)
@@ -281,6 +285,7 @@ class DateValidator:
 
         return True
 
+
 class LengthOfStayValidator:
     def is_too_short(self, start, end):
         """
@@ -293,7 +298,6 @@ class LengthOfStayValidator:
             return True
         else:
             return False
-
 
     def is_too_long(self, start, end):
         """
@@ -327,12 +331,14 @@ class LengthOfStayValidator:
         """
         try:
             if self.is_too_short(start, end):
-                raise ValueError("We can only accpet booking for "
-                                "the minimum of 7 days\n")
+                raise ValueError(
+                    "We can only accpet booking for "
+                    "the minimum of 7 days\n")
             elif (self.is_too_long(start, end)):
-                raise ValueError("We can only accept booking for "
-                                "maximum of 30 days,\n please contact"
-                                "the hotel if you require longer stay\n")
+                raise ValueError(
+                    "We can only accept booking for "
+                    "maximum of 30 days,\n please contact"
+                    "the hotel if you require longer stay\n")
             elif (self.end_date_before_start(start, end)):
                 raise ValueError("You have entered end date before start date\n")
 
