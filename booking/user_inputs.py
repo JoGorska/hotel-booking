@@ -14,19 +14,19 @@ class UserInput:
         and return customer email input
         """
         while True:
-            print("Please enter your email address")
-            print("Example: email@domain.uk\n")
+            print(
+                "Please enter your email address\n"
+                "Example: email@domain.uk\n"
+            )
 
             customer_email_input = input("Enter your email here: \n")
-
             customer_email_input = customer_email_input.lower() if customer_email_input else ''
             print(f'You entered "{customer_email_input}"\n')
 
-            if ClientValidator.email(ClientValidator, customer_email_input):
+            if EmailValidator(validated_object=customer_email_input, object_type='email').result:
                 print(f"{Fore.GREEN}Your email is valid\n")
                 break
-
-            return customer_email_input
+        return customer_email_input
 
     @classmethod
     def returning_client_option(cls):
@@ -49,7 +49,7 @@ class UserInput:
             if OptionsValidator.returning_client_options(chosen_option):
                 print(f"{Fore.GREEN}Your option is valid\n")
                 break
-        return chosen_option
+            return chosen_option
 
     @classmethod
     def new_client_option(cls):

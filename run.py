@@ -3,7 +3,7 @@ from colorama import Fore
 from booking.images import Image
 from booking.user_inputs import UserInput
 from booking.validators import (
-    LengthOfStayValidator, AvailibilityValidator, EmailValidator
+    LengthOfStayValidator, AvailibilityValidator, ReturningClientValidator
 )
 from booking.rooms import (
     room_full_name, room_short_name
@@ -12,7 +12,7 @@ from booking.worksheet_utils import (
     clients_worksheet, rooms_worksheet, add_new_client,
     find_a_row, find_a_column, add_data_to_spreadsheet, read_cell_value
 )
-from booking.validators import ClientValidator
+
 colorama.init(autoreset=True)
 
 
@@ -385,7 +385,8 @@ def main():
     """
     print(Image.CASTLE)
     customer_email = UserInput.email()
-    if ClientValidator.is_returning_client(ClientValidator, email=customer_email):
+
+    if ReturningClientValidator(customer_email, 'email').check_object_is_a_member():
         print("Welcome back")
         chosen_option = UserInput.returning_client_option()
         activate_chosen_option(chosen_option, customer_email)

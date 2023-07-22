@@ -11,6 +11,9 @@ MAXIMUM_STAY = 7
 
 
 class BaseValidator:
+    fail_on_empty = None
+    regex = None
+
     def __init__(
             self,
             validated_object,
@@ -18,13 +21,19 @@ class BaseValidator:
 
         self.validated_object = validated_object
         self.object_type = object_type
-        self.fail_on_empty = None
-        self.regex = None
-        self.list_where_object_must_be_member = []
+
+        self.list_where_object_must_be_member = self.get_list_where_object_must_be_member()
         self.list_where_object_must_not_be_member = []
         self.result = self.run_validators()
 
+    def get_list_where_object_must_be_member(self):
+        return []
+
     def validate_if_empty(self):
+        '''
+        raises error if validated object is falsly (empty or None)
+        validator only raises error if fail_on_empty is set to true
+        '''
         if not self.fail_on_empty:
             return True
         if not self.validated_object:
@@ -32,6 +41,10 @@ class BaseValidator:
         return True
 
     def validate_regex(self):
+        '''
+        checks if validated_object matches given regex
+        if no regex is provided, validator returns True
+        '''
         if not self.regex:
             return True
         if not re.fullmatch(self.regex, self.validated_object):
@@ -40,10 +53,28 @@ class BaseValidator:
             )
         return True
 
+    def check_object_is_a_member(self):
+        if not self.list_where_object_must_be_member:
+            return True
+        elif self.validated_object in self.list_where_object_must_be_member:
+            return True
+        return False
+        # I don't want to raise errors for no member here, just return false
+
+    def validate_object_is_a_member(self):
+        if not self.check_object_is_a_member():
+            raise ValueError(
+                f"The {self.object_type} was not found"
+            )
+
     def run_validators(self):
+        '''
+        runs all validators, raises error if any of them returns error
+        '''
         try:
             self.validate_if_empty()
             self.validate_regex()
+            self.validate_object_is_a_member()
         except ValueError as e:
             print(f"{Fore.RED}Invalid {self.object_type}: {e}, please try again.\n")
             return False
@@ -52,56 +83,22 @@ class BaseValidator:
 
 
 class EmailValidator(BaseValidator):
-
+    '''
+    provides arguments for base validator to run validators on empty and regex
+    regex for email from:
+    https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/
+    '''
     fail_on_empty = True
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 
+class ReturningClientValidator(BaseValidator):
+    '''checks if email is already in excel'''
 
-# class EmailValidator(BaseValidator):
-#     def __init__(self, validated_object, object_type):
+    def get_list_where_object_must_be_member(self):
+        '''list of clients' emails already added is in first row of clients worksheet'''
+        return clients_worksheet.row_values(1)
 
-#         super(). __init__(
-#             validated_object=validated_object,
-#             object_type=object_type,
-#             fail_on_empty=True,
-#             regex=r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
-
-
-class ClientValidator:
-    def email(self, email):
-        """
-        Inside try raises ValueError if the email fails validation
-        and returns False, prints information for the user about the error
-        if no error - returns True
-        validate email code and regex:
-        https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/
-        """
-        regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-
-        try:
-            if not email:
-                raise ValueError('No user input')
-            elif not re.fullmatch(regex_email, email):
-                raise ValueError(
-                    f"The address '{email}' does not seem to be correct")
-
-        except ValueError as e:
-            print(f"{Fore.RED}Invalid email: {e}, please try again.\n")
-            return False
-
-        return True
-
-    def is_returning_client(self, email):
-        """
-        checks the clients worksheet if the email is already listed
-        list of clients' emails already added is in first row of clients worksheet
-        """
-        clients_list = clients_worksheet.row_values(1)
-
-        if email in clients_list:
-            return True
-        return False
 
 
 class RoomValidator:
