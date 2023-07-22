@@ -2,7 +2,9 @@ import colorama
 from colorama import Fore
 from booking.images import Image
 from booking.user_inputs import UserInput
-from booking.validators import Validator
+from booking.validators import (
+    LengthOfStayValidator, AvailibilityValidator, EmailValidator
+)
 from booking.rooms import (
     room_full_name, room_short_name
 )
@@ -34,9 +36,9 @@ def get_all_booking_info(email):
         room = UserInput.room_integer
         list_start_end_room.append(room)
         if (
-                Validator.validate_lenght_of_stay(start, end)
-                and Validator.validate_room_availibility(
-                    start, end, room, email)
+                LengthOfStayValidator.validate_lenght_of_stay(LengthOfStayValidator, start, end)
+                and AvailibilityValidator.validate_room_availibility(
+                    AvailibilityValidator, start, end, room, email)
         ):
             print(f"{Fore.GREEN}Booking validated.\n")
             break
@@ -103,7 +105,8 @@ def get_cancelation_data(email):
         cancelation_data_list.append(end_str)
         cancelation_data_list.append(room_short)
 
-        if Validator.validate_cancelation_dates(start_str, end_str, room_int, email):
+        if AvailibilityValidator.validate_cancelation_dates(
+                AvailibilityValidator, start_str, end_str, room_int, email):
             print(f"{Fore.GREEN}Valid cancellation dates")
             break
 
@@ -236,7 +239,7 @@ def validate_print_request(start, end):
     """
     try:
         print("Validating print request...\n")
-        if (Validator.end_date_before_start(start, end)):
+        if (LengthOfStayValidator.end_date_before_start(LengthOfStayValidator, start, end)):
             raise ValueError("You have entered end date before start date\n")
 
     except ValueError as e:
@@ -381,21 +384,19 @@ def main():
     Run all program functions
     """
     print(Image.CASTLE)
-    customer_email = UserInput.email
-
+    customer_email = UserInput.email()
     if ClientValidator.is_returning_client(ClientValidator, email=customer_email):
         print("Welcome back")
-        chosen_option = UserInput.returning_client_option
+        chosen_option = UserInput.returning_client_option()
         activate_chosen_option(chosen_option, customer_email)
     else:
         # adds new customers to spreadsheet
         add_new_client(customer_email)
-        chosen_option = UserInput.new_client_option
+        chosen_option = UserInput.new_client_option()
         activate_chosen_option(chosen_option, customer_email)
         # once registration is complete -
         # client can choose from the given options what to do next
         chosen_option = UserInput.returning_client_option
         activate_chosen_option(chosen_option, customer_email)
-
 
 main()

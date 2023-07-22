@@ -9,16 +9,63 @@ from booking.worksheet_utils import (
 MINIMUM_STAY = 2
 MAXIMUM_STAY = 7
 
-# class BaseValidator:
-#     def __init__
-#     validated object
-#     object type
-# should fail on empty value?
-#     regex = None
-# default error failed validation
-#     fail on empty value
-#     object is required to be in list
-# object is required NOT to be in list
+
+class BaseValidator:
+    def __init__(
+            self,
+            validated_object,
+            object_type):
+
+        self.validated_object = validated_object
+        self.object_type = object_type
+        self.fail_on_empty = None
+        self.regex = None
+        self.list_where_object_must_be_member = []
+        self.list_where_object_must_not_be_member = []
+        self.result = self.run_validators()
+
+    def validate_if_empty(self):
+        if not self.fail_on_empty:
+            return True
+        if not self.validated_object:
+            raise ValueError('No user input')
+        return True
+
+    def validate_regex(self):
+        if not self.regex:
+            return True
+        if not re.fullmatch(self.regex, self.validated_object):
+            raise ValueError(
+                f"The {self.object_type} does not seem to be correct"
+            )
+        return True
+
+    def run_validators(self):
+        try:
+            self.validate_if_empty()
+            self.validate_regex()
+        except ValueError as e:
+            print(f"{Fore.RED}Invalid {self.object_type}: {e}, please try again.\n")
+            return False
+
+        return True
+
+
+class EmailValidator(BaseValidator):
+
+    fail_on_empty = True
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+
+
+
+# class EmailValidator(BaseValidator):
+#     def __init__(self, validated_object, object_type):
+
+#         super(). __init__(
+#             validated_object=validated_object,
+#             object_type=object_type,
+#             fail_on_empty=True,
+#             regex=r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
 
 
 class ClientValidator:
@@ -57,7 +104,8 @@ class ClientValidator:
         return False
 
 
-class Validator:
+class RoomValidator:
+    @classmethod
     def room(room_number):
         """
         changes user input to integer and validates user input for choosing a room
@@ -71,11 +119,11 @@ class Validator:
 
             if not re.fullmatch(regex_number, room_number):
                 raise ValueError("You have entered other"
-                                "characters than numbers\n")
+                                 "characters than numbers\n")
 
             elif int(room_number) not in range(1, 10):
                 raise ValueError(f"The room '{room_number}' does not seem to be "
-                                "in the correct range 1 - 9\n")
+                                 "in the correct range 1 - 9\n")
 
         except ValueError as e:
             print(f"{Fore.RED}Invalid room number: {e} please try again.\n")

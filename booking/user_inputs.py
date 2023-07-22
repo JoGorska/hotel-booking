@@ -1,13 +1,14 @@
 
 from colorama import Fore
 from .validators import (
-    Validator, ClientValidator, OptionsValidator, DateValidator,
-    LengthOfStayValidator
+    ClientValidator, OptionsValidator, DateValidator,
+    LengthOfStayValidator, RoomValidator, EmailValidator
 )
 
+
 class UserInput:
-    @property
-    def email(self):
+    @classmethod
+    def email(cls):
         """
         Get email from the user, validate user email input
         and return customer email input
@@ -17,6 +18,7 @@ class UserInput:
             print("Example: email@domain.uk\n")
 
             customer_email_input = input("Enter your email here: \n")
+
             customer_email_input = customer_email_input.lower() if customer_email_input else ''
             print(f'You entered "{customer_email_input}"\n')
 
@@ -24,10 +26,10 @@ class UserInput:
                 print(f"{Fore.GREEN}Your email is valid\n")
                 break
 
-        return customer_email_input
+            return customer_email_input
 
-    @property
-    def returning_client_option(self):
+    @classmethod
+    def returning_client_option(cls):
         """
         gives returning client various options to choose from
         returns the option
@@ -49,8 +51,8 @@ class UserInput:
                 break
         return chosen_option
 
-    @property
-    def new_client_option(self):
+    @classmethod
+    def new_client_option(cls):
 
         """
         gives new client various options to choose from
@@ -90,7 +92,7 @@ class UserInput:
             room_number = 1
             room_number = input("Write a number 1 - 9: \n")
 
-            if Validator.room(room_number):
+            if RoomValidator.room(room_number):
 
                 print(f"{Fore.GREEN}Your room is valid\n")
                 break
