@@ -461,3 +461,19 @@ class AvailibilityValidator:
             return False
 
         return True
+
+def validate_print_request(start, end):
+    """
+    Inside try raises ValueError if the user entered end date before
+    the start date for the print request.
+    """
+    try:
+        print("Validating print request...\n")
+        if (LengthOfStayValidator.end_date_before_start(LengthOfStayValidator, start, end)):
+            raise ValueError("You have entered end date before start date\n")
+
+    except ValueError as e:
+        print(f"{Fore.RED}Invalid print request: {e}\n please try again.\n")
+        return False
+
+    return True
