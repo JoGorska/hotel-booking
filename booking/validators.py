@@ -56,14 +56,18 @@ class BaseValidator:
         return True
 
     def check_object_is_a_member(self):
-        print('checking object is a member')
-        print(self.validated_object in self.list_where_object_must_be_member)
+        '''
+        this function is just testing for membership,
+        it does not raise errors, just returns true or false.
+        It is used to test membership and also to validate object is a member
+        it is the validate_object_is_a_member that raises error
+        '''
         if not self.list_where_object_must_be_member:
             return True
         elif self.validated_object in self.list_where_object_must_be_member:
             return True
         return False
-        # I don't want to raise errors for no member here, just return false
+
 
     def validate_object_is_a_member(self):
         '''
@@ -121,16 +125,16 @@ class NewClientOptionsValidator(BaseValidator):
     def get_list_where_object_must_be_member(self):
         # need to import here due to circular import error
         from .client_options import ClientOptions # noqa
-        print(ClientOptions.NEW_CLIENT_OPTIONS)
-        return [ClientOptions.NEW_CLIENT_OPTIONS]
+        return ClientOptions.NEW_CLIENT_OPTIONS
 
     def validate_object_is_a_member(self):
         '''
         customises error message when object fails membership test
         '''
         if not self.check_object_is_a_member():
+            print(self.validated_object)
             raise ValueError(
-                f"The the word '{self.validated_object}' does not\n seem to be "
+                f"The the word '{self.validated_object}' does not\nseem to be "
                 f"matching any of the given options,\n")
 
 
@@ -145,7 +149,7 @@ class ReturningClientOptionsValidator(BaseValidator):
     def get_list_where_object_must_be_member(self):
         # need to import here due to circular import error
         from .client_options import ClientOptions # noqa
-        return [ClientOptions.RETURNING_CLIENT_OPTIONS]
+        return ClientOptions.RETURNING_CLIENT_OPTIONS
 
     def validate_object_is_a_member(self):
         '''

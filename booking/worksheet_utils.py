@@ -54,8 +54,7 @@ def find_a_row(value):
     finds a cell that contains the given value and returns its row number
     """
     target_cell = clients_worksheet.find(value)
-
-    return(target_cell.row)
+    return target_cell.row
 
 
 def find_a_column(worksheet, value):
@@ -63,8 +62,7 @@ def find_a_column(worksheet, value):
     finds a cell that contains the given value and return its column number
     """
     target_cell = worksheet.find(value)
-
-    return(target_cell.col)
+    return target_cell.col
 
 
 def add_data_to_spreadsheet(worksheet, start, end, column_val, cell_value):
