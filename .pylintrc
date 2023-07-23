@@ -1,8 +1,0 @@
-
-[MASTER]
-disable=
-    C0114, # missing-module-docstring
-    CO115,
-    CO116, # missing-function-doctring
-
-good-names = 'e'

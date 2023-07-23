@@ -5,7 +5,7 @@ from ..user_inputs import UserInput
 def test_prompt_get_email():
     good_email = 'my_little@email.com'
     set_keyboard_input([good_email])
-    UserInput.get_email()
+    UserInput.email()
     output = get_display_output()
 
     assert len(output) > 0

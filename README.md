@@ -167,7 +167,16 @@ From the above mentioned list the bugs that were remaining
 
 12. User can't cancel the booking
     In rare circumstances, the user might not be able to cancel the booking. The database was designed as two worksheets and if anything breaks in between them then the booking is not valid. Unfortunately, it is too late to change the database completely but it is another weakness of the chosen type of database and the formating style of storing data.
-  
+
+## linting
+control over errors raised by flake8
+
+control over pylint error messages. File generated automatically by pylint using command:
+'''
+pylint --generate-rcfile > pylintrc
+'''
+and modified to ignore some messages. 
+
 ## Validation of the user input
 
 1. Email validation

@@ -53,9 +53,9 @@ class OptionAdd:
     name = ClientOptions.ADD
 
     @classmethod
-    def run_option(self, email):
+    def run_option(cls, email):
         '''
-        uses provided email to register new booking,
+        takes email to register new booking,
         initializes function to register new booking
         '''
         OptionAdd.register_new_booking(email)
