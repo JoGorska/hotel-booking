@@ -68,7 +68,6 @@ class BaseValidator:
             return True
         return False
 
-
     def validate_object_is_a_member(self):
         '''
         this validator only runs when
