@@ -115,13 +115,13 @@ class OptionAdd:
                 "and end date, please follow the given date format\n")
             list_start_end_room = []
             # initializes functions to get user input for start and end date
-            start = UserInput.start_date
+            start = UserInput.start_date()
             list_start_end_room.append(start)
-            end = UserInput.end_date
+            end = UserInput.end_date()
             list_start_end_room.append(end)
 
             # initializes function to get user input for room number
-            room = UserInput.room_integer
+            room = UserInput.room_integer()
             list_start_end_room.append(room)
             if (LengthOfStayValidator.validate_lenght_of_stay(
                 LengthOfStayValidator, start, end) and (
@@ -157,9 +157,9 @@ class OptionShow:
                 "We will now ask you for a start and end date\n"
                 "of the period that you want to check and than\n"
                 "to give us the room number you would like\n")
-            start = UserInput.start_date
-            end = UserInput.end_date
-            room_int = UserInput.room_integer
+            start = UserInput.start_date()
+            end = UserInput.end_date()
+            room_int = UserInput.room_integer()
             room_name = room_short_name(room_int)
 
             # finds in which row those dates are
@@ -205,8 +205,8 @@ class OptionPrint:
             print(
                 "We will now ask you for a start and end date of\n"
                 "the period that you want to print\n")
-            start = UserInput.start_date
-            end = UserInput.end_date
+            start = UserInput.start_date()
+            end = UserInput.end_date()
 
             # finds in which row those dates are
             row_start = find_a_row(start)

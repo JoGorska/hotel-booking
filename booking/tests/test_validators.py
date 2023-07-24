@@ -48,6 +48,7 @@ class TestEmailValidator:
             object_type='email').result
         assert result is False
 
+
 class TestNewClientOptionsValidator:
     def test_passes_option_add(self):
         result = NewClientOptionsValidator(

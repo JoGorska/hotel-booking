@@ -80,32 +80,6 @@ class UserInput:
             return chosen_option
 
     @classmethod
-    def room_integer(cls):
-        """
-        gives options to choose which room to book
-        """
-        while True:
-            print(
-                "Please choose one of rooms:"
-                "1. Kew Gardens Suite"
-                "2. Oxford Suite"
-                "3. London Suite"
-                "4. Verulamium Suite"
-                "5. Cambridge Botanic Gardens"
-                "6. Stonehenge Suite"
-                "7. Lucretia's Suite"
-                "8. Glasgow Suite"
-                "9. Ware Suite\n")
-            room_number = 1
-            room_number = input("Write a number 1 - 9: \n")
-
-            if RoomValidator.room(room_number):
-
-                print(f"{Fore.GREEN}Your room is valid\n")
-                break
-        return int(room_number)
-
-    @classmethod
     def start_date(cls):
         """
         Prompts client to input start date for the booking
@@ -134,6 +108,34 @@ class UserInput:
                 print(f"{Fore.GREEN}Your date is in valid format.\n")
                 break
         return end_date
+
+    @classmethod
+    def room_integer(cls):
+        """
+        gives options to choose which room to book
+        """
+        while True:
+            print(
+                "Please choose one of rooms:"
+                "1. Kew Gardens Suite"
+                "2. Oxford Suite"
+                "3. London Suite"
+                "4. Verulamium Suite"
+                "5. Cambridge Botanic Gardens"
+                "6. Stonehenge Suite"
+                "7. Lucretia's Suite"
+                "8. Glasgow Suite"
+                "9. Ware Suite\n")
+            room_number = 1
+            room_number = input("Write a number 1 - 9: \n")
+
+            if RoomValidator.room(room_number):
+
+                print(f"{Fore.GREEN}Your room is valid\n")
+                break
+        return int(room_number)
+
+
 
     @classmethod
     def cancelation_data(cls, email):
