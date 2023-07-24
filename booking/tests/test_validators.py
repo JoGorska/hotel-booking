@@ -3,15 +3,19 @@ each class tests each validator for validaton of incorrect
 data as well as correct data
 '''
 
-from ..validators import EmailValidator
+from ..validators import (
+    EmailValidator, ReturningClientOptionsValidator
+)
+from ..client_options import ClientOptions
+
+NUMBERS = 123456
+EMPTY_STRING = ''
+RANDOM_LETTERS = 'asdf ghjkl'
 
 
 class TestEmailValidator:
     good_data = 'test@email.me'
-    bad_data_1 = 'bad email'
     bad_data_2 = 'bad@email'
-    bad_data_3 = 123366
-    no_data = ''
 
     def test_raises_error_when_email_incorrect_format(self):
         result = EmailValidator(
@@ -21,13 +25,13 @@ class TestEmailValidator:
 
     def test_raises_error_when_given_random_string(self):
         result = EmailValidator(
-            validated_object=self.bad_data_1,
+            validated_object=RANDOM_LETTERS,
             object_type='email').result
         assert result is False
 
     def test_raises_error_when_given_random_numbers(self):
         result = EmailValidator(
-            validated_object=self.bad_data_3,
+            validated_object=NUMBERS,
             object_type='email').result
         assert result is False
 
@@ -39,7 +43,71 @@ class TestEmailValidator:
 
     def test_fails_on_empty_string(self):
         result = EmailValidator(
-            validated_object=self.no_data,
+            validated_object=EMPTY_STRING,
             object_type='email').result
         assert result is False
 
+
+class TestReturningClientOptionsValidator:
+    def test_passes_option_add(self):
+        result = ReturningClientOptionsValidator(
+            validated_object=ClientOptions.ADD,
+            object_type='option'
+        ).result
+        assert result is True
+
+    def test_passes_option_show(self):
+        result = ReturningClientOptionsValidator(
+            validated_object=ClientOptions.SHOW,
+            object_type='option'
+        ).result
+        assert result is True
+
+    def test_passes_option_print(self):
+        result = ReturningClientOptionsValidator(
+            validated_object=ClientOptions.PRINT,
+            object_type='option'
+        ).result
+        assert result is True
+
+    def test_passes_option_change(self):
+        result = ReturningClientOptionsValidator(
+            validated_object=ClientOptions.CHANGE,
+            object_type='option'
+        ).result
+        assert result is True
+
+    def test_passes_option_cancel(self):
+        result = ReturningClientOptionsValidator(
+            validated_object=ClientOptions.CANCEL,
+            object_type='option'
+        ).result
+        assert result is True
+
+    def test_passes_option_quit(self):
+        result = ReturningClientOptionsValidator(
+            validated_object=ClientOptions.QUIT,
+            object_type='option'
+        ).result
+        assert result is True
+
+    def test_fails_option_random_numbers(self):
+        result = ReturningClientOptionsValidator(
+            validated_object=NUMBERS,
+            object_type='option'
+        ).result
+        assert result is False
+
+    def test_fails_option_empty_string(self):
+        result = ReturningClientOptionsValidator(
+            validated_object=EMPTY_STRING,
+            object_type='option'
+        ).result
+        assert result is False
+
+    def test_fails_option_empty_string(self):
+        result = ReturningClientOptionsValidator(
+            validated_object=RANDOM_LETTERS,
+            object_type='option'
+        ).result
+        assert result is False
