@@ -49,7 +49,8 @@ class BaseValidator:
         '''
         if not self.regex:
             return True
-        if not re.fullmatch(self.regex, self.validated_object):
+
+        if not re.fullmatch(self.regex, str(self.validated_object)):
             raise ValueError(
                 f"The {self.object_type} does not seem to be correct,"
             )
