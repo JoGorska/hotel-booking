@@ -81,6 +81,17 @@ class BaseValidator:
                 f"The {self.object_type} was not found"
             )
 
+    def validate_object_is_not_a_member(self):
+        '''
+        validation passes if object is not a member of the list
+        '''
+        if not self.list_where_object_must_not_be_member:
+            return True
+        if self.validated_object in self.list_where_object_must_not_be_member:
+            raise ValueError(
+                f"{self.validated_object} is already taken"
+            )
+
     def run_validators(self):
         '''
         runs all validators, raises error if any of them returns error
@@ -89,6 +100,7 @@ class BaseValidator:
             self.validate_if_empty()
             self.validate_regex()
             self.validate_object_is_a_member()
+            self.validate_object_is_not_a_member()
         except ValueError as e:
             print(f"{Fore.RED}Invalid {self.object_type}: {e} please try again.\n")
             return False
@@ -162,67 +174,104 @@ class ReturningClientOptionsValidator(BaseValidator):
 
 
 class DateValidator(BaseValidator):
+    """
+    Inside try raises ValueError if the date fails validation and returns False
+    prints information for the user about the error
+    if no error - returns True
+
+    regex for date with leap year support
+    https://stackoverflow.com/questions/15491894/regex-to-validate-date-format-dd-mm-yyyy-with-leap-year-support
+
+    how to split long regex
+    https://stackoverflow.com/questions/8006551/how-to-split-long-regular-expression-rules-to-multiple-lines-in-python/8006576#8006576
+    """
+
+    fail_on_empty = True
+    raise_error_when_membership_test_fails = True
+    regex = re.compile(
+                r'^(?:(?:31(\/)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|'
+                r'Dec)))\1|(?:(?:29|30)(\/)(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|'
+                r'May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\2))(?:(?:1[6-9]|[2-9]\d)\d'
+                r'{2})$|^(?:29(\/)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]'
+                r'|[2-9]\d)(?:0[48]|[2468][048]|[13579][26])'
+                r'|(?:(?:16|[2468][048]|[3579][26])00))))$|^'
+                r'(?:0?[1-9]|1\d|2[0-8])(\/)(?:(?:0?[1-9]|(?'
+                r':Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1'
+                r'[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]'
+                r'\d)\d{2})$', re.IGNORECASE)
+
+    def validate_date_not_in_the_past(self):
         """
-        Inside try raises ValueError if the date fails validation and returns False
-        prints information for the user about the error
-        if no error - returns True
-
-        regex for date with leap year support
-        https://stackoverflow.com/questions/15491894/regex-to-validate-date-format-dd-mm-yyyy-with-leap-year-support
-        
-        how to split long regex
-        https://stackoverflow.com/questions/8006551/how-to-split-long-regular-expression-rules-to-multiple-lines-in-python/8006576#8006576
+        tests if given date is in the past
         """
+        today = datetime.today()
+        # takes date input by the user in the format dd/mm/yyyy
+        # and converts to a python date time object
+        date_object = datetime.strptime(self.validated_object, "%d/%m/%Y")
 
-        fail_on_empty = True
-        regex = re.compile(
-                    r'^(?:(?:31(\/)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|'
-                    r'Dec)))\1|(?:(?:29|30)(\/)(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|'
-                    r'May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\2))(?:(?:1[6-9]|[2-9]\d)\d'
-                    r'{2})$|^(?:29(\/)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]'
-                    r'|[2-9]\d)(?:0[48]|[2468][048]|[13579][26])'
-                    r'|(?:(?:16|[2468][048]|[3579][26])00))))$|^'
-                    r'(?:0?[1-9]|1\d|2[0-8])(\/)(?:(?:0?[1-9]|(?'
-                    r':Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1'
-                    r'[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]'
-                    r'\d)\d{2})$', re.IGNORECASE)
+        if date_object < today:
+            raise ValueError(
+                f"The date '{self.validated_object}' is not available\n"
+                f"we can only accept booking from\n"
+                f"tomorrow onwards,")
+        return True
 
-        def validate_date_not_in_the_past(self):
-            """
-            tests if given date is in the past
-            """
-            today = datetime.today()
-            # takes date input by the user in the format dd/mm/yyyy
-            # and converts to a python date time object
-            date_object = datetime.strptime(self.validated_object, "%d/%m/%Y")
+    def list_dates_available_worksheet_rooms(self):
+        """
+        check if date exists in the spreadsheet,
+        currently period 01/09/2021 - 26/05/2024,
+        this can be mainatined by the administrator if needed
+        """
+        existing_dates_rooms = rooms_worksheet.col_values(1)
 
-            if date_object < today:
-                raise ValueError(
-                    f"The date '{self.validated_object}' is not available\n"
-                    f"we can only accept booking from\n"
-                    f"tomorrow onwards,")
+    def list_dates_available_worksheet_clients(self):
+        """
+        check if date exists in the spreadsheet,
+        currently period 01/09/2021 - 26/05/2024,
+        this can be mainatined by the administrator if needed
+        """
+        return clients_worksheet.col_values(1)
+
+
+    def validate_object_is_a_member(self):
+        '''
+        this validator only runs when
+        raise_error_when_membership_test_fails is set to True
+        '''
+        # assuming that administrator will extend both worksheets equaly.
+        if not self.raise_error_when_membership_test_fails:
             return True
+        if not self.check_object_is_a_member():
+            existing_dates_rooms = rooms_worksheet.col_values(1)
+            last_row = len(existing_dates_rooms)
+            max_date = read_cell_value(clients_worksheet, last_row, 1)
+            raise ValueError(
+                f"We can only accept booking between"
+                f" tomorrow and {max_date}\n")
+    # add list for membership test - test if in client worksheet
+    # and second list test if in rooms worksheet
 
-        # add list for membership test - test if in client worksheet
-        # and second list test if in rooms worksheet
+    # than collect it all in new run validators function
 
-        # than collect it all in new run validators function
+    def run_validators(self):
+        '''
+        runs all validators, raises error if any of them returns error
+        '''
+        try:
+            self.validate_if_empty()
+            self.validate_regex()
+            self.validate_date_not_in_the_past()
+            # self.list - one, than list two
+            self.list_where_object_must_not_be_member = 
+            self.validate_object_is_not_a_member()
 
-        def run_validators(self):
-            '''
-            runs all validators, raises error if any of them returns error
-            '''
-            try:
-                self.validate_if_empty()
-                self.validate_regex()
-                # self.list - one, than list two
-                self.validate_object_is_a_member()
-                self.validate_date_not_in_the_past()
-            except ValueError as e:
-                print(f"{Fore.RED}Invalid {self.object_type}: {e} please try again.\n")
-                return False
+        except ValueError as e:
+            print(f"{Fore.RED}Invalid {self.object_type}: {e} please try again.\n")
+            return False
 
-            return True
+        return True
+
+
 class RoomNumberValidator(BaseValidator):
     '''
     validates input on empty and regex
@@ -345,7 +394,7 @@ class OldDateValidator:
                 max_date = read_cell_value(clients_worksheet, last_row, 1)
                 raise ValueError(
                     f"We can only accept booking between"
-                    f" today and {max_date}\n")
+                    f" tomorrow and {max_date}\n")
 
         except ValueError as e:
             print(f"{Fore.RED}Invalid date: {e} please try again.\n")
