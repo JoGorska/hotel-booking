@@ -222,7 +222,7 @@ class DateValidator(BaseValidator):
         currently period 01/09/2021 - 26/05/2024,
         this can be mainatined by the administrator if needed
         """
-        existing_dates_rooms = rooms_worksheet.col_values(1)
+        return rooms_worksheet.col_values(1)
 
     def list_dates_available_worksheet_clients(self):
         """
@@ -231,7 +231,6 @@ class DateValidator(BaseValidator):
         this can be mainatined by the administrator if needed
         """
         return clients_worksheet.col_values(1)
-
 
     def validate_object_is_a_member(self):
         '''
@@ -262,9 +261,10 @@ class DateValidator(BaseValidator):
             self.validate_regex()
             self.validate_date_not_in_the_past()
             # self.list - one, than list two
-            self.list_where_object_must_not_be_member = 
+            self.list_where_object_must_be_member = self.list_dates_available_worksheet_rooms()
             self.validate_object_is_not_a_member()
-
+            self.list_where_object_must_be_member = self.list_dates_available_worksheet_clients()
+            self.validate_object_is_a_member()
         except ValueError as e:
             print(f"{Fore.RED}Invalid {self.object_type}: {e} please try again.\n")
             return False
