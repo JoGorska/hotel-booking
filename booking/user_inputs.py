@@ -88,7 +88,7 @@ class UserInput:
             print("Please use format dd/mm/yyyy for dates\n")
             start_date = input("Write start date here: \n")
 
-            if DateValidator.validate_date(DateValidator, start_date):
+            if DateValidator(start_date, 'start date').result:
                 print(f"{Fore.GREEN}Your date is in valid format.\n")
 
                 break
@@ -104,7 +104,7 @@ class UserInput:
             print("Please use format dd/mm/yyyy for dates\n")
             end_date = input("Write end date here: \n")
 
-            if DateValidator.validate_date(DateValidator, end_date):
+            if DateValidator(end_date, 'end date').result:
                 print(f"{Fore.GREEN}Your date is in valid format.\n")
                 break
         return end_date
@@ -134,8 +134,6 @@ class UserInput:
                 print(f"{Fore.GREEN}Your room is valid\n")
                 break
         return int(room_number)
-
-
 
     @classmethod
     def cancelation_data(cls, email):
