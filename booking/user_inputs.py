@@ -1,8 +1,8 @@
 
 from colorama import Fore
 from .validators import (
-    DateValidator, AvailibilityValidator,
-    RoomValidator,
+    DateValidator, AvailibilityValidator, MINIMUM_STAY, MAXIMUM_STAY,
+    RoomValidator, EndDateValidator,
     EmailValidator, NewClientOptionsValidator, ReturningClientOptionsValidator
 )
 from .rooms import room_short_name
@@ -96,15 +96,20 @@ class UserInput:
         return start_date
 
     @classmethod
-    def end_date(cls):
+    def end_date(cls, start_date):
         """
         Prompts client to input end date for the booking
         """
         while True:
-            print("Please use format dd/mm/yyyy for dates\n")
+
+            print(
+                f"We are taking bookings for minimum period of {MINIMUM_STAY} days"
+                f"and maximum period of {MAXIMUM_STAY} days"
+                "Please use format dd/mm/yyyy for dates\n"
+            )
             end_date = input("Write end date here: \n")
 
-            if DateValidator(end_date, 'end date').result:
+            if EndDateValidator(end_date, 'end date', start_date).result:
                 print(f"{Fore.GREEN}Your date is in valid format.\n")
                 break
         return end_date
@@ -147,15 +152,16 @@ class UserInput:
         while True:
             print(
                 "Please enter the start date and end date"
-                " for the booking that you need to cancel")
+                " for the booking that you need to cancel"
+            )
             cancelation_data_list = []
             # gets the strings containing start and end dates
             # from the user
-            start_str = UserInput.start_date
-            end_str = UserInput.end_date
+            start_str = UserInput.start_date()
+            end_str = UserInput.start_date()  # start_date validator needed here
 
             # gets the room name and room number
-            room_int = UserInput.room_integer
+            room_int = UserInput.room_integer()
             room_short = room_short_name(room_int)
 
             # appends the strings to make the list with data

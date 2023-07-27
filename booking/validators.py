@@ -19,9 +19,11 @@ class BaseValidator:
     def __init__(
             self,
             validated_object,
-            object_type):
+            object_type,
+            second_validated_object=None,):
 
         self.validated_object = validated_object
+        self.second_validated_object = second_validated_object
         self.object_type = object_type
 
         self.list_where_object_must_be_member = self.get_list_where_object_must_be_member()
@@ -274,10 +276,12 @@ class DateValidator(BaseValidator):
 
 
 class EndDateValidator(DateValidator):
-    def validate_is_not_too_short(self, start, end):
+    def validate_is_not_too_short(self):
         """
         checks if the booked stay is too short
         """
+        end = self.validated_object
+        start = self.second_validated_object
         row_start = find_a_row(start)
         row_end = find_a_row(end)
         lenght = row_end - row_start
@@ -287,10 +291,12 @@ class EndDateValidator(DateValidator):
                 f"the minimum of {MINIMUM_STAY} days\n")
         return True
 
-    def validate_is_not_too_long(self, start, end):
+    def validate_is_not_too_long(self):
         """
         check if the booked stay is too long
         """
+        end = self.validated_object
+        start = self.second_validated_object
         row_start = find_a_row(start)
         row_end = find_a_row(end)
         lenght = row_end - row_start
@@ -302,10 +308,12 @@ class EndDateValidator(DateValidator):
 
         return True
 
-    def validate_end_date_not_before_start(self, start, end):
+    def validate_end_date_not_before_start(self):
         """
         check if end date was enetered before start date
         """
+        end = self.validated_object
+        start = self.second_validated_object
         row_start = find_a_row(start)
         row_end = find_a_row(end)
         lenght = row_end - row_start
@@ -318,6 +326,7 @@ class EndDateValidator(DateValidator):
         self.validate_is_not_too_short()
         self.validate_is_not_too_long()
         self.validate_end_date_not_before_start()
+
 
 class RoomNumberValidator(BaseValidator):
     '''

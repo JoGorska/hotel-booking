@@ -117,7 +117,7 @@ class OptionAdd:
             # initializes functions to get user input for start and end date
             start = UserInput.start_date()
             list_start_end_room.append(start)
-            end = UserInput.end_date()
+            end = UserInput.end_date(start_date=start)
             list_start_end_room.append(end)
 
             # initializes function to get user input for room number
