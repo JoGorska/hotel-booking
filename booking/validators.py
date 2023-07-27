@@ -247,6 +247,7 @@ class DateValidator(BaseValidator):
             raise ValueError(
                 f"We can only accept booking between"
                 f" tomorrow and {max_date}\n")
+        return True
     # add list for membership test - test if in client worksheet
     # and second list test if in rooms worksheet
 
@@ -273,8 +274,50 @@ class DateValidator(BaseValidator):
 
 
 class EndDateValidator(DateValidator):
+    def validate_is_not_too_short(self, start, end):
+        """
+        checks if the booked stay is too short
+        """
+        row_start = find_a_row(start)
+        row_end = find_a_row(end)
+        lenght = row_end - row_start
+        if lenght < MINIMUM_STAY:
+            raise ValueError(
+                "We can only accpet booking for "
+                f"the minimum of {MINIMUM_STAY} days\n")
+        return True
+
+    def validate_is_not_too_long(self, start, end):
+        """
+        check if the booked stay is too long
+        """
+        row_start = find_a_row(start)
+        row_end = find_a_row(end)
+        lenght = row_end - row_start
+        if lenght > MAXIMUM_STAY:
+            raise ValueError(
+                "We can only accept booking for "
+                f"maximum of {MAXIMUM_STAY} days,\n please contact"
+                "the hotel if you require longer stay\n")
+
+        return True
+
+    def validate_end_date_not_before_start(self, start, end):
+        """
+        check if end date was enetered before start date
+        """
+        row_start = find_a_row(start)
+        row_end = find_a_row(end)
+        lenght = row_end - row_start
+        if lenght > 0:
+            raise ValueError("You have entered end date before start date\n")
+        return True
+
     def run_validators(self):
-        
+        super.run_validators()
+        self.validate_is_not_too_short()
+        self.validate_is_not_too_long()
+        self.validate_end_date_not_before_start()
 
 class RoomNumberValidator(BaseValidator):
     '''
