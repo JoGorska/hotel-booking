@@ -384,7 +384,7 @@ class RoomValidator:
 
         return True
 
-
+# todo remove this - all this is in end date validator
 class LengthOfStayValidator:
     def is_too_short(self, start, end):
         """

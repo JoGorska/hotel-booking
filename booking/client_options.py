@@ -118,16 +118,13 @@ class OptionAdd:
             start = UserInput.start_date()
             list_start_end_room.append(start)
             end = UserInput.end_date(start_date=start)
-            print('passed end')
             list_start_end_room.append(end)
 
             # initializes function to get user input for room number
             room = UserInput.room_integer()
             list_start_end_room.append(room)
-            if (LengthOfStayValidator.validate_lenght_of_stay(
-                LengthOfStayValidator, start, end) and (
-                    AvailibilityValidator.validate_room_availibility(
-                        AvailibilityValidator, start, end, room, email))):
+            if AvailibilityValidator.validate_room_availibility(
+                    AvailibilityValidator, start, end, room, email):
                 print(f"{Fore.GREEN}Booking validated.\n")
                 break
 
