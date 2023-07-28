@@ -118,6 +118,7 @@ class OptionAdd:
             start = UserInput.start_date()
             list_start_end_room.append(start)
             end = UserInput.end_date(start_date=start)
+            print('passed end')
             list_start_end_room.append(end)
 
             # initializes function to get user input for room number
@@ -158,7 +159,7 @@ class OptionShow:
                 "of the period that you want to check and than\n"
                 "to give us the room number you would like\n")
             start = UserInput.start_date()
-            end = UserInput.end_date()
+            end = UserInput.end_date(start)
             room_int = UserInput.room_integer()
             room_name = room_short_name(room_int)
 
@@ -206,7 +207,7 @@ class OptionPrint:
                 "We will now ask you for a start and end date of\n"
                 "the period that you want to print\n")
             start = UserInput.start_date()
-            end = UserInput.end_date()
+            end = UserInput.end_date(start)
 
             # finds in which row those dates are
             row_start = find_a_row(start)

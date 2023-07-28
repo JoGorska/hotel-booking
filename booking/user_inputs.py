@@ -135,7 +135,6 @@ class UserInput:
             room_number = input("Write a number 1 - 9: \n")
 
             if RoomValidator.room(room_number):
-
                 print(f"{Fore.GREEN}Your room is valid\n")
                 break
         return int(room_number)

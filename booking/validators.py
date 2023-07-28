@@ -317,15 +317,21 @@ class EndDateValidator(DateValidator):
         row_start = find_a_row(start)
         row_end = find_a_row(end)
         lenght = row_end - row_start
-        if lenght > 0:
+        if lenght < 0:
             raise ValueError("You have entered end date before start date\n")
         return True
 
     def run_validators(self):
-        super.run_validators()
-        self.validate_is_not_too_short()
-        self.validate_is_not_too_long()
-        self.validate_end_date_not_before_start()
+        try:
+            super().run_validators()
+            self.validate_is_not_too_short()
+            self.validate_is_not_too_long()
+            self.validate_end_date_not_before_start()
+        except ValueError as e:
+            print(f"{Fore.RED}Invalid {self.object_type}: {e} please try again.\n")
+            return False
+
+        return True
 
 
 class RoomNumberValidator(BaseValidator):
@@ -377,7 +383,6 @@ class RoomValidator:
             return False
 
         return True
-
 
 
 class LengthOfStayValidator:
