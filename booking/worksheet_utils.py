@@ -12,8 +12,8 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('hotel-booking')
 
-clients_worksheet = SHEET.worksheet('clients')
-rooms_worksheet = SHEET.worksheet('rooms')
+CLIENTS_WORKSHEET = SHEET.worksheet('clients')
+ROOMS_WORKSHEET = SHEET.worksheet('rooms')
 
 
 def update_one_cell(worksheet, row, column, value):
@@ -33,19 +33,18 @@ def add_new_client(email):
     """
     print("Adding your email to worksheet...\n")
 
-    clients_worksheet = SHEET.worksheet('clients')
     # ads new column so excel doesn't run out of cells
     # (oryginaly document contained a-z columns only)
-    clients_worksheet.add_cols(1)
+    CLIENTS_WORKSHEET.add_cols(1)
     # Coordinates to add email to customers worksheets:
     # row = 1 (first row in the worksheet)
     # column = need to check how many columns there is currently
     # and add email at the end
 
-    new_column_numer = len(clients_worksheet.row_values(1)) + 1
+    new_column_numer = len(CLIENTS_WORKSHEET.row_values(1)) + 1
     # uses coordinates calculated above to find the right cell to update
     print(f"{Fore.BLUE}Updating worksheet...\n")
-    update_one_cell(clients_worksheet, 1, new_column_numer, email)
+    update_one_cell(CLIENTS_WORKSHEET, 1, new_column_numer, email)
     print("Worksheet updated successfuly.\n")
 
 
@@ -53,7 +52,7 @@ def find_a_row(value):
     """
     finds a cell that contains the given value and returns its row number
     """
-    target_cell = clients_worksheet.find(value)
+    target_cell = CLIENTS_WORKSHEET.find(value)
     return target_cell.row
 
 

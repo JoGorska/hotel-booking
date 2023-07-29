@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 from colorama import Fore
 from booking.worksheet_utils import (
-    clients_worksheet, rooms_worksheet,
+    CLIENTS_WORKSHEET, ROOMS_WORKSHEET,
     find_a_row, find_a_column, read_cell_value
 )
 
@@ -125,7 +125,7 @@ class ReturningClientValidator(BaseValidator):
 
     def get_list_where_object_must_be_member(self):
         '''list of clients' emails already added is in first row of clients worksheet'''
-        return clients_worksheet.row_values(1)
+        return CLIENTS_WORKSHEET.row_values(1)
 
 
 class NewClientOptionsValidator(BaseValidator):
@@ -224,7 +224,7 @@ class DateValidator(BaseValidator):
         currently period 01/09/2021 - 26/05/2024,
         this can be mainatined by the administrator if needed
         """
-        return rooms_worksheet.col_values(1)
+        return ROOMS_WORKSHEET.col_values(1)
 
     def list_dates_available_worksheet_clients(self):
         """
@@ -232,7 +232,7 @@ class DateValidator(BaseValidator):
         currently period 01/09/2021 - 26/05/2024,
         this can be mainatined by the administrator if needed
         """
-        return clients_worksheet.col_values(1)
+        return CLIENTS_WORKSHEET.col_values(1)
 
     def validate_object_is_a_member(self):
         '''
@@ -243,9 +243,9 @@ class DateValidator(BaseValidator):
         if not self.raise_error_when_membership_test_fails:
             return True
         if not self.check_object_is_a_member():
-            existing_dates_rooms = rooms_worksheet.col_values(1)
+            existing_dates_rooms = ROOMS_WORKSHEET.col_values(1)
             last_row = len(existing_dates_rooms)
-            max_date = read_cell_value(clients_worksheet, last_row, 1)
+            max_date = read_cell_value(CLIENTS_WORKSHEET, last_row, 1)
             raise ValueError(
                 f"We can only accept booking between"
                 f" tomorrow and {max_date}\n")
@@ -519,9 +519,9 @@ class AvailibilityValidator:
         """
         try:
             column_room = room_int + 1
-            column_email = find_a_column(clients_worksheet, email)
-            if (self.is_any_full_cell(rooms_worksheet, start, end, column_room) or
-                    self.is_any_full_cell(clients_worksheet, start, end, column_email)):
+            column_email = find_a_column(CLIENTS_WORKSHEET, email)
+            if (self.is_any_full_cell(ROOMS_WORKSHEET, start, end, column_room) or
+                    self.is_any_full_cell(CLIENTS_WORKSHEET, start, end, column_email)):
                 raise ValueError("Unfortunately those dates are not available\n")
 
         except ValueError as e:
@@ -542,15 +542,15 @@ class AvailibilityValidator:
 
         try:
 
-            column_email = find_a_column(clients_worksheet, email)
+            column_email = find_a_column(CLIENTS_WORKSHEET, email)
 
             column_room = room_int + 1
 
             if (self.is_any_empty_cell(
-                    clients_worksheet, start_str, end_str, column_email
+                    CLIENTS_WORKSHEET, start_str, end_str, column_email
                     ) or
                 self.is_any_empty_cell(
-                    rooms_worksheet, start_str, end_str, column_room)):
+                    ROOMS_WORKSHEET, start_str, end_str, column_room)):
                 raise ValueError("There is no booking matching your criteria\n")
 
         except ValueError as e:

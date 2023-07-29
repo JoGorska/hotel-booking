@@ -3,13 +3,13 @@ from colorama import Fore
 from booking.images import Image
 from booking.user_inputs import UserInput
 from booking.validators import (
-    LengthOfStayValidator, AvailibilityValidator, validate_print_request
+    AvailibilityValidator, validate_print_request
 )
 from booking.rooms import (
     room_full_name, room_short_name
 )
 from booking.worksheet_utils import (
-    clients_worksheet, rooms_worksheet,
+    CLIENTS_WORKSHEET, ROOMS_WORKSHEET,
     find_a_row, find_a_column, add_data_to_spreadsheet, read_cell_value
 )
 
@@ -95,10 +95,10 @@ class OptionAdd:
         # ads the above data to spreadsheet
         print(f"{Fore.BLUE}Recording your booking in the spreadsheet...")
         add_data_to_spreadsheet(
-            clients_worksheet, start_date_str,
+            CLIENTS_WORKSHEET, start_date_str,
             end_date_str, email, room_short)
         add_data_to_spreadsheet(
-            rooms_worksheet, start_date_str,
+            ROOMS_WORKSHEET, start_date_str,
             end_date_str, room_short, email)
         print("Worksheet updated.\n\n")
 
@@ -116,13 +116,12 @@ class OptionAdd:
             list_start_end_room = []
             # initializes functions to get user input for start and end date
             start = UserInput.start_date()
-            list_start_end_room.append(start)
             end = UserInput.end_date(start_date=start)
-            list_start_end_room.append(end)
-
-            # initializes function to get user input for room number
             room = UserInput.room_integer()
-            list_start_end_room.append(room)
+            list_start_end_room = [start, end, room]
+            # todo - here check if all three elements are not none
+            # no need to validate again here,
+            # validate room availibility should be in room_integer validator
             if AvailibilityValidator.validate_room_availibility(
                     AvailibilityValidator, start, end, room, email):
                 print(f"{Fore.GREEN}Booking validated.\n")
@@ -168,13 +167,13 @@ class OptionShow:
             # appropriate columns and from start to end date
             print("Checking the spreadsheet...")
             list_column_dates = make_list_of_dates(
-                rooms_worksheet, row_start, row_end)
+                ROOMS_WORKSHEET, row_start, row_end)
             list_column_room = make_list_from_column(
-                rooms_worksheet, row_start, row_end, room_name)
+                ROOMS_WORKSHEET, row_start, row_end, room_name)
             # makes dictionary out of two above lists
             dictionary = make_dictionary_from_lists(list_column_dates,
                                                     list_column_room)
-
+            # todo here - not righ! should not use length of stay validator
             if validate_print_request(start, end):
                 print(f"{Fore.GREEN}Print request validated.\n")
                 break
@@ -214,9 +213,9 @@ class OptionPrint:
             # appropriate columns and from start to end date
             print("Checking the spreadsheet...")
             list_column_dates = make_list_of_dates(
-                clients_worksheet, row_start, row_end)
+                CLIENTS_WORKSHEET, row_start, row_end)
             list_column_email = make_list_from_column(
-                clients_worksheet, row_start, row_end, email)
+                CLIENTS_WORKSHEET, row_start, row_end, email)
             # makes dictionary out of two above lists
             dictionary = make_dictionary_from_lists(
                 list_column_dates, list_column_email)
@@ -284,11 +283,11 @@ class OptionCancel:
         print(f"{Fore.BLUE} Deleting your booking from the spreadsheet...")
 
         # updates clients worksheet
-        add_data_to_spreadsheet(clients_worksheet, start_date_str,
+        add_data_to_spreadsheet(CLIENTS_WORKSHEET, start_date_str,
                                 end_date_str, email, cell_value)
         # updates rooms worksheet
 
-        add_data_to_spreadsheet(rooms_worksheet, start_date_str,
+        add_data_to_spreadsheet(ROOMS_WORKSHEET, start_date_str,
                                 end_date_str, room_short_name_str, cell_value)
 
 
