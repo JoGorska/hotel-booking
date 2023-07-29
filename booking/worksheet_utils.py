@@ -1,6 +1,8 @@
 import gspread
 from colorama import Fore
 from google.oauth2.service_account import Credentials
+
+
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
@@ -16,6 +18,7 @@ CLIENTS_WORKSHEET = SHEET.worksheet('clients')
 ROOMS_WORKSHEET = SHEET.worksheet('rooms')
 
 
+
 def update_one_cell(worksheet, row, column, value):
     """
     updates given worksheet with the given value in the exact
@@ -23,7 +26,10 @@ def update_one_cell(worksheet, row, column, value):
     row and column count starts from 1
     """
     # todo here need try and except to catch errors from gspread
-    worksheet.update_cell(row, column, value)
+    try:
+        worksheet.update_cell(row, column, value)
+    except Exception as e:
+        print(f' some trouble here {e}')
 
 
 def add_new_client(email):
@@ -32,36 +38,42 @@ def add_new_client(email):
     of a next empty column and add new empty column
     """
     print("Adding your email to worksheet...\n")
+    try:
+        # ads new column so excel doesn't run out of cells
 
-    # ads new column so excel doesn't run out of cells
-    # (oryginaly document contained a-z columns only)
-    CLIENTS_WORKSHEET.add_cols(1)
-    # Coordinates to add email to customers worksheets:
-    # row = 1 (first row in the worksheet)
-    # column = need to check how many columns there is currently
-    # and add email at the end
-
-    new_column_numer = len(CLIENTS_WORKSHEET.row_values(1)) + 1
-    # uses coordinates calculated above to find the right cell to update
-    print(f"{Fore.BLUE}Updating worksheet...\n")
-    update_one_cell(CLIENTS_WORKSHEET, 1, new_column_numer, email)
-    print("Worksheet updated successfuly.\n")
-
+        CLIENTS_WORKSHEET.add_cols(1)
+        # Coordinates to add email to customers worksheets:
+        # row = 1 (first row in the worksheet)
+        # column_number = need to check how many columns there is currently
+        # and add email at the last column without values
+        new_column_numer = len(CLIENTS_WORKSHEET.row_values(1)) + 1
+        # uses coordinates calculated above to find the right cell to update
+        print(f"{Fore.BLUE}Updating worksheet...\n")
+        update_one_cell(CLIENTS_WORKSHEET, 1, new_column_numer, email)
+        print("Worksheet updated successfuly.\n")
+    except Exception as e:
+        print(f' some trouble here {e}')
 
 def find_a_row(value):
     """
     finds a cell that contains the given value and returns its row number
     """
-    target_cell = CLIENTS_WORKSHEET.find(value)
-    return target_cell.row
+    try:
+        target_cell = CLIENTS_WORKSHEET.find(value)
+        return target_cell.row
+    except Exception as e:
+        print(f' some trouble here {e}')
 
 
 def find_a_column(worksheet, value):
     """
     finds a cell that contains the given value and return its column number
     """
-    target_cell = worksheet.find(value)
-    return target_cell.col
+    try:
+        target_cell = worksheet.find(value)
+        return target_cell.col
+    except Exception as e:
+        print(f' some trouble here {e}')
 
 
 def add_data_to_spreadsheet(worksheet, start, end, column_val, cell_value):
