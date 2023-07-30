@@ -177,3 +177,6 @@ class TestReturningClientOptionsValidator:
             object_type='option'
         ).result
         assert result is False
+
+class TestStartDate:
+    pass

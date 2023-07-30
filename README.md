@@ -176,7 +176,7 @@ pylint --generate-rcfile > pylintrc
 '''
 
 ## Validation of the user input
-Validation has been created in validation file. BaseValidator class has a few methods that allow basic validation
+Validation has been created in validation file. BaseValidator class has a few methods that allow basic validation:
 
 - regex
 - validate if member of a list
