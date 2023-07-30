@@ -29,7 +29,7 @@ def main():
         ClientOptions.activate_chosen_option(chosen_option, customer_email)
         # once registration is complete -
         # client can choose from the given options what to do next
-        chosen_option = UserInput.returning_client_option
+        chosen_option = UserInput.returning_client_option()
         ClientOptions.activate_chosen_option(chosen_option, customer_email)
 
 

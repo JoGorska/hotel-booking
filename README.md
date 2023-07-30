@@ -168,16 +168,22 @@ From the above mentioned list the bugs that were remaining
 12. User can't cancel the booking
     In rare circumstances, the user might not be able to cancel the booking. The database was designed as two worksheets and if anything breaks in between them then the booking is not valid. Unfortunately, it is too late to change the database completely but it is another weakness of the chosen type of database and the formating style of storing data.
 
-## linting
-control over errors raised by flake8
+## Linting
+Setup.cfg file has been created to modify flake8 linting rules sligthly. There was also pylintrc file created to modify errors raised by pylint. Mainly to ignore some messages.
 
-control over pylint error messages. File generated automatically by pylint using command:
 '''
 pylint --generate-rcfile > pylintrc
 '''
-and modified to ignore some messages. 
 
 ## Validation of the user input
+Validation has been created in validation file. BaseValidator class has a few methods that allow basic validation
+
+- regex
+- validate if member of a list
+- validate if not member of a list
+- if input not empty
+
+Other validators inherit from Base Validator and extend some of the methods:
 
 1. Email validation
     - used regex to validate if the user's input resembles a standard email
