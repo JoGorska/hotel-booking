@@ -285,6 +285,7 @@ These steps are describing moving the existing project from Heroku to Render.
   "client_x509_cert_url": ""
 }
 ```
+## Initial settings to run the project locally
 
 ### Forking the GitHub repository
 By forking out of this repository you will be able to view and edit the code without affecting the original repository. 
@@ -293,12 +294,48 @@ By forking out of this repository you will be able to view and edit the code wit
 2. Click the button in the top right-hand corner "Fork"
 3. This will take you to your own repository to a fork that is called the same as the original branch. 
 
+
 ### Making a local clone
 
 1. Locate the GitHub repository. Link can be found [here](https://github.com/JoGorska/hotel-booking).
 2. Next to the green Gitpod button you will see a button "code" with an arrow pointing down
 3. You are given the option to open with GitHub desktop or download zip
 4. You can also copy https full link, go to git bash and write git clone and paste the full link
+
+
+To run this project locally, start by going to the [source](https://github.com/JoGorska/portfolio.git) of the project and use git clone command.
+
+### venv
+You can use any virtual enviroment tool to run this project locally. I used venv.
+
+#### Create venv
+```
+python3 -m venv /path/to/new/virtual/environment
+```
+example
+```
+python3 -m venv /venv
+```
+if venv is created in root directory of the project it is good practice to add it to .gitignore
+activate venv, the name of venv is shown in brackets before the path
+```
+source /path/to/venv/bin/activate
+
+```
+command to deactivate
+```
+deactivate
+```
+#### install requirements
+Once venv is active:
+
+```
+pip3 install  -r requirements.txt
+```
+to update local requirements
+```
+pip3 freeze > requirements.txt --local
+```
 
 
 ## Further developement the website
