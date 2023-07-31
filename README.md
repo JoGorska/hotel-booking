@@ -169,6 +169,7 @@ From the above mentioned list the bugs that were remaining
     In rare circumstances, the user might not be able to cancel the booking. The database was designed as two worksheets and if anything breaks in between them then the booking is not valid. Unfortunately, it is too late to change the database completely but it is another weakness of the chosen type of database and the formating style of storing data.
 
 ## Linting
+https://setuptools.pypa.io/en/latest/userguide/declarative_config.html
 Setup.cfg file has been created to modify flake8 linting rules sligthly. There was also pylintrc file created to modify errors raised by pylint. Mainly to ignore some messages.
 
 '''
