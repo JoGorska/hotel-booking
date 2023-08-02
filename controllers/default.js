@@ -49,8 +49,8 @@ function socket() {
     });
 }
 
-if (process.env.CREDS != null) {
-    const fake_creds = {
+if (process.env.CREDS === true ) {
+    const json_creds = {
         "type": process.env.type,
         "project_id": process.env.project_id,
         "private_key_id": process.env.private_key_id,
@@ -63,7 +63,7 @@ if (process.env.CREDS != null) {
         "client_x509_cert_url": process.env.client_x509_cert_url
     }
     console.log("Creating creds.json file.");
-    fs.writeFile('creds.json', fake_creds, 'utf8', function (err) {
+    fs.writeFile('creds.json', json_creds, 'utf8', function (err) {
         if (err) {
             console.log('Error writing file: ', err);
             socket.emit("console_output", "Error saving credentials: " + err);
