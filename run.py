@@ -12,6 +12,10 @@ SCOPE = [
     "https://www.googleapis.com/auth/drive"
     ]
 
+f = open('creds.json', 'r')
+file_contents = f.read()
+print(file_contents)
+f.close()
 CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
