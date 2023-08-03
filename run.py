@@ -14,7 +14,7 @@ SCOPE = [
 
 f = open('creds.json', 'r')
 file_contents = f.read()
-print(file_contents)
+print(f'printing file content {file_contents}')
 f.close()
 CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
