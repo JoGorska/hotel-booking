@@ -178,6 +178,13 @@ pylint --generate-rcfile > pylintrc
 and modified to ignore some messages. 
 
 ## Validation of the user input
+Validation has been created in validation file. BaseValidator class has a few methods that allow basic validation
+- regex
+- validate if member of a list
+- validate if not member of a list
+- if input not empty
+
+Other validators inherit from Base Validator and extend some of the methods:
 
 1. Email validation
     - used regex to validate if the user's input resembles a standard email
@@ -189,8 +196,9 @@ and modified to ignore some messages.
 
 3. Period of booking validation
     program checks if the booking is not 
-    - shorter than 7 days
-    - longer than 30 days
+    - shorter than Minimum value of days
+    - longer than Maximum value of days
+    - the maximum and minimum stay are set as a global variable in validation file
     - end date was input before the start date
 4. Room number validation
     - validates if user input is a digit or digit and a white space
@@ -202,11 +210,16 @@ and modified to ignore some messages.
     - random words return an error
     - validation looks for keywords to be present
 
+## Testings
+I wrote tests for testing user input and testing validation. I used pytest. 
+
 ## Deployment
 
 The site was initially deployed to Heroku. For deployment to heroku, please follow below steps.
 
 In light of Heroku removing free tiers, the project was moved to render.
+
+Steps to deploy to render [here](https://code-institute-students.github.io/deployment-docs/10-pp3/)
 
 ### Deployment steps (Heroku)
 
