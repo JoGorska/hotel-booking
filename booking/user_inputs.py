@@ -104,8 +104,8 @@ class UserInput:
 
             print(
                 f"We are taking bookings for minimum period of {MINIMUM_STAY} days"
-                f"and maximum period of {MAXIMUM_STAY} days"
-                "Please use format dd/mm/yyyy for dates\n"
+                f"\nand maximum period of {MAXIMUM_STAY} days"
+                "\nPlease use format dd/mm/yyyy for dates\n"
             )
             end_date = input("Write end date here: \n")
 
