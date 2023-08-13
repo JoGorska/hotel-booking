@@ -296,6 +296,34 @@ By forking out of this repository you will be able to view and edit the code wit
 3. This will take you to your own repository to a fork that is called the same as the original branch. 
 
 
+### Deployment steps (Railway.app)
+Due to render deployment being very slow to start I decided to deploy the app to render. It seems that Railway doesn't allow to load a secret file "creds.json" and I could not add CREDS variable with value in json format. So solutions from Render and Heroku didn't work
+
+I added value of each key as a  seperate enviromental variable. Once I knew I could access value of each of them I refactored controler/default.js 
+
+The logic was that it checks if there is env variable CREDS and it's not null, the javascript will create creds.json file. I changed so each variable is captured seperately and creds.json file is created. I also added CREDS vairable with a value of a random string. Javascript continues to check if CREDS is not null and creates creds.json file. 
+
+There was some confusion with needed to retain double quotes after the variables are read from enviroment. Once this was resolved I've come accross new line in private_key raising errors as wrong character. I removed value of the key and replaced new line with "/n" new line symbol. 
+
+To sum up Railway.app needs these variables set:
+
+values as described:
+- CREDS = 'some string'
+- PORT = 8000
+- PYTHON_VERSION = 3.8.11
+value for below variables comes from google apis:
+- type = ""
+- project_id = "",
+- private_key_id = "",
+- private_key = "",
+- client_id = "",
+- auth_uri = "",
+- token_uri = "",
+- auth_provider_x509_cert_url ="",
+- client_x509_cert_url = ""
+
+The variables starting from type onwards are from googleapis. 
+
 ### Making a local clone
 
 1. Locate the GitHub repository. Link can be found [here](https://github.com/JoGorska/hotel-booking).
