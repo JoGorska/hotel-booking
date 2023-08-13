@@ -316,6 +316,8 @@ class EndDateValidator(DateValidator):
         start = self.second_validated_object
         row_start = find_a_row(start)
         row_end = find_a_row(end)
+        if not row_start or not row_end:
+            raise ValueError("We have trouble validating data with the spreadsheet")
         lenght = row_end - row_start
         if lenght < 0:
             raise ValueError("You have entered end date before start date\n")

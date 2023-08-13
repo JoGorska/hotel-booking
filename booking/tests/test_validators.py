@@ -8,10 +8,7 @@ from ..validators import (
     NewClientOptionsValidator
 )
 from ..client_options import ClientOptions
-
-NUMBERS = 123456
-EMPTY_STRING = ''
-RANDOM_LETTERS = 'asdf ghjkl'
+from .fixtures import NUMBERS, EMPTY_STRING, RANDOM_LETTERS
 
 
 class TestEmailValidator:
@@ -177,6 +174,3 @@ class TestReturningClientOptionsValidator:
             object_type='option'
         ).result
         assert result is False
-
-class TestStartDate:
-    pass
