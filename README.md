@@ -1,10 +1,10 @@
 # Cath's Cats' Castle - booking
 ## Screenshot 
 
-[![showpiece start screen](assets/images/showpiece.png)](https://hotel-booking-r6x7.onrender.com/)
+[![showpiece start screen](assets/images/showpiece.png)](https://hotel-booking.up.railway.app/)
 
 
-link to live page [here](https://hotel-booking-r6x7.onrender.com/)
+link to live page [here](https://hotel-booking.up.railway.app/)
 
 
 ## Aim of the program
@@ -322,7 +322,7 @@ value for below variables comes from google apis:
 - auth_provider_x509_cert_url ="",
 - client_x509_cert_url = ""
 
-The variables starting from type onwards are from googleapis. 
+
 
 ### Making a local clone
 
